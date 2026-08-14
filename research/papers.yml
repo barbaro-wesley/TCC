@@ -1,0 +1,675 @@
+schema_version: "1.1"
+catalog_as_of: "2026-08-13"
+project: "Atlas S10"
+scope: >-
+  Evidence register for forecasting Brazilian Diesel S10 retail prices and for
+  turning forecasts into auditable procurement support. A paper's inclusion is
+  not an endorsement and reported scores are never treated as transferable.
+
+verification_scale:
+  verified: "Bibliographic identity and the claims used here were checked against a publisher, DOI record, institutional repository, or official working paper."
+  partial: "The item exists, but at least one relevant claim, field, full text, code artifact, or experimental detail remains unchecked."
+  conflicted: "Primary or publisher-facing artifacts disagree; both versions are retained and no silent resolution is made."
+
+decision_rules:
+  - "No model becomes champion because it won in a paper; it must beat Atlas baselines in nested temporal backtests."
+  - "Any scaling, selection, tuning, calibration, stacking, or decomposition is fitted inside each training fold."
+  - "Brazilian retail diesel evidence has higher domain relevance than crude-oil or fuel-sales evidence, but neither overrides local validation."
+  - "Code availability and license must be verified before adapting an authors' implementation."
+
+papers:
+  - id: "R1"
+    title: "Variable step-size evolving participatory learning with kernel recursive least squares applied to gas prices forecasting in Brazil"
+    authors:
+      - "Eduardo Ravaglia Campos Queiroz"
+      - "Kaike Sa Teles Rocha Alves"
+      - "Fernando Luiz Cyrino Oliveira"
+      - "Eduardo Pestana de Aguiar"
+    year: 2022
+    online_first_year: 2021
+    publication: "Evolving Systems 13(2), 297-306"
+    doi: "10.1007/s12530-021-09388-z"
+    url: "https://doi.org/10.1007/s12530-021-09388-z"
+    related_material:
+      - "https://www.maxwell.vrac.puc-rio.br/52507/52507.PDF"
+      - "https://www.sba.org.br/open_journal_systems/index.php/cba/article/download/1039/1030/"
+    target: "Brazilian retail prices for Diesel S10 and S500, with related fuel-price series"
+    country: "Brazil"
+    frequency: "weekly and monthly experiments"
+    horizons: ["2 weeks", "4 weeks", "1 month", "6 months", "12 months"]
+    models: ["VS-ePL-KRLS", "evolving participatory learning", "kernel recursive least squares"]
+    relevant_findings:
+      - "The study directly applies an adaptive evolving kernel method to Brazilian S10/S500 price forecasting."
+      - "The related PUC-Rio dissertation supplies substantially more algorithmic and experimental detail than an abstract alone."
+    limitations:
+      - "Its data vintage, folds, baseline set, and operational objective are not identical to Atlas."
+      - "An official code repository and reusable software license were not verified in this audit."
+    how_we_use_it: "Experimental Brazil-specific challenger only after a faithful mathematical specification, implementation tests, and license review; never an automatic winner."
+    assessment:
+      evidence: "R1 studies VS-ePL-KRLS on Brazilian Diesel S10/S500 data."
+      inference: "An online adaptive learner may help when pass-through relationships drift."
+      limitation: "The paper does not establish superiority under Atlas's availability-aware nested rolling-origin protocol."
+      implementation_consequence: "Label it 'VS-ePL-KRLS — Experimental' until reproduction parity is demonstrated; otherwise do not claim fidelity."
+    verification:
+      status: "verified"
+      checked_at: "2026-08-13"
+      notes: "Print year is 2022; DOI suffix and online-first record refer to 2021."
+
+  - id: "R2"
+    title: "Modelos de aprendizado de máquina para previsão do preço do óleo diesel na região sudeste do Brasil"
+    authors: ["Henrique Marques Turqueti"]
+    year: 2022
+    publication: "UTFPR specialization monograph"
+    doi: null
+    url: "https://repositorio.utfpr.edu.br/jspui/handle/1/32397"
+    full_text_url: "http://repositorio.utfpr.edu.br/jspui/bitstream/1/32397/3/aprendizadomaquinaprevisaopreco.pdf"
+    target: "Retail diesel price in Southeast Brazil"
+    country: "Brazil"
+    frequency: "weekly"
+    horizons: ["up to 8 weeks"]
+    models: ["ARIMA", "SARIMA", "SARIMAX", "LSTM", "PyCaret model comparison"]
+    relevant_findings:
+      - "The Brazilian study treats Brent and USD/BRL as candidate exogenous drivers and compares statistical and machine-learning families."
+      - "Its reported optimized LSTM was selected for the final exercise."
+    limitations:
+      - "It is a specialization monograph with a different geography and validation design."
+      - "The audit did not establish that every transformation and exogenous observation obeyed a historical available-at cutoff."
+    how_we_use_it: "Motivation for Brazil-specific Brent and FX features and for SARIMAX/LSTM ablations, not as a source of expected performance."
+    assessment:
+      evidence: "R2 jointly studies Brazilian diesel, Brent, and USD/BRL with several forecasting families."
+      inference: "External cost signals may add value beyond diesel-price lags."
+      limitation: "Feature relevance and the reported ranking may change under strict publication-lag controls."
+      implementation_consequence: "Test Brent and FX in fold-local ablations; retain them only when gains are stable by horizon."
+    verification:
+      status: "verified"
+      checked_at: "2026-08-13"
+      notes: "Repository record reports approval on 9 November 2022 and a CC BY 4.0 item license."
+
+  - id: "R3"
+    title: "Forecasting Retail Diesel Prices in Malaysia Using an ARIMA Approach"
+    authors:
+      - "Rahaini Mohd Said"
+      - "Norhafizah Hussin"
+      - "Nur Azura Noor Azhuan"
+      - "Nurul Hajar Mohd Yusoff"
+      - "Mohamad Faiz Dzulkalnine"
+    year: 2025
+    publication: "Journal of Power and Energy Engineering 13(10), 61-74"
+    doi: "10.4236/jpee.2025.1310005"
+    url: "https://doi.org/10.4236/jpee.2025.1310005"
+    target: "Retail diesel price"
+    country: "Malaysia"
+    frequency: "weekly"
+    horizons: ["short term; exact production horizon not adopted by Atlas"]
+    models: ["ARIMA(1,1,0)"]
+    relevant_findings: ["A small non-seasonal ARIMA specification can be a credible transparent benchmark for weekly diesel prices."]
+    limitations: ["Malaysia's pricing regime differs from Brazil, and the study covers a narrow model family."]
+    how_we_use_it: "Support for an ARIMA baseline whose order is selected only inside temporal validation."
+    assessment:
+      evidence: "R3 reports a weekly retail-diesel ARIMA application."
+      inference: "A parsimonious differenced autoregression may be difficult for complex models to beat."
+      limitation: "Its chosen order and reported error cannot be transferred to Brazilian S10."
+      implementation_consequence: "Always report ARIMA beside naive and moving-average baselines for each Atlas horizon."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Metadata checked on the publisher/DOI landing page."}
+
+  - id: "R4"
+    title: "Predicting Petrol and Diesel Prices in Ghana, A Comparison of ARIMA and SARIMA Models"
+    authors: ["Sampson Agyare", "Benjamin Odoi", "Eric Neebo Wiah"]
+    year: 2024
+    publication: "Asian Journal of Economics, Business and Accounting 24(5), 594-608"
+    doi: "10.9734/ajeba/2024/v24i51333"
+    url: "https://doi.org/10.9734/ajeba/2024/v24i51333"
+    target: "Indicative petrol and diesel prices"
+    country: "Ghana"
+    frequency: "monthly"
+    horizons: ["forecast exercise after January 2016-December 2023 sample"]
+    models: ["ARIMA", "SARIMA"]
+    relevant_findings:
+      - "The paper compares seasonal and non-seasonal statistical baselines on 96 monthly observations."
+      - "Its abstract favors SARIMA overall, while the reported diesel RMSE shown there is lower for ARIMA (0.9678 versus 1.0115)."
+    limitations: ["Small monthly sample, different price-setting regime, and a nuanced metric-versus-summary result."]
+    how_we_use_it: "Reason to keep both ARIMA and SARIMA; model choice is metric- and horizon-specific."
+    assessment:
+      evidence: "Both ARIMA and SARIMA are competitive in the reported Ghana exercise."
+      inference: "Seasonality should be tested, not presumed."
+      limitation: "The overall narrative does not imply SARIMA wins every diesel metric."
+      implementation_consequence: "Select seasonal order inside folds and expose per-metric results rather than a single textual winner."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "The diesel-RMSE nuance is retained rather than normalized away."}
+
+  - id: "R5"
+    title: "A Hybrid Price Prediction Model For Diesel and Gasoline in Ghana"
+    authors: ["Sampson Agyare", "Benjamin Odoi", "Eric Neebo Wiah"]
+    year: 2025
+    publication: "Asian Journal of Probability and Statistics 27(4), 1-16"
+    doi: "10.9734/ajpas/2025/v27i4735"
+    url: "https://journalajpas.com/index.php/AJPAS/article/view/735"
+    target: "Indicative diesel and gasoline prices"
+    country: "Ghana"
+    frequency: "two-weekly"
+    horizons: ["not adopted by Atlas"]
+    models: ["ARIMA", "NARNN-LSTM", "hybrid ARIMA/neural model"]
+    relevant_findings: ["The reported hybrid outperforms its components; ARIMA also outperforms the standalone neural model in the authors' experiment."]
+    limitations: ["Closely related authors/data to R4; stacking construction and split must be independently reproduced before trusting the ranking."]
+    how_we_use_it: "A hypothesis that heterogeneous residual structure can be combined, after simple ensembles and leakage-safe out-of-fold predictions."
+    assessment:
+      evidence: "R5 reports gains from a hybrid on Ghanaian fuel-price data."
+      inference: "Hybridization can help only if components contribute complementary errors."
+      limitation: "A single external study cannot establish that a complex hybrid adds value locally."
+      implementation_consequence: "Do not implement in the MVP; first measure error correlation and beat a simple average."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Bibliographic record and abstract checked; full reproduction was not performed."}
+
+  - id: "R6"
+    title: "Prediction of Petrol and Diesel Prices in Dar Es Salaam using ARIMA models"
+    authors: ["P. C. Ntare"]
+    year: 2023
+    publication: "African Journal of Applied Research 9(2), 82-89"
+    doi: null
+    url: "https://www.ajaronline.com/index.php/AJAR/article/view/562"
+    target: "Petrol and diesel prices in Dar es Salaam"
+    country: "Tanzania"
+    frequency: "monthly"
+    horizons: ["6 months"]
+    models: ["ARIMA"]
+    relevant_findings: ["The paper selects ARIMA(0,1,1) for a January 2015-May 2023 monthly sample."]
+    limitations:
+      - "Small, monthly, single-city data and a different market."
+      - "DOI conflict: the article page exposes 10.26437/ajar.v9i2.562, while the PDF displays 10.26437/ajar.31.10.2023.06."
+    how_we_use_it: "Context for parsimonious ARIMA only; cite by stable article URL until the publisher resolves the DOI discrepancy."
+    assessment:
+      evidence: "R6 is an ARIMA application to retail fuel prices."
+      inference: "Low-order integrated models deserve baseline status."
+      limitation: "Conflicting publisher artifacts prevent an unqualified DOI field."
+      implementation_consequence: "Keep doi null, retain both candidate identifiers in conflict metadata, and never resolve by guess."
+    conflicts:
+      - field: "doi"
+        article_page_value: "10.26437/ajar.v9i2.562"
+        pdf_value: "10.26437/ajar.31.10.2023.06"
+        resolution: "unresolved"
+    verification: {status: "conflicted", checked_at: "2026-08-13", notes: "Both conflicting values are preserved."}
+
+  - id: "R7"
+    title: "Fuel Sales Price Forecasting using Time Series, Machine Learning, and Deep Learning Models"
+    authors: ["Mohammad Abdulaziz Alwadi"]
+    year: 2025
+    publication: "Engineering, Technology & Applied Science Research 15(3), 22360-22366"
+    doi: "10.48084/etasr.10348"
+    url: "https://etasr.com/index.php/ETASR/article/view/10348"
+    target: "Service-station fuel sales price/amount records"
+    country: "Jordan"
+    frequency: "transaction-level source aggregated to daily/monthly tasks"
+    horizons: ["operational sales forecasts; not Atlas horizons"]
+    models: ["ARIMA", "SARIMA", "linear regression", "decision tree", "random forest", "LSTM", "GRU"]
+    relevant_findings: ["The study compares statistical, tabular, and recurrent families on 258,890 station records."]
+    limitations:
+      - "It predicts an operational sales construct rather than a market-wide retail diesel price."
+      - "Sales Amount and Sales Price are mechanically coupled in the source data (reported correlation near 0.99), so near-perfect tree scores are not transferable and may reflect target construction."
+    how_we_use_it: "A cautionary example for label leakage and a secondary reference for operational demand modeling."
+    assessment:
+      evidence: "R7 finds strong tree performance on station sales records."
+      inference: "Tabular nonlinearities can matter in operational data."
+      limitation: "The target and mechanically related predictors differ fundamentally from Atlas's market-price target."
+      implementation_consequence: "Exclude variables algebraically derived from the target and audit every feature's lineage before fitting."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Article metadata and reported variable relationship checked; CC BY 4.0."}
+
+  - id: "R8"
+    title: "Comparative Analysis of LSTM, FB Prophet, and Moving Average Methods for Fuel Sales Prediction: A Time Series Forecasting Approach"
+    authors: ["Ahmad Rizky Fadhilah", "Arbi Haza Nasution", "Winda Monika"]
+    year: 2024
+    publication: "Building of Informatics, Technology and Science 6(3), 1321-1331"
+    doi: "10.47065/bits.v6i3.5877"
+    url: "https://doi.org/10.47065/bits.v6i3.5877"
+    target: "Gasoline and diesel sales"
+    country: "Indonesia"
+    frequency: "daily"
+    horizons: ["31 days", "62 days", "123 days", "365 days"]
+    models: ["LSTM", "Prophet", "SMA", "EMA"]
+    relevant_findings: ["Reported rankings change with fuel and horizon: LSTM leads gasoline at 31 days while Prophet leads diesel at 31 days."]
+    limitations: ["Sales volume is not retail price; validation and tuning details require reproduction before operational use."]
+    how_we_use_it: "Support for horizon-specific selection and moving-average baselines, not for copying Prophet/LSTM rankings."
+    assessment:
+      evidence: "R8's best model varies across target and horizon."
+      inference: "Atlas should allow a different champion and parameters at 7, 14, and 30 days."
+      limitation: "The sales-demand domain is indirect."
+      implementation_consequence: "Persist model registry status and metrics by horizon; never reuse weights automatically."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Title, authors, DOI, horizons, and abstract-level results checked."}
+
+  - id: "R9"
+    title: "A fuel price recommendation model based on the sliced recurrent neural network under sales constraints"
+    authors: ["Lian Huiqiang", "Liu Bing", "Li Pengyuan", "Yu Hua"]
+    year: 2023
+    publication: "Journal of University of Chinese Academy of Sciences 40(4), 566-576"
+    doi: "10.7523/j.ucas.2021.0056"
+    url: "https://html.rhhz.net/ZGKXYDXXB/1631764080456-1458472614.htm"
+    target: "Station-level fuel price recommendation under sales constraints"
+    country: "China"
+    frequency: "not clearly verified"
+    horizons: ["operational recommendation horizon not mapped to Atlas"]
+    models: ["sliced recurrent neural network", "LSTM", "sales-constrained recommendation"]
+    relevant_findings: ["The study separates price prediction from a sales-constrained recommendation and reports a large speed improvement over an LSTM implementation."]
+    limitations: ["Different decision problem and market; exact frequency and transferability of the claimed speedup were not independently verified."]
+    how_we_use_it: "Conceptual support for keeping the forecast distribution separate from the procurement decision engine."
+    assessment:
+      evidence: "R9 embeds prediction in a constrained recommendation setting."
+      inference: "A useful forecast is not itself an optimal purchase action."
+      limitation: "Its station-sales constraints are not Atlas's inventory, financing, and lead-time constraints."
+      implementation_consequence: "Expose forecast and decision assumptions separately and evaluate operational regret independently of MAE."
+    verification: {status: "partial", checked_at: "2026-08-13", notes: "Bibliography and accessible HTML checked; observation frequency remains unverified."}
+
+  - id: "R10"
+    title: "Inside the Crystal Ball: New Approaches to Predicting the Gasoline Price at the Pump"
+    authors: ["Christiane Baumeister", "Lutz Kilian", "Thomas K. Lee"]
+    year: 2017
+    working_paper_year: 2015
+    publication: "Journal of Applied Econometrics 32(2), 275-295; EIA working-paper version (2015)"
+    doi: "10.1002/jae.2510"
+    url: "https://doi.org/10.1002/jae.2510"
+    full_text_url: "https://www.eia.gov/workingpapers/pdf/bkl042015_eia_071515.pdf"
+    target: "U.S. retail gasoline price at the pump"
+    country: "United States"
+    frequency: "monthly"
+    horizons: ["1-24 months"]
+    models: ["no-change benchmark", "structural/econometric forecasts", "equal-weight forecast combination"]
+    relevant_findings:
+      - "The study emphasizes real-time vintages, recursive estimation, publication delays, revisions, and forecast combinations."
+      - "Simple equal weighting is competitive; the authors find limited real-time support for estimated optimal weights in their setting."
+    limitations: ["U.S. gasoline and monthly horizons differ from Brazilian weekly Diesel S10."]
+    how_we_use_it: "Methodological foundation for point-in-time data, the no-change baseline, direct horizons, simple ensembles, and directional evaluation."
+    assessment:
+      evidence: "R10 demonstrates how vintage data can materially change apparent pump-price predictability."
+      inference: "Publication time and revisions are first-class model inputs, not ETL metadata trivia."
+      limitation: "Its empirical coefficients and horizon ranking do not transfer to Atlas."
+      implementation_consequence: "Require snapshot(as_of), retain release/revision metadata, and benchmark learned weights against equal weighting."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Journal version and official EIA working paper distinguished explicitly."}
+
+  - id: "R11"
+    title: "A Hybrid Deep Learning Approach for Crude Oil Price Prediction"
+    authors: ["Hind Aldabagh", "Xianrong Zheng", "Ravi Mukkamala"]
+    year: 2023
+    publication: "Journal of Risk and Financial Management 16(12), 503"
+    doi: "10.3390/jrfm16120503"
+    url: "https://www.mdpi.com/1911-8074/16/12/503"
+    target: "WTI crude-oil price"
+    country: "United States/global commodity market"
+    frequency: "daily"
+    horizons: ["one-step and multi-step"]
+    models: ["CNN-LSTM", "LSTM", "CNN", "SVM", "ARIMA", "encoder-decoder"]
+    relevant_findings: ["The paper reports CNN-LSTM gains across one- and multi-step crude-oil experiments."]
+    limitations: ["Crude oil is an upstream driver, not the Brazilian retail target; the deep architecture is data hungry relative to the local 130-week target history."]
+    how_we_use_it: "Architecture hypothesis only, gated behind data sufficiency and simpler challengers."
+    assessment:
+      evidence: "R11 reports a hybrid CNN-LSTM result on daily WTI."
+      inference: "Local temporal filters plus recurrent state can be useful with sufficiently large data."
+      limitation: "The result does not justify deep learning on a short weekly downstream series."
+      implementation_consequence: "Do not place CNN-LSTM in the MVP registry unless it passes minimum-history, temporal-validation, and stability gates."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Publisher article checked; open access under CC BY 4.0."}
+
+  - id: "R12"
+    title: "Oil price forecasting: A hybrid GRU neural network based on decomposition-reconstruction methods"
+    authors: ["Shiqi Zhang", "Jing Luo", "Shuyuan Wang", "Feng Liu"]
+    year: 2023
+    publication: "Expert Systems with Applications 218, 119617"
+    doi: "10.1016/j.eswa.2023.119617"
+    url: "https://doi.org/10.1016/j.eswa.2023.119617"
+    target: "WTI and Brent crude-oil prices"
+    country: "Global commodity market"
+    frequency: "daily"
+    horizons: ["multi-step oil-price experiments"]
+    models: ["GRU", "variational mode decomposition", "sample entropy", "decomposition-reconstruction"]
+    relevant_findings: ["The paper reports gains from decomposing and reconstructing crude-oil signals before GRU forecasting."]
+    limitations: ["Decomposition can leak future information if it is run on the complete series; exact reproduction and source code/license were not audited."]
+    how_we_use_it: "Leakage warning and optional research hypothesis, never a pre-split transform."
+    assessment:
+      evidence: "R12 reports improved daily oil forecasts from decomposition plus GRU."
+      inference: "Multi-scale components may help only when obtainable causally."
+      limitation: "A full-series transform can make a backtest invalid even when subsequent splitting is temporal."
+      implementation_consequence: "Fit decomposition independently inside every training fold and transform without seeing validation/test targets, or omit it."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Bibliography and main method checked; code provenance not verified."}
+
+  - id: "R13"
+    title: "Deep learning systems for forecasting the prices of crude oil and precious metals"
+    authors: ["Parisa Foroutan", "Salim Lahmiri"]
+    year: 2024
+    publication: "Financial Innovation 10, 111"
+    doi: "10.1186/s40854-024-00637-z"
+    url: "https://doi.org/10.1186/s40854-024-00637-z"
+    target: "WTI, Brent, gold, and silver prices"
+    country: "Global commodity markets"
+    frequency: "daily"
+    horizons: ["next-day"]
+    models: ["TCN", "LSTM", "BiLSTM", "GRU", "BiGRU", "attention variants", "random forest", "LightGBM", "SVR", "KNN"]
+    relevant_findings: ["Among 16 tested systems, TCN is reported best for WTI and Brent; LightGBM is a strong comparator for Brent."]
+    limitations: ["Next-day liquid commodities contain far more observations and a different transmission mechanism than weekly Brazilian retail diesel."]
+    how_we_use_it: "Support for LightGBM and, only if data grows, a small TCN challenger rather than a broad neural search."
+    assessment:
+      evidence: "R13 compares a broad set of architectures on multiple daily markets."
+      inference: "Convolutional sequence models can be competitive without recurrence."
+      limitation: "Its ranking is target- and frequency-specific."
+      implementation_consequence: "Prefer LightGBM now; admit one compact TCN/GRU only after a predeclared data-sufficiency gate."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Publisher record and main comparison checked; CC BY 4.0."}
+
+  - id: "R14"
+    title: "Forecasting crude oil futures prices using Extreme Gradient Boosting"
+    authors: ["Qian Yang", "Kaijian He", "Linyuan Zheng", "Chiwai Wu", "Yi Yu", "Yingchao Zou"]
+    year: 2023
+    publication: "Procedia Computer Science 221, 920-926"
+    doi: "10.1016/j.procs.2023.08.069"
+    url: "https://doi.org/10.1016/j.procs.2023.08.069"
+    target: "Chinese crude-oil futures price"
+    country: "China"
+    frequency: "daily"
+    horizons: ["short-term with lags 0-10 days"]
+    models: ["ARIMA", "ARIMAX", "random forest", "XGBoost"]
+    relevant_findings: ["The paper tests search information and lagged features with statistical and tree models and narratively favors XGBoost."]
+    limitations:
+      - "Upstream futures are not Brazilian retail diesel."
+      - "The audit found an unresolved disagreement between narrative/model ranking and numerical tables involving RF and XGBoost; metric scales shown for optimized models are not transparently comparable."
+    how_we_use_it: "Feature-lag and tree-model hypothesis only; not evidence that XGBoost is the winner."
+    assessment:
+      evidence: "R14 compares ARIMA/ARIMAX/RF/XGBoost on Chinese futures data."
+      inference: "Tree models may capture nonlinear interactions among lags and search features."
+      limitation: "Internal reporting inconsistencies make the claimed ranking unsafe to encode."
+      implementation_consequence: "Use tables and local reproduction, display all metrics, and make no hard-coded winner claim."
+    conflicts:
+      - field: "reported_model_ranking"
+        narrative: "XGBoost is described as best."
+        tables: "RF/XGBoost values and scales do not support an unambiguous like-for-like ranking."
+        resolution: "unresolved; requires reproduction"
+    verification: {status: "conflicted", checked_at: "2026-08-13", notes: "Conflict required by the research brief is preserved explicitly."}
+
+  - id: "R15"
+    title: "A Deep Learning-Based Ensemble System for Brent and WTI Crude Oil Price Analysis and Prediction"
+    authors: ["Yiwen Zhang", "Salim Lahmiri"]
+    year: 2025
+    publication: "Entropy 27(11), 1122"
+    doi: "10.3390/e27111122"
+    url: "https://www.mdpi.com/1099-4300/27/11/1122"
+    target: "Brent and WTI crude-oil prices"
+    country: "Global commodity markets"
+    frequency: "daily"
+    horizons: ["short-term price prediction"]
+    models: ["CNN", "LSTM", "BiLSTM", "GRU", "BiGRU", "feed-forward neural network", "SLSQP weighted ensemble", "XGBoost", "random forest"]
+    relevant_findings: ["The study constructs a constrained optimized ensemble from heterogeneous neural forecasts and compares tree baselines."]
+    limitations: ["Recent upstream study; complex optimized weights can overfit and do not establish value on a 130-week retail series."]
+    how_we_use_it: "Longer-term ensemble hypothesis after simple average and shrinkage inverse-MASE, with weights learned from past errors only."
+    assessment:
+      evidence: "R15 reports value from optimized combinations on Brent/WTI."
+      inference: "Diverse model errors may be combined to improve robustness."
+      limitation: "Weight optimization adds variance and can exploit a short validation window."
+      implementation_consequence: "Cap weights, shrink toward uniform, compare with equal weights, and give zero weight to unstable challengers."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Publisher metadata and ensemble description checked; CC BY 4.0."}
+
+  - id: "N1"
+    title: "Crude Oil Price Time Series Forecasting: A Novel Approach Based on Variational Mode Decomposition, Time-Series Imaging, and Deep Learning"
+    authors: ["Zi-Jian Peng", "Chuan Zhang", "Yu-Xin Tian"]
+    year: 2023
+    publication: "IEEE Access 11, 82216-82231"
+    doi: "10.1109/ACCESS.2023.3301576"
+    url: "https://ieeexplore.ieee.org/document/10207020/"
+    target: "WTI crude-oil price"
+    country: "Global commodity market"
+    frequency: "daily"
+    models: ["VMD", "recurrence plot/time-series imaging", "CNN", "BGRU", "SARIMA comparator"]
+    relevant_findings: ["The VMD-RP-BGRU hybrid is reported best in the authors' ablation study."]
+    limitations: ["Complex pipeline and severe decomposition-leakage risk if subsequences are not reconstructed independently at each origin."]
+    how_we_use_it: "Research-only reference; no implementation until a causal reproduction design exists."
+    assessment:
+      evidence: "N1 reports multi-stage hybrid gains on WTI."
+      inference: "Representations at multiple scales can enrich sequence models."
+      limitation: "Every preprocessing stage expands the leakage and overfitting surface."
+      implementation_consequence: "Keep outside the MVP; any experiment must decompose training subsequences per fold."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "IEEE document number maps to DOI 10.1109/ACCESS.2023.3301576; author manuscript is CC BY-NC-ND 4.0."}
+
+  - id: "N2"
+    title: "Forecasting Crude Oil Price Using Multiple Factors"
+    authors: ["Hind Aldabagh", "Xianrong Zheng", "Mohammad Najand", "Ravi Mukkamala"]
+    year: 2024
+    publication: "Journal of Risk and Financial Management 17(9), 415"
+    doi: "10.3390/jrfm17090415"
+    url: "https://www.mdpi.com/1911-8074/17/9/415"
+    target: "WTI crude-oil price"
+    country: "United States/global commodity market"
+    frequency: "monthly/quarterly-aligned multifactor observations"
+    models: ["CNN-LSTM", "CNN", "LSTM", "BiLSTM", "random forest", "decision tree", "gradient boosting", "neural network"]
+    relevant_findings: ["The reported CNN-LSTM error falls when physical-market factors and the dollar index are included."]
+    limitations: ["Low-frequency upstream factors and model protocol differ from weekly Brazilian retail diesel; interpolation can create misleading pseudo-information if availability is ignored."]
+    how_we_use_it: "Feature-family hypothesis for FX plus supply/demand variables, tested through causal ablation."
+    assessment:
+      evidence: "N2 reports improved WTI forecasts after adding dollar and physical-market factors."
+      inference: "Cost and macro drivers may add signal beyond price autoregression."
+      limitation: "Publication timing, revisions, and frequency conversion can erase the apparent gain."
+      implementation_consequence: "Join by available_at, forward-fill only after release, add staleness, and prohibit backward/interpolated future values."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Publisher and institutional repository metadata checked; CC BY 4.0."}
+
+  - id: "N3"
+    title: "Price Forecasting of Crude Oil Using Hybrid Machine Learning Models"
+    authors: ["Jyoti Choudhary", "Haresh Kumar Sharma", "Pradeep Malik", "Saibal Majumder"]
+    year: 2025
+    publication: "Journal of Risk and Financial Management 18(7), 346"
+    doi: "10.3390/jrfm18070346"
+    url: "https://www.mdpi.com/1911-8074/18/7/346"
+    target: "Indian Basket crude-oil import price"
+    country: "India"
+    frequency: "not stated consistently enough for Atlas adoption"
+    models: ["random forest", "GRU", "CNN", "XGBoost", "FPLS", "stacking"]
+    relevant_findings: ["The authors report the heterogeneous stack as best and GRU as the strongest standalone model."
+    ]
+    limitations:
+      - "Data are stated as manually collected and available from the author on request."
+      - "Some metric labels/scales in the article warrant independent reproduction before accepting magnitude claims."
+    how_we_use_it: "Stacking design caution: meta-model inputs must be strictly out-of-fold and compared with simple pooling."
+    assessment:
+      evidence: "N3 reports a heterogeneous stack on Indian import prices."
+      inference: "Diversity can help when base forecasts encode different temporal structures."
+      limitation: "In-sample base predictions would leak labels into a stack, and the available article does not substitute for local replication."
+      implementation_consequence: "Construct meta-features only from inner-fold predictions; quarantine stacking if it cannot beat equal weighting stably."
+    verification: {status: "partial", checked_at: "2026-08-13", notes: "Bibliography and article checked; data/protocol not independently reproduced."}
+
+  - id: "N4"
+    title: "Sustainable Factor Augmented Machine Learning Models for Crude Oil Return Forecasting"
+    authors: ["Lianxu Wang", "Xu Chen"]
+    year: 2025
+    publication: "Journal of Risk and Financial Management 18(7), 351"
+    doi: "10.3390/jrfm18070351"
+    url: "https://www.mdpi.com/1911-8074/18/7/351"
+    target: "Weekly WTI returns and direction"
+    country: "Global/United States commodity market"
+    frequency: "weekly"
+    models: ["OLS", "XGBoost", "random forest", "CNN", "MLP", "LSTM"]
+    relevant_findings: ["XGBoost is reported at about 76% directional accuracy with 55 predictors; performance weakens around the COVID-19 shock."]
+    limitations:
+      - "The target is investment return, not pump price."
+      - "Monthly variables are interpolated to weekly before lagging; this does not recreate historical release vintages and needs a stricter Atlas treatment."
+      - "Some prose/table metric labels appear inconsistent and should be audited before reproducing numeric claims."
+    how_we_use_it: "Support for directional metrics, exogenous ablation, drift analysis, and shock-period reporting; not a performance target."
+    assessment:
+      evidence: "N4 reports that direction skill and feature importance vary through a major shock."
+      inference: "Point accuracy alone can hide economically relevant sign errors and regime instability."
+      limitation: "Return classification and interpolated predictors are not the same as availability-safe S10 forecasting."
+      implementation_consequence: "Report direction, Brier/calibration, and regime slices, while joining monthly data only after its actual release."
+    verification: {status: "partial", checked_at: "2026-08-13", notes: "Publisher full text checked; reported tables should receive a separate numerical reproduction audit."}
+
+  - id: "N5"
+    title: "Quantifying Time-Varying Forecast Uncertainty and Risk for the Real Price of Oil"
+    authors: ["Knut Are Aastveit", "Jamie L. Cross", "Herman K. van Dijk"]
+    year: 2023
+    online_first_year: 2022
+    publication: "Journal of Business & Economic Statistics 41(2), 523-537"
+    doi: "10.1080/07350015.2022.2039159"
+    url: "https://doi.org/10.1080/07350015.2022.2039159"
+    open_working_paper_url: "https://papers.tinbergen.nl/21103.pdf"
+    target: "Real crude-oil price density"
+    country: "Global commodity market"
+    frequency: "monthly"
+    horizons: ["multiple horizons over 1974-2018 evaluation"]
+    models: ["Bayesian predictive synthesis", "Bayesian model averaging", "time-varying density combination", "stochastic volatility"]
+    relevant_findings: ["Sequential, time-varying density combinations improve point and density forecasts in the reported sample and expose crisis-time model incompleteness."]
+    limitations: ["A data- and computation-intensive monthly crude-oil framework; too complex for the current short weekly target history."
+    ]
+    how_we_use_it: "Long-run research path for dynamic probabilistic combination and diagnostics, after calibrated simple intervals and pooling."
+    assessment:
+      evidence: "N5 estimates evolving combination weights, biases, dependence, and density calibration."
+      inference: "Model disagreement can convey uncertainty rather than merely select a winner."
+      limitation: "Complexity can overwhelm the small Atlas evaluation sample and conceal unstable weights."
+      implementation_consequence: "Start with causal residual/conformal intervals and simple pools; promote dynamic density combination only after enough realized errors accumulate."
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Journal metadata and open working paper checked; published online 16 March 2022."}
+
+  - id: "M1"
+    title: "Combining forecasts: A review and annotated bibliography"
+    authors: ["Robert T. Clemen"]
+    year: 1989
+    publication: "International Journal of Forecasting 5(4), 559-583"
+    doi: "10.1016/0169-2070(89)90012-5"
+    url: "https://doi.org/10.1016/0169-2070(89)90012-5"
+    target: "Forecast-combination methodology"
+    country: "General"
+    frequency: "not applicable"
+    models: ["forecast combinations"]
+    relevant_findings: ["Combining forecasts is often robust when component errors contain complementary information."]
+    limitations: ["A review does not specify the best weighting rule for Atlas."
+    ]
+    how_we_use_it: "Justifies simple average as a mandatory ensemble baseline and explicit diversity checks."
+    assessment: {evidence: "M1 synthesizes broad combination evidence.", inference: "Pooling can reduce model-selection risk.", limitation: "The optimal rule is context dependent.", implementation_consequence: "Compare every learned ensemble with an equal-weight pool."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "DOI metadata verified."}
+
+  - id: "M2"
+    title: "Forecast Combinations"
+    authors: ["Allan Timmermann"]
+    year: 2006
+    publication: "Handbook of Economic Forecasting, Volume 1, 135-196"
+    doi: "10.1016/S1574-0706(05)01004-9"
+    url: "https://doi.org/10.1016/S1574-0706(05)01004-9"
+    target: "Forecast-combination methodology"
+    country: "General"
+    frequency: "not applicable"
+    models: ["equal weighting", "estimated weights", "time-varying combinations"]
+    relevant_findings: ["Estimation error can erase the theoretical benefit of optimized weights."]
+    limitations: ["General theory must be adapted to short, dependent forecast-error histories."]
+    how_we_use_it: "Motivates shrinkage, caps, and horizon-specific past-error weights."
+    assessment: {evidence: "M2 formalizes benefits and risks of forecast combination.", inference: "Stable constrained weights are safer than unconstrained optimization in short samples.", limitation: "No single weighting rule dominates universally.", implementation_consequence: "Shrink inverse-MASE weights toward uniform and cap each at 0.60."}
+    verification: {status: "conflicted", checked_at: "2026-08-13", notes: "The verified chapter DOI/PII conflicts with the URL supplied in the brief; see source_conflicts."}
+    source_conflicts:
+      - "The Timmermann URL printed in the brief (PII B9780444536839000232) does not match the verified chapter identifier S1574070605010049 / DOI above; the verified bibliographic record is used and the supplied URL is not silently treated as equivalent."
+
+  - id: "M3"
+    title: "Another look at measures of forecast accuracy"
+    authors: ["Rob J. Hyndman", "Anne B. Koehler"]
+    year: 2006
+    publication: "International Journal of Forecasting 22(4), 679-688"
+    doi: "10.1016/j.ijforecast.2006.03.001"
+    url: "https://doi.org/10.1016/j.ijforecast.2006.03.001"
+    target: "Forecast accuracy measurement"
+    country: "General"
+    frequency: "not applicable"
+    models: ["MASE", "scale-independent error metrics"]
+    relevant_findings: ["MASE avoids several pathologies of percentage errors and permits scale comparison when its denominator is defined correctly."]
+    limitations: ["MASE still depends on the chosen in-sample naive scaling and seasonality."]
+    how_we_use_it: "Primary scaled error beside MAE, with fold-local denominator and explicit seasonal convention."
+    assessment: {evidence: "M3 proposes and analyzes MASE.", inference: "MASE is preferable to MAPE for price series near awkward percentage regimes.", limitation: "Bad denominator design can make it misleading.", implementation_consequence: "Compute scaling from each training fold only and publish the formula."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "DOI and journal metadata verified."}
+
+  - id: "M4"
+    title: "Out-of-sample tests of forecasting accuracy: an analysis and review"
+    authors: ["Leonard J. Tashman"]
+    year: 2000
+    publication: "International Journal of Forecasting 16(4), 437-450"
+    doi: "10.1016/S0169-2070(00)00065-0"
+    url: "https://doi.org/10.1016/S0169-2070(00)00065-0"
+    target: "Out-of-sample evaluation"
+    country: "General"
+    frequency: "not applicable"
+    models: ["rolling-origin evaluation"]
+    relevant_findings: ["Multiple forecast origins better represent operational accuracy than a single terminal holdout."]
+    limitations: ["Fold geometry must still match the actual deployment cadence and horizon."
+    ]
+    how_we_use_it: "Foundation for expanding-window outer backtests and rolling-window robustness checks."
+    assessment: {evidence: "M4 reviews origin-based out-of-sample testing.", inference: "A single split is fragile under regime change.", limitation: "More origins are not independent observations.", implementation_consequence: "Report origin count and use dependence-aware uncertainty/significance."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Publisher identifier verified."}
+
+  - id: "M5"
+    title: "Evaluating time series forecasting models: an empirical study on performance estimation methods"
+    authors: ["Vitor Cerqueira", "Luis Torgo", "Igor Mozetic"]
+    year: 2020
+    publication: "Machine Learning 109, 1997-2028"
+    doi: "10.1007/s10994-020-05910-7"
+    url: "https://doi.org/10.1007/s10994-020-05910-7"
+    target: "Time-series performance estimation"
+    country: "General"
+    frequency: "not applicable"
+    models: ["holdout", "prequential", "blocked and time-respecting resampling"]
+    relevant_findings: ["Time-respecting estimation strategies differ materially under non-stationarity."
+    ]
+    limitations: ["Empirical aggregate conclusions do not remove the need for Atlas-specific robustness checks."]
+    how_we_use_it: "Supports nested temporal validation and comparison of expanding versus fixed rolling windows."
+    assessment: {evidence: "M5 compares performance estimators for time series.", inference: "Evaluation design is part of the model-selection problem.", limitation: "No resampler eliminates distribution shift.", implementation_consequence: "Use expanding primary and rolling robustness views; never shuffled CV."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "Springer metadata verified."}
+
+  - id: "M6"
+    title: "Strictly Proper Scoring Rules, Prediction, and Estimation"
+    authors: ["Tilmann Gneiting", "Adrian E. Raftery"]
+    year: 2007
+    publication: "Journal of the American Statistical Association 102(477), 359-378"
+    doi: "10.1198/016214506000001437"
+    url: "https://doi.org/10.1198/016214506000001437"
+    target: "Probabilistic forecast evaluation"
+    country: "General"
+    frequency: "not applicable"
+    models: ["proper scoring rules", "Brier score", "log score"]
+    relevant_findings: ["Proper scores reward honest predictive distributions rather than overconfident probability statements."]
+    limitations: ["A score summarizes performance and does not by itself establish calibration in every probability bin."]
+    how_we_use_it: "Basis for Brier/log loss plus reliability curves and interval scores."
+    assessment: {evidence: "M6 formalizes proper probabilistic scoring.", inference: "Probability quality must be assessed separately from classification accuracy.", limitation: "Small samples make calibration curves noisy.", implementation_consequence: "Publish scores, bin counts, and reliability plots; avoid unsupported confidence labels."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "DOI metadata verified."}
+
+  - id: "M7"
+    title: "Quantiles as optimal point forecasts"
+    authors: ["Tilmann Gneiting"]
+    year: 2011
+    publication: "International Journal of Forecasting 27(2), 197-207"
+    doi: "10.1016/j.ijforecast.2009.12.015"
+    url: "https://doi.org/10.1016/j.ijforecast.2009.12.015"
+    target: "Decision-consistent point and quantile forecasting"
+    country: "General"
+    frequency: "not applicable"
+    models: ["quantile forecasts", "asymmetric loss"]
+    relevant_findings: ["The optimal point functional depends on the user's loss; quantiles arise under asymmetric absolute loss."]
+    limitations: ["The brief linked the ScienceDirect PII but did not name the paper; the verified title is retained here."]
+    how_we_use_it: "Justifies P10/P50/P90 and explicit cost asymmetry in procurement decisions."
+    assessment: {evidence: "M7 connects quantiles with asymmetric decision loss.", inference: "A median forecast alone cannot encode shortage versus holding-cost asymmetry.", limitation: "Quantiles must themselves be calibrated out of sample.", implementation_consequence: "Evaluate pinball loss and coverage by horizon before decision use."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "PII S0169207010000063 resolves to this DOI/title."}
+
+  - id: "M8"
+    title: "Comparing Predictive Accuracy"
+    authors: ["Francis X. Diebold", "Roberto S. Mariano"]
+    year: 1995
+    republication_year: 2002
+    publication: "Journal of Business & Economic Statistics 13(3), 253-263; reprinted in 20(1), 134-144"
+    doi: "10.1198/073500102753410444"
+    original_identifier: "10.1080/07350015.1995.10524599"
+    url: "https://doi.org/10.1198/073500102753410444"
+    target: "Equal predictive accuracy testing"
+    country: "General"
+    frequency: "not applicable"
+    models: ["Diebold-Mariano test"]
+    relevant_findings: ["Loss differentials can be tested while accounting for serial dependence."]
+    limitations: ["Few and overlapping forecast origins weaken asymptotic inference, especially at the 4-week horizon."
+    ]
+    how_we_use_it: "Secondary statistical evidence with origin counts, horizon-appropriate autocovariance, and small-sample sensitivity."
+    assessment: {evidence: "M8 provides a formal predictive-accuracy comparison.", inference: "A small MAE difference need not be a robust improvement.", limitation: "The requested DOI is the 2002 reprint, while the work originated in 1995; catalogues expose both identifiers.", implementation_consequence: "Label the version explicitly and never use a p-value as the sole champion rule."}
+    verification: {status: "conflicted", checked_at: "2026-08-13", notes: "Not a content conflict: bibliographic version ambiguity is explicit; the brief URL is the 2002 reprint DOI."}
+
+  - id: "M9"
+    title: "The M4 Competition: 100,000 time series and 61 forecasting methods"
+    authors: ["Spyros Makridakis", "Evangelos Spiliotis", "Vassilios Assimakopoulos"]
+    year: 2020
+    publication: "International Journal of Forecasting 36(1), 54-74"
+    doi: "10.1016/j.ijforecast.2019.04.014"
+    url: "https://doi.org/10.1016/j.ijforecast.2019.04.014"
+    target: "Large-scale forecasting competition"
+    country: "General"
+    frequency: "multiple frequencies"
+    models: ["statistical", "machine learning", "hybrid", "forecast combination"]
+    relevant_findings: ["The M4 experiment compares 61 methods across 100,000 series and supplies a large-scale benchmark for statistical, ML, hybrid, and combination claims."]
+    limitations: ["Aggregate competition rankings across heterogeneous series do not determine Atlas's best model."]
+    how_we_use_it: "Supports baseline discipline and empirical selection rather than architecture prestige."
+    assessment: {evidence: "M9 summarizes M4 results across many series.", inference: "Simple and hybrid methods deserve equal, reproducible comparison.", limitation: "Competition data and loss aggregation differ from Atlas.", implementation_consequence: "Retire any complex challenger that cannot beat simple baselines consistently and economically."}
+    verification: {status: "verified", checked_at: "2026-08-13", notes: "The brief's PII S0169207019301128 resolves to this 2020 competition paper and DOI. It is distinct from the 2018 M4 results/conclusion paper, DOI 10.1016/j.ijforecast.2018.06.001."}

@@ -1,0 +1,527 @@
+schema_version: "1.1"
+manifest_as_of: "2026-08-13T00:00:00-03:00"
+project: "Atlas S10"
+manifest_purpose: >-
+  Point-in-time source contract. Coverage and hashes describe the snapshots that
+  were actually audited in this workspace, not whatever a live source happens to
+  expose today.
+
+required_observation_contract:
+  fields:
+    - "series_id"
+    - "observation_date"
+    - "available_at"
+    - "ingested_at"
+    - "value"
+    - "unit"
+    - "source"
+    - "revision"
+    - "geography"
+    - "metadata"
+  invariants:
+    - "observation_date is not a substitute for available_at."
+    - "Training snapshots must enforce available_at <= forecast_origin."
+    - "ingested_at is the actual capture timestamp; filesystem mtime must not be promoted to ingested_at."
+    - "Unknown historical release times remain unknown or use a documented conservative proxy; they are never backfilled from the current page timestamp."
+    - "Raw bytes are immutable and addressed by SHA-256; transformations receive their own lineage records."
+    - "Corrections are new revisions, not destructive overwrites."
+
+status_vocabulary:
+  cached_audited: "A local snapshot exists and its content/coverage was profiled."
+  cached_provenance_gap: "A local snapshot exists, but original fetch URL/time or vintage history is incomplete."
+  planned_official: "An official source was identified but no local snapshot was acquired."
+  optional_blocked: "Optional input is not allowed to block the MVP."
+
+global_caveats:
+  - "No local source currently carries genuine row-level available_at, ingested_at, revision, or historical-vintage fields."
+  - "Local file modification times are not reliable download timestamps; consequently last_sync is null for inherited snapshots."
+  - "Latest_observation is a local-coverage fact, not a freshness claim about the upstream publisher."
+  - "The existing processed target is Rio Grande do Sul; the audited raw ANP files also support a national primary target."
+
+sources:
+  - id: "SRC-ANP-REVENDA-S10"
+    series_id: "anp.retail.diesel_s10.price"
+    name: "Diesel S10 retail station survey"
+    variable: "Retail price observed at station"
+    role: "primary_target"
+    institution: "Agência Nacional do Petróleo, Gás Natural e Biocombustíveis (ANP)"
+    official_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis"
+    methodology_url: "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/precos-revenda-e-de-distribuicao-combustiveis"
+    latest_release_url: "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/levantamento-de-precos-de-combustiveis-ultimas-semanas-pesquisadas"
+    acquisition:
+      method: "Official semester CSV download; filter Produto='DIESEL S10' and Tipo da Venda='REVENDA'."
+      format: "CSV, semicolon-delimited, Brazilian decimal convention"
+      authentication: "none"
+    observation_frequency: "station observations collected on business days; model target aggregated weekly"
+    publication_frequency: "weekly"
+    unit: "BRL/litre"
+    source_granularity: "station / collection date / product / sale type"
+    model_granularity: "week x geography_type x geography_code"
+    geography: ["Brazil", "region", "state", "municipality", "station"]
+    official_start: "2004-05"
+    local_coverage:
+      observation_start: "2024-01-01"
+      observation_end: "2026-06-30"
+      complete_national_weeks: 130
+      first_complete_national_week: "2024-01-07"
+      last_complete_national_week: "2026-06-28"
+      station_rows_after_s10_filter: 387927
+      states: 27
+      municipalities: 461
+      stations: 10463
+      weekly_station_count_range: [2267, 3532]
+      individual_price_range_brl_per_litre: [4.73, 9.99]
+      national_weekly_mean_range_brl_per_litre: [5.9612, 7.5837]
+      last_complete_week:
+        mean_brl_per_litre: 7.0938
+        stations: 3024
+        municipalities: 377
+        states: 27
+    publication_lag:
+      type: "publisher_schedule_with_exceptions"
+      value: "Results are normally released weekly; official operational material points to Friday publication, with postponement to the next business day for relevant holidays."
+      evidence_urls:
+        - "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/orientacoes-sobre-painel-de-composicao-dos-precos-decreto-no-10-634-2021"
+        - "https://www.gov.br/anp/pt-br/canais_atendimento/imprensa/noticias-comunicados/levantamento-de-precos-de-combustiveis-29-3-a-4-4-sera-publicado-na-segunda-6-4"
+      available_at_policy: "Prefer captured response/release timestamp. For legacy files without a release ledger, use the first verified official publication timestamp; a proxy must be flagged assumed and sensitivity-tested."
+    timezone: "America/Sao_Paulo"
+    license: "Creative Commons Attribution-NoDerivatives 3.0 Unported on the ANP site"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.01.csv", sha256: "EB439DC323B082201039BD5404D1D7376E44485881CB0FDC4F23EF9016772870"}
+      - {path: "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.02.csv", sha256: "FE3296F9DE5977EB95A2F859F68B80F8336E446494D3BE6D07DE99EBF7E775AE"}
+      - {path: "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.01.csv", sha256: "D308B91E79D112262253E66C84610254B6DF8F9F5BFD7C76ECD6C79FD82FB4FA"}
+      - {path: "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.02.csv", sha256: "206CC66333EBACB3E33B3F6294A5AAEB3415F1579D35F7F28E25351826AE7745"}
+      - {path: "raw/anp/2026/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2026.01.csv", sha256: "04406F4E411380C07FFF0343A746BCC5EF693BD4B26A267101AB0698C44B76A9"}
+    derived_snapshot:
+      path: "processed/anp/revenda/diesel_s10_rs_semanal.csv"
+      sha256: "96F128164C813271E06BD6209CBD3F82F35CB78D6B68A65F19C0BA0E937D08B2"
+      warning: "Legacy artifact is Rio Grande do Sul, not the national phase-one target."
+    known_issues:
+      - "Across the five raw automotive CSVs, 16 exact duplicate rows were found (2 after the S10 retail filter); deduplicate deterministically and report counts."
+      - "The 2025.01 file contains 9,114 empty separator rows."
+      - "Valor de Compra is entirely empty and must not be treated as a usable feature."
+      - "Panel composition changes by week; report station/municipality coverage beside means and test a balanced-panel sensitivity."
+      - "A partial RS week ending 2026-07-05 exists and must not enter a complete-week target."
+      - "The local aggregation convention must be reconciled with ANP's displayed reference-week boundaries; do not infer release date from a resample label."
+
+  - id: "SRC-BCB-PTAX-USD"
+    series_id: "bcb.ptax.usd_brl.close.sell"
+    name: "USD/BRL PTAX closing rate"
+    variable: "Closing selling exchange rate"
+    role: "exogenous_cost_driver"
+    institution: "Banco Central do Brasil (BCB/Depin)"
+    official_url: "https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios"
+    api_url: "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
+    acquisition:
+      method: "Official OData API or official period CSV export; select USD closing bulletin and chosen buy/sell convention."
+      format: "JSON/CSV"
+      authentication: "none"
+    observation_frequency: "business day; upstream may publish several bulletins per day"
+    publication_frequency: "several times per business day"
+    unit: "BRL per USD"
+    source_granularity: "bulletin timestamp / currency"
+    model_granularity: "last causally known daily close, aggregated to weekly features"
+    geography: ["Brazil"]
+    official_start: "1984-11-28 for non-EUR currencies"
+    local_coverage:
+      observation_start: "2024-01-02"
+      observation_end: "2026-06-30"
+      observations: 627
+    publication_lag:
+      type: "same_day_multiple_releases"
+      value: "Use the timestamp of the closing bulletin returned by BCB; never expose that day's closing rate to a forecast issued earlier."
+      evidence_url: "https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios"
+    timezone: "America/Sao_Paulo"
+    license: "Open Data Commons Open Database License (ODbL)"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/anp/2024/dolar/CotacoesMoedasPeriodo01012024-30062024.csv", sha256: "61D51883AD9839415EEBBB18F0A5C432971588EF11F556511E1C9527B5F8D57C"}
+      - {path: "raw/anp/2024/dolar/CotacoesMoedasPeriodo01072024-31122024.csv", sha256: "69ECCA19310C84E1ED72621926115E1C6122A1C87C928AF1CB47F68735CADFC2"}
+      - {path: "raw/anp/2025/dolar/CotacoesMoedasPeriodo01012025-30062025.csv", sha256: "3ACA32AE687631FE587379DB116F3ABEC8BDF78EA3AE20DD9C1CA24774EA563B"}
+      - {path: "raw/anp/2025/dolar/CotacoesMoedasPeriodo01072025-31122025.csv", sha256: "987FDB077635C97470E07DF684A3F7C281BE94D77D4AA755601DD7F1F6E9D953"}
+      - {path: "raw/anp/2026/dolar/CotacoesMoedasPeriodo (1).csv", sha256: "5BDC237D2E9E759E2C2B1A1CD3D2CC493CDFF81866045D6677663EFC91E33950"}
+    derived_snapshot: {path: "processed/external/usd_brl_diario.csv", sha256: "C6429EA66F342A6A192D255F9F84A5C792F2BB6B013AEA92C9655F6FF1789D06"}
+    known_issues:
+      - "The legacy directory name raw/anp/.../dolar is misleading: provenance is BCB, not ANP."
+      - "Local CSVs do not preserve a trustworthy fetch timestamp or revision history."
+      - "Buying versus selling PTAX must be a declared series definition, not selected opportunistically."
+
+  - id: "SRC-EIA-BRENT-SPOT"
+    series_id: "eia.petroleum.brent_spot.rbrte"
+    name: "Europe Brent Spot Price FOB"
+    variable: "Brent spot price"
+    role: "exogenous_upstream_driver"
+    institution: "U.S. Energy Information Administration (EIA)"
+    official_url: "https://www.eia.gov/dnav/pet/hist/RBRTED.htm"
+    download_url: "https://www.eia.gov/dnav/pet/hist_xls/RBRTEd.xls"
+    acquisition:
+      method: "Official keyless XLS download; EIA Open Data API is an alternative when an API key is configured."
+      format: "XLS"
+      authentication: "none for XLS; API key for API"
+    observation_frequency: "business day"
+    publication_frequency: "business-day series; exact historical release timestamp not included in the workbook"
+    unit: "USD/barrel"
+    source_granularity: "day"
+    model_granularity: "daily causal features aggregated to weekly"
+    geography: ["Europe/global benchmark"]
+    official_start: "1987-05-20"
+    local_coverage:
+      observation_start: "1987-05-20"
+      observation_end: "2026-08-03"
+      observations: 9947
+      range_usd_per_barrel: [9.10, 143.95]
+    publication_lag:
+      type: "unknown_in_local_snapshot"
+      value: null
+      available_at_policy: "Capture future release timestamps. For legacy backtests, use a documented conservative business-day lag and run a 1/2/3-business-day sensitivity; never call the proxy observed fact."
+    timezone: "America/New_York for publication capture; observation is a date"
+    license: "not verified for this workbook; record EIA terms at connector implementation"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/eia/brent/brent_daily.xlsx.xls", sha256: "8E9CFDA76B3AC298B28AB5BB023084378AFBD9C59C9DEB895BEEB804F4E9206A"}
+    derived_snapshot: {path: "processed/external/brent_diario.csv", sha256: "467B10D4332F927D442997460F0384156EA26E5E900975470DE0F97BAD9389A9"}
+    known_issues:
+      - "The filename has a double extension but the content is an XLS workbook."
+      - "No vintage ledger exists locally, so historical revisions/publication times cannot be reconstructed exactly."
+
+  - id: "SRC-EIA-WTI-SPOT"
+    series_id: "eia.petroleum.wti_spot.rwtx"
+    name: "Cushing, OK WTI Spot Price FOB"
+    variable: "WTI spot price"
+    role: "optional_exogenous_upstream_driver"
+    institution: "U.S. Energy Information Administration (EIA)"
+    official_url: "https://www.eia.gov/dnav/pet/hist/RWTCd.htm"
+    acquisition: {method: "Official keyless XLS or EIA Open Data API", format: "XLS/JSON", authentication: "none for XLS; API key for API"}
+    observation_frequency: "business day"
+    publication_frequency: "business-day series"
+    unit: "USD/barrel"
+    source_granularity: "day"
+    model_granularity: "weekly causal features"
+    geography: ["United States/global benchmark"]
+    official_start: null
+    local_coverage: null
+    publication_lag: {type: "not audited", value: null}
+    timezone: "America/New_York"
+    license: "not verified"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues: ["Do not label a fallback provider as EIA; store its institution and terms separately if needed."]
+
+  - id: "SRC-ANP-DISTRIBUTION"
+    series_id: "anp.distribution.fuels.price"
+    name: "Liquid-fuels distribution-price series"
+    variable: "Distribution price for Diesel S10 and related fuels"
+    role: "exogenous_downstream_driver"
+    institution: "ANP"
+    official_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/dados-abertos-movimentacao-de-derivados-de-petroleo"
+    acquisition:
+      method: "Local official workbook snapshot; exact original download resource was not retained and must be rediscovered before automated synchronization."
+      format: "XLSX"
+      authentication: "none"
+    observation_frequency: "weekly in local workbook"
+    publication_frequency: "not verified"
+    unit: "BRL/litre; verify workbook metadata"
+    source_granularity: "week / product / geography"
+    model_granularity: "weekly"
+    geography: ["Brazil"]
+    official_start: null
+    local_coverage: {observation_start: "2020-08-23", observation_end: "2026-06-27", complete_weeks: 305}
+    publication_lag: {type: "unverified", value: null, available_at_policy: "Feature remains disabled in production backtests until release timing is documented."}
+    timezone: "America/Sao_Paulo"
+    license: "CC BY-ND 3.0 applies to ANP site content; workbook-specific terms not separately checked"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/anp/distribuicao/brasil_semanal/combustiveis-liquidos-brasil.xlsx", sha256: "7AF62490519782CF5E690EB5326A179D3A88BE5100A32F91DE1343707A3FC61B"}
+    known_issues:
+      - "The exact official resource URL and historical publication lag were not preserved."
+      - "Do not confuse this series with the separate producer/importer weighted-price workbook."
+
+  - id: "SRC-ANP-PRODUCER-IMPORTER"
+    series_id: "anp.producer_importer.diesel_s10.weighted_price"
+    name: "Weighted average producer/importer prices"
+    variable: "Producer/importer weighted average price"
+    role: "exogenous_cost_driver"
+    institution: "ANP"
+    official_url: "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/precos-de-produtores-e-importadores-de-derivados-de-petroleo-e-biodiesel"
+    acquisition: {method: "Official workbook download", format: "XLS", authentication: "none"}
+    observation_frequency: "weekly"
+    publication_frequency: "weekly"
+    unit: "BRL/litre; excludes ICMS and includes Cide/PIS/Cofins when applicable"
+    source_granularity: "week / product / national or regional geography"
+    model_granularity: "weekly"
+    geography: ["Brazil", "region"]
+    official_start: "2002-01-01 for oil diesel; local workbook series begins later"
+    local_coverage: {observation_start: "2012-12-31", observation_end: "2026-08-02", weeks: 709}
+    publication_lag:
+      type: "official_estimate"
+      value: "12 days after the end of the reference week"
+      evidence_url: "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/precos-de-produtores-e-importadores-de-derivados-de-petroleo-e-biodiesel"
+    timezone: "America/Sao_Paulo"
+    license: "CC BY-ND 3.0 on ANP site"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/anp/produtor_importador/precos-medios-ponderados-semanais-2013.xls", sha256: "037A6E6E86A9701B3B6A98D866497118A7ADE7784FD769DACCC3803F9E483ED8"}
+    known_issues:
+      - "Twelve days is an estimated schedule, not proof of each historical file's exact release timestamp."
+      - "The source warns that later economic rebalancing, price recomposition, or supplier revisions may not be represented."
+
+  - id: "SRC-ANP-BIODIESEL-PRODUCTION"
+    series_id: "anp.biodiesel.production"
+    name: "Biodiesel production"
+    variable: "Reported biodiesel production"
+    role: "exogenous_supply_driver"
+    institution: "ANP"
+    official_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/producao-de-biocombustiveis"
+    files_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/arquivos-producao-de-biocombustiveis"
+    metadata_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/arquivos-painel-de-produtores-de-derivados-producao-de-biocombustiveis/biodiesel-producao.pdf"
+    acquisition: {method: "Official CSV download", format: "CSV UTF-8", authentication: "none"}
+    observation_frequency: "monthly"
+    publication_frequency: "monthly extraction; exact fixed publication day not stated in the audited metadata"
+    unit: "cubic metres (m3)"
+    source_granularity: "month / geography and, in older schema, producer/product dimensions"
+    model_granularity: "monthly national/region, forward-filled only after release"
+    geography: ["Brazil", "region", "state in older file"]
+    official_start: "2005-01"
+    local_coverage:
+      observation_start: "2005-01"
+      observation_end: "2026-06"
+      aggregated_months: 258
+    publication_lag:
+      type: "unknown_exact_release"
+      value: null
+      context: "SIMP declarations are generally due by day 15 of the following month, but that reporting deadline is not the public release timestamp."
+      available_at_policy: "Capture each file's official last-modified/download time prospectively; for history, use a conservative month-end-plus lag sensitivity and label it assumed."
+    timezone: "America/Sao_Paulo"
+    license: "CC BY-ND 3.0 on ANP site"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/anp/biodiesel/producao/producao-biodiesel-m3-2005-2023.csv", sha256: "50B76CC9BBCFAEBD0F1A05407079FB37C3516CF829365C87E676EB06564787EF"}
+      - {path: "raw/anp/biodiesel/producao/producao-biodiesel-m3-2024-2026.csv", sha256: "84418D958B54A3175460F451C74D048E1359EA92A2BB7ABF51A23D7AB21054E0"}
+    known_issues:
+      - "Schema changes in 2024: earlier files include richer state/producer/product dimensions; the newer file is region-oriented."
+      - "The official file page was updated 20 July 2026, but that current timestamp cannot be assigned to every historical observation."
+
+  - id: "SRC-IBGE-IPCA-DIESEL"
+    series_id: "ibge.ipca.diesel.variation"
+    name: "IPCA item: óleo diesel"
+    variable: "Monthly price-index variation for diesel"
+    role: "exogenous_inflation_driver"
+    institution: "Instituto Brasileiro de Geografia e Estatística (IBGE)"
+    official_url: "https://sidra.ibge.gov.br/tabela/7060"
+    api_url: "https://apisidra.ibge.gov.br/"
+    acquisition: {method: "SIDRA table/API; table 7060, diesel item code 5104003", format: "JSON/CSV", authentication: "none"}
+    observation_frequency: "monthly"
+    publication_frequency: "monthly according to the IBGE release calendar"
+    unit: "percent variation; exact variable code must be persisted"
+    source_granularity: "month / selected index variable / geography / item"
+    model_granularity: "monthly, forward-filled after actual release only"
+    geography: ["Brazil", "regions/areas where table provides them"]
+    official_start: "2020-01 for the local IPCA series configuration"
+    local_coverage: {observation_start: "2020-01", observation_end: "2026-06", months: 78, observed_value_range: [-6.68, 13.90]}
+    publication_lag:
+      type: "release_calendar_required"
+      value: null
+      available_at_policy: "Join the observation to its actual IBGE release timestamp; never timestamp all historical rows using the date of a later CSV export."
+    timezone: "America/Sao_Paulo"
+    license: "not separately verified in this audit; retain IBGE attribution and terms with the snapshot"
+    status: "cached_provenance_gap"
+    last_sync: null
+    local_snapshots:
+      - {path: "raw/ibge/ipca/ipca_combustiveis_2020_2026.csv", sha256: "0F56383C43CDF6168432B44B211FE006D4507E2599D30A52A53E76FB15FCDD19"}
+    known_issues:
+      - "Local file is a wide SIDRA report with 625 columns; parse by explicit variable/item/geography codes, not column position."
+      - "Historical publication timestamps and revisions are absent locally."
+
+  - id: "SRC-BCB-SELIC-TARGET"
+    series_id: "bcb.sgs.432.selic_target"
+    name: "Selic target defined by Copom"
+    variable: "Policy interest-rate target"
+    role: "financing_cost_driver"
+    institution: "Banco Central do Brasil (BCB/Demab)"
+    official_url: "https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom"
+    api_url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados"
+    acquisition: {method: "Official SGS API with explicit date filters", format: "JSON/CSV", authentication: "none"}
+    observation_frequency: "daily step series"
+    publication_frequency: "on Copom decisions/effective entries"
+    unit: "percent per year"
+    source_granularity: "day"
+    model_granularity: "last known value at forecast origin"
+    geography: ["Brazil"]
+    official_start: "1999-03-05"
+    local_coverage: null
+    publication_lag: {type: "event_time_required", value: "Use the official decision/publication timestamp; date-only legacy values must not be assumed known at start of day."}
+    timezone: "America/Sao_Paulo"
+    license: "Open Data Commons Open Database License (ODbL)"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues:
+      - "BCB restricts daily JSON/CSV queries to date-filtered windows; connector must paginate/window rather than request an unbounded history."
+      - "This is the policy target, not the effective overnight Selic; do not mix the concepts."
+
+  - id: "SRC-ANP-SALES"
+    series_id: "anp.sales.diesel"
+    name: "Sales of petroleum products and biofuels"
+    variable: "Diesel sales/consumption proxy"
+    role: "planned_demand_driver"
+    institution: "ANP"
+    official_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/vendas-de-derivados-de-petroleo-e-biocombustiveis"
+    acquisition: {method: "Official open-data CSV; exact resource and schema must be pinned during connector implementation", format: "CSV", authentication: "none"}
+    observation_frequency: "monthly"
+    publication_frequency: "not verified in this audit"
+    unit: "verify product-specific unit (commonly m3)"
+    source_granularity: "month / product / geography"
+    model_granularity: "monthly causally released values"
+    geography: ["Brazil", "state", "municipality where available"]
+    official_start: null
+    local_coverage: null
+    publication_lag: {type: "unverified", value: null, available_at_policy: "Disable as model input until exact releases are captured or conservatively reconstructed."}
+    timezone: "America/Sao_Paulo"
+    license: "CC BY-ND 3.0 on ANP site"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues: ["SIMP reporting deadlines are not identical to public availability; do not conflate them."]
+
+  - id: "SRC-ANP-TRADE"
+    series_id: "anp.trade.diesel"
+    name: "Imports and exports of petroleum derivatives"
+    variable: "Diesel import/export volume and value"
+    role: "planned_supply_driver"
+    institution: "ANP"
+    official_url: "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/importacoes-e-exportacoes"
+    fallback_official_url: "https://www.gov.br/mdic/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta"
+    acquisition: {method: "Official ANP CSV; MDIC Comex Stat may be a separately attributed fallback", format: "CSV", authentication: "none or source-specific"}
+    observation_frequency: "monthly"
+    publication_frequency: "not verified"
+    unit: "volume/value; pin units per resource"
+    source_granularity: "month / product / flow / geography"
+    model_granularity: "monthly"
+    geography: ["Brazil", "partner/origin where available"]
+    official_start: "2000 for current ANP derivative file family"
+    local_coverage: null
+    publication_lag: {type: "unverified", value: null}
+    timezone: "America/Sao_Paulo"
+    license: "source-specific; record separately for ANP and MDIC"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues: ["A fallback must retain its true institution; never present MDIC data as an ANP series."]
+
+  - id: "SRC-PETROBRAS-PRICES"
+    series_id: "petrobras.refinery.price_event"
+    name: "Petrobras public price history"
+    variable: "Refinery/supply price adjustment event"
+    role: "planned_event_driver"
+    institution: "Petróleo Brasileiro S.A. (Petrobras)"
+    official_url: "https://precos.petrobras.com.br/"
+    acquisition:
+      method: "Investigate public JSON/API calls used by the official application; use permitted documented access and archive response plus headers. Do not scrape pixels."
+      format: "to be verified"
+      authentication: "to be verified"
+    observation_frequency: "event-driven"
+    publication_frequency: "event-driven"
+    unit: "BRL/unit, location- and modality-specific"
+    source_granularity: "published event / location / modality / product"
+    model_granularity: "event features known at forecast origin"
+    geography: ["location-specific", "Brazil"]
+    official_start: null
+    local_coverage: null
+    publication_lag: {type: "event_time_required", value: "Persist both announced_at/published_at and effective_at; a future-effective change is usable only after announcement."}
+    timezone: "America/Sao_Paulo"
+    license: "not verified"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues:
+      - "Current website state is not a historical event ledger."
+      - "No local snapshot exists; no Petrobras feature may be claimed in the present backtest."
+
+  - id: "SRC-BIODIESEL-BLEND-RULES"
+    series_id: "br.regulation.diesel.biodiesel_share"
+    name: "Mandatory biodiesel blend events"
+    variable: "Mandatory biodiesel fraction in diesel B"
+    role: "regulatory_event_driver"
+    institution: "Conselho Nacional de Política Energética / Ministério de Minas e Energia / ANP"
+    official_url: "https://www.gov.br/anp/pt-br/assuntos/producao-e-fornecimento-de-biocombustiveis/biodiesel/biodiesel/especificacao-do-biodiesel"
+    corroborating_url: "https://www.gov.br/mme/pt-br/assuntos/noticias/e30-e-b15-entram-em-vigor-em-todo-o-brasil"
+    acquisition: {method: "Versioned manual/legal extraction from official resolutions and announcements; archive each normative document", format: "HTML/PDF normalized to event table", authentication: "none"}
+    observation_frequency: "event-driven"
+    publication_frequency: "event-driven"
+    unit: "percent by volume"
+    source_granularity: "normative event"
+    model_granularity: "published/effective event state"
+    geography: ["Brazil"]
+    official_start: null
+    local_coverage: null
+    verified_event_examples:
+      - {rule: "B15", effective_at: "2025-08-01T00:00:00-03:00", evidence_url: "https://www.gov.br/mme/pt-br/assuntos/noticias/e30-e-b15-entram-em-vigor-em-todo-o-brasil"}
+    publication_lag: {type: "event_time_required", value: "Use published_at for knowledge and effective_at for legal state; persist both."}
+    timezone: "America/Sao_Paulo"
+    license: "official-government-document terms; verify per archived artifact"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues:
+      - "The current blend must not be projected backward."
+      - "A news article can corroborate an effective date but the normative resolution remains the legal source of truth."
+
+  - id: "SRC-CONFAZ-ICMS-DIESEL"
+    series_id: "confaz.icms.diesel.event"
+    name: "ICMS rules and ad rem rates for diesel/biodiesel"
+    variable: "Tax-rule event and applicable value"
+    role: "regulatory_cost_driver"
+    institution: "Conselho Nacional de Política Fazendária (CONFAZ) and state tax authorities"
+    official_url: "https://www.confaz.fazenda.gov.br/legislacao/convenios/2022/CV199_22"
+    guidance_url: "https://www.confaz.fazenda.gov.br/tributacao-monofasica/orientacoes-gt05-ad-rem-media-alteracao-de-aliquotas-fev-2025.pdf"
+    acquisition: {method: "Versioned legal extraction across the base agreement and subsequent protocols/acts; legal review required", format: "HTML/PDF normalized to temporal table", authentication: "none"}
+    observation_frequency: "event-driven"
+    publication_frequency: "event-driven"
+    unit: "BRL/litre or legal rate, according to act"
+    source_granularity: "tax type / jurisdiction / publication / effectiveness interval"
+    model_granularity: "event state by geography"
+    geography: ["Brazil", "state"]
+    official_start: null
+    local_coverage: null
+    required_event_fields: ["valid_from", "valid_until", "published_at", "effective_at", "tax_type", "tax_value", "source"]
+    publication_lag: {type: "event_time_required", value: "A rule enters the information set on published_at and the cost state on effective_at; both are mandatory."}
+    timezone: "America/Sao_Paulo"
+    license: "official legal text; verify reuse terms"
+    status: "planned_official"
+    last_sync: null
+    local_snapshots: []
+    known_issues:
+      - "Convention 199/2022 alone is insufficient; later acts can alter rates and dates."
+      - "No current numeric tax value is asserted in this manifest because the temporal legal chain has not been completed."
+
+  - id: "SRC-CONAB-HARVEST"
+    series_id: "conab.harvest.progress"
+    name: "Harvest progress"
+    variable: "Agricultural activity/harvest-progress proxy"
+    role: "optional_regional_demand_driver"
+    institution: "Companhia Nacional de Abastecimento (Conab)"
+    official_url: "https://www.gov.br/conab/pt-br/atuacao/informacoes-agropecuarias/safras/progresso-de-safra"
+    acquisition: {method: "Investigate official downloadable artifacts; do not let extraction fragility block core training", format: "to be verified", authentication: "to be verified"}
+    observation_frequency: "to be verified"
+    publication_frequency: "to be verified"
+    unit: "percent progress / crop-specific"
+    source_granularity: "crop / state / reporting period"
+    model_granularity: "regional causal features"
+    geography: ["state", "Brazil"]
+    official_start: null
+    local_coverage: null
+    publication_lag: {type: "unverified", value: null}
+    timezone: "America/Sao_Paulo"
+    license: "not verified"
+    status: "optional_blocked"
+    last_sync: null
+    local_snapshots: []
+    known_issues: ["Optional for the MVP; absence must produce a visible unavailable state, not synthetic values."]

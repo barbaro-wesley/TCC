@@ -1,0 +1,756 @@
+{
+  "policy": "Antecipação 60%/35%/15% conforme probabilidade; 70.000 L por decisão",
+  "baseline": "Just-in-time: 100% do volume no fim do horizonte",
+  "summary": [
+    {
+      "horizon_days": 7,
+      "decisions": 24,
+      "volume_per_decision_liters": 70000,
+      "savings_vs_jit_brl": 8883.03056340036,
+      "savings_vs_fixed_brl": -20207.018278999778,
+      "positive_decisions_pct": 29.166666666666668,
+      "worst_regret_brl": -1143.4422074249596
+    },
+    {
+      "horizon_days": 14,
+      "decisions": 24,
+      "volume_per_decision_liters": 70000,
+      "savings_vs_jit_brl": 17613.651516440557,
+      "savings_vs_fixed_brl": -40575.49129675928,
+      "positive_decisions_pct": 29.166666666666668,
+      "worst_regret_brl": -2271.0395317049115
+    },
+    {
+      "horizon_days": 30,
+      "decisions": 24,
+      "volume_per_decision_liters": 70000,
+      "savings_vs_jit_brl": 33457.283031515195,
+      "savings_vs_fixed_brl": -83399.56597213488,
+      "positive_decisions_pct": 29.166666666666668,
+      "worst_regret_brl": -3364.6217150699813
+    }
+  ],
+  "detail": [
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-02-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 430460.42896234,
+      "just_in_time_cost": 430372.3626559,
+      "fixed_50_50_cost": 430665.9170107,
+      "savings_vs_jit": -88.06630643998506,
+      "savings_vs_fixed": 205.48804835998453
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-02-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 429807.36251900997,
+      "just_in_time_cost": 429707.6566125,
+      "fixed_50_50_cost": 430040.0096342,
+      "savings_vs_jit": -99.70590650994563,
+      "savings_vs_fixed": 232.64711519004777
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-01",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 432380.90475202,
+      "just_in_time_cost": 432852.6544237,
+      "fixed_50_50_cost": 431280.15551809996,
+      "savings_vs_jit": 471.74967167997966,
+      "savings_vs_fixed": -1100.749233920069
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-08",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 473323.227247045,
+      "just_in_time_cost": 480465.0930394,
+      "fixed_50_50_cost": 456658.87373155,
+      "savings_vs_jit": 7141.865792354976,
+      "savings_vs_fixed": -16664.353515495022
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 508977.6965175,
+      "just_in_time_cost": 514009.3324254,
+      "fixed_50_50_cost": 497237.2127324,
+      "savings_vs_jit": 5031.635907899996,
+      "savings_vs_fixed": -11740.48378509999
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 527664.952582635,
+      "just_in_time_cost": 530074.7679045,
+      "fixed_50_50_cost": 522042.05016494996,
+      "savings_vs_jit": 2409.815321865026,
+      "savings_vs_fixed": -5622.902417685022
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-29",
+      "fraction_bought_early": 0.35,
+      "model_policy_cost": 530581.8196142099,
+      "just_in_time_cost": 530854.8474579001,
+      "fixed_50_50_cost": 530464.8076812,
+      "savings_vs_jit": 273.02784369012807,
+      "savings_vs_fixed": -117.0119330099551
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 530858.64169555,
+      "just_in_time_cost": 530859.3112668999,
+      "fixed_50_50_cost": 530857.0793624,
+      "savings_vs_jit": 0.6695713499793783,
+      "savings_vs_fixed": -1.5623331499518827
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-12",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 527079.842813405,
+      "just_in_time_cost": 526412.8777922,
+      "fixed_50_50_cost": 528636.0945295499,
+      "savings_vs_jit": -666.9650212050183,
+      "savings_vs_fixed": 1556.251716144965
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-19",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 519933.371950125,
+      "just_in_time_cost": 518789.9297427,
+      "fixed_50_50_cost": 522601.40376745,
+      "savings_vs_jit": -1143.4422074249596,
+      "savings_vs_fixed": 2668.0318173250416
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-26",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 512400.21157178,
+      "just_in_time_cost": 511272.6142475,
+      "fixed_50_50_cost": 515031.27199509996,
+      "savings_vs_jit": -1127.5973242799519,
+      "savings_vs_fixed": 2631.0604233199847
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-03",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 508855.11699526,
+      "just_in_time_cost": 508428.4998331,
+      "fixed_50_50_cost": 509850.55704030005,
+      "savings_vs_jit": -426.6171621599933,
+      "savings_vs_fixed": 995.4400450400426
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-10",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 506237.54162005504,
+      "just_in_time_cost": 505850.9019354,
+      "fixed_50_50_cost": 507139.70088425005,
+      "savings_vs_jit": -386.6396846550633,
+      "savings_vs_fixed": 902.1592641950119
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-17",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 503830.41433718,
+      "just_in_time_cost": 503473.85770219995,
+      "fixed_50_50_cost": 504662.37981879996,
+      "savings_vs_jit": -356.55663498002104,
+      "savings_vs_fixed": 831.9654816199909
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-24",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 502445.617340905,
+      "just_in_time_cost": 502264.16315950005,
+      "fixed_50_50_cost": 502869.01043085,
+      "savings_vs_jit": -181.45418140495894,
+      "savings_vs_fixed": 423.3930899449624
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-31",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 500704.819736345,
+      "just_in_time_cost": 500429.6414852,
+      "fixed_50_50_cost": 501346.90232235,
+      "savings_vs_jit": -275.1782511450001,
+      "savings_vs_fixed": 642.082586005039
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-07",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 499651.06391823,
+      "just_in_time_cost": 499513.667877,
+      "fixed_50_50_cost": 499971.6546811,
+      "savings_vs_jit": -137.39604123000754,
+      "savings_vs_fixed": 320.5907628699788
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-14",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 499376.42230493494,
+      "just_in_time_cost": 499352.2024981,
+      "fixed_50_50_cost": 499432.93518755,
+      "savings_vs_jit": -24.219806834938936,
+      "savings_vs_fixed": 56.51288261509035
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-21",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 496984.69380077004,
+      "just_in_time_cost": 496566.8981483,
+      "fixed_50_50_cost": 497959.5503232,
+      "savings_vs_jit": -417.79565247002756,
+      "savings_vs_fixed": 974.8565224299673
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-28",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 495185.87809582497,
+      "just_in_time_cost": 494942.1686748,
+      "fixed_50_50_cost": 495754.53341155004,
+      "savings_vs_jit": -243.70942102494882,
+      "savings_vs_fixed": 568.6553157250746
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 491976.958359145,
+      "just_in_time_cost": 491453.6859505,
+      "fixed_50_50_cost": 493197.92731265,
+      "savings_vs_jit": -523.2724086449598,
+      "savings_vs_fixed": 1220.968953505042
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-12",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 489380.365471865,
+      "just_in_time_cost": 489014.48538739997,
+      "fixed_50_50_cost": 490234.08566895,
+      "savings_vs_jit": -365.880084465025,
+      "savings_vs_fixed": 853.7201970850001
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-19",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 489708.012366195,
+      "just_in_time_cost": 489830.3994801,
+      "fixed_50_50_cost": 489422.44243374997,
+      "savings_vs_jit": 122.38711390504614,
+      "savings_vs_fixed": -285.56993244501064
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-26",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 489243.19361476996,
+      "just_in_time_cost": 489139.5690503,
+      "fixed_50_50_cost": 489484.9842652,
+      "savings_vs_jit": -103.62456446996657,
+      "savings_vs_fixed": 241.790650430019
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-08",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 430561.33998829,
+      "just_in_time_cost": 430372.3626559,
+      "fixed_50_50_cost": 431002.2870972,
+      "savings_vs_jit": -188.9773323899717,
+      "savings_vs_fixed": 440.9471089100116
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 429895.42882544996,
+      "just_in_time_cost": 429707.6566125,
+      "fixed_50_50_cost": 430333.563989,
+      "savings_vs_jit": -187.7722129499307,
+      "savings_vs_fixed": 438.1351635500323
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 432480.61065853,
+      "just_in_time_cost": 432852.6544237,
+      "fixed_50_50_cost": 431612.50853980007,
+      "savings_vs_jit": 372.043765170034,
+      "savings_vs_fixed": -868.1021187299048
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-01",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 472851.477575365,
+      "just_in_time_cost": 480465.0930394,
+      "fixed_50_50_cost": 455086.37482595,
+      "savings_vs_jit": 7613.615464035014,
+      "savings_vs_fixed": -17765.102749414975
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-08",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 501835.83072514494,
+      "just_in_time_cost": 514009.3324254,
+      "fixed_50_50_cost": 473430.99342455,
+      "savings_vs_jit": 12173.50170025503,
+      "savings_vs_fixed": -28404.837300594954
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 522633.31667473493,
+      "just_in_time_cost": 530074.7679045,
+      "fixed_50_50_cost": 505269.93047195004,
+      "savings_vs_jit": 7441.45122976508,
+      "savings_vs_fixed": -17363.386202784895
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 528328.020203025,
+      "just_in_time_cost": 530854.8474579001,
+      "fixed_50_50_cost": 522432.08994165005,
+      "savings_vs_jit": 2526.8272548750974,
+      "savings_vs_fixed": -5895.930261374917
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-29",
+      "fraction_bought_early": 0.35,
+      "model_policy_cost": 530584.72109006,
+      "just_in_time_cost": 530859.3112668999,
+      "fixed_50_50_cost": 530467.0395857,
+      "savings_vs_jit": 274.59017683996353,
+      "savings_vs_fixed": -117.68150435993448
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 527079.173242055,
+      "just_in_time_cost": 526412.8777922,
+      "fixed_50_50_cost": 528633.86262505,
+      "savings_vs_jit": -666.2954498550389,
+      "savings_vs_fixed": 1554.6893829950131
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-12",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 520600.33697133,
+      "just_in_time_cost": 518789.9297427,
+      "fixed_50_50_cost": 524824.6205048,
+      "savings_vs_jit": -1810.407228629978,
+      "savings_vs_fixed": 4224.283533470007
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-19",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 513543.65377920493,
+      "just_in_time_cost": 511272.6142475,
+      "fixed_50_50_cost": 518842.74601985,
+      "savings_vs_jit": -2271.0395317049115,
+      "savings_vs_fixed": 5299.0922406450845
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-26",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 509982.71431953995,
+      "just_in_time_cost": 508428.4998331,
+      "fixed_50_50_cost": 513609.2147879,
+      "savings_vs_jit": -1554.2144864399452,
+      "savings_vs_fixed": 3626.5004683600273
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-03",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 506664.15878221503,
+      "just_in_time_cost": 505850.9019354,
+      "fixed_50_50_cost": 508561.75809145,
+      "savings_vs_jit": -813.2568468150566,
+      "savings_vs_fixed": 1897.5993092349963
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-10",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 504217.054021835,
+      "just_in_time_cost": 503473.85770219995,
+      "fixed_50_50_cost": 505951.17876765,
+      "savings_vs_jit": -743.1963196350262,
+      "savings_vs_fixed": 1734.1247458150028
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-17",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 502802.17397588503,
+      "just_in_time_cost": 502264.16315950005,
+      "fixed_50_50_cost": 504057.53254745,
+      "savings_vs_jit": -538.01081638498,
+      "savings_vs_fixed": 1255.3585715649533
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-24",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 500886.27391775,
+      "just_in_time_cost": 500429.6414852,
+      "fixed_50_50_cost": 501951.7495937,
+      "savings_vs_jit": -456.63243255001726,
+      "savings_vs_fixed": 1065.4756759500015
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-31",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 499926.242169375,
+      "just_in_time_cost": 499513.667877,
+      "fixed_50_50_cost": 500888.91551825,
+      "savings_vs_jit": -412.57429237500764,
+      "savings_vs_fixed": 962.6733488750178
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-07",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 499513.81834616495,
+      "just_in_time_cost": 499352.2024981,
+      "fixed_50_50_cost": 499890.92199165,
+      "savings_vs_jit": -161.61584806494648,
+      "savings_vs_fixed": 377.10364548506914
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-14",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 497008.91360760503,
+      "just_in_time_cost": 496566.8981483,
+      "fixed_50_50_cost": 498040.28301265003,
+      "savings_vs_jit": -442.0154593050247,
+      "savings_vs_fixed": 1031.3694050449994
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-21",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 495603.673748295,
+      "just_in_time_cost": 494942.1686748,
+      "fixed_50_50_cost": 497147.18558645004,
+      "savings_vs_jit": -661.5050734949764,
+      "savings_vs_fixed": 1543.511838155042
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-28",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 492220.66778017,
+      "just_in_time_cost": 491453.6859505,
+      "fixed_50_50_cost": 494010.2920494,
+      "savings_vs_jit": -766.9818296699668,
+      "savings_vs_fixed": 1789.6242692300002
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 489903.63788050995,
+      "just_in_time_cost": 489014.48538739997,
+      "fixed_50_50_cost": 491978.3270311,
+      "savings_vs_jit": -889.1524931099848,
+      "savings_vs_fixed": 2074.689150590042
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-12",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 490073.89245066,
+      "just_in_time_cost": 489830.3994801,
+      "fixed_50_50_cost": 490642.0427153,
+      "savings_vs_jit": -243.49297055997886,
+      "savings_vs_fixed": 568.1502646399895
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-19",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 489120.8065008649,
+      "just_in_time_cost": 489139.5690503,
+      "fixed_50_50_cost": 489077.0272188499,
+      "savings_vs_jit": 18.762549435079563,
+      "savings_vs_fixed": -43.77928201499162
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-01-25",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 430613.56210106495,
+      "just_in_time_cost": 430372.3626559,
+      "fixed_50_50_cost": 431176.36080645,
+      "savings_vs_jit": -241.19944516493706,
+      "savings_vs_fixed": 562.7987053850666
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-01",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 429924.368120625,
+      "just_in_time_cost": 429707.6566125,
+      "fixed_50_50_cost": 430430.02830625,
+      "savings_vs_jit": -216.71150812495034,
+      "savings_vs_fixed": 505.66018562501995
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-08",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 432669.58799092,
+      "just_in_time_cost": 432852.6544237,
+      "fixed_50_50_cost": 432242.4329811,
+      "savings_vs_jit": 183.0664327800041,
+      "savings_vs_fixed": -427.1550098200096
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 473039.24978831504,
+      "just_in_time_cost": 480465.0930394,
+      "fixed_50_50_cost": 455712.28220245003,
+      "savings_vs_jit": 7425.843251084967,
+      "savings_vs_fixed": -17326.967585865
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 501463.78695997497,
+      "just_in_time_cost": 514009.3324254,
+      "fixed_50_50_cost": 472190.84754064993,
+      "savings_vs_jit": 12545.545465425006,
+      "savings_vs_fixed": -29272.939419325034
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-01",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 515019.7012107,
+      "just_in_time_cost": 530074.7679045,
+      "fixed_50_50_cost": 479891.2122585,
+      "savings_vs_jit": 15055.066693800036,
+      "savings_vs_fixed": -35128.48895219999
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-08",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 516154.51850277,
+      "just_in_time_cost": 530854.8474579001,
+      "fixed_50_50_cost": 481853.7509408,
+      "savings_vs_jit": 14700.32895513007,
+      "savings_vs_fixed": -34300.76756196999
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-15",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 523300.17853277497,
+      "just_in_time_cost": 530859.3112668999,
+      "fixed_50_50_cost": 505662.20215315,
+      "savings_vs_jit": 7559.132734124956,
+      "savings_vs_fixed": -17637.976379624975
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-22",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 524552.34598718,
+      "just_in_time_cost": 526412.8777922,
+      "fixed_50_50_cost": 520211.1051088,
+      "savings_vs_jit": 1860.531805019942,
+      "savings_vs_fixed": -4341.24087838002
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-29",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 520482.65546697,
+      "just_in_time_cost": 518789.9297427,
+      "fixed_50_50_cost": 524432.3488236,
+      "savings_vs_jit": -1692.7257242699852,
+      "savings_vs_fixed": 3949.693356629985
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 514209.94922906003,
+      "just_in_time_cost": 511272.6142475,
+      "fixed_50_50_cost": 521063.7308527,
+      "savings_vs_jit": -2937.3349815600086,
+      "savings_vs_fixed": 6853.781623639981
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-12",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 511793.12154817,
+      "just_in_time_cost": 508428.4998331,
+      "fixed_50_50_cost": 519643.90555,
+      "savings_vs_jit": -3364.6217150699813,
+      "savings_vs_fixed": 7850.784001830034
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-19",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 508935.19831392,
+      "just_in_time_cost": 505850.9019354,
+      "fixed_50_50_cost": 516131.88986379997,
+      "savings_vs_jit": -3084.2963785200263,
+      "savings_vs_fixed": 7196.691549879964
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-26",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 505771.26850827504,
+      "just_in_time_cost": 503473.85770219995,
+      "fixed_50_50_cost": 511131.89372245,
+      "savings_vs_jit": -2297.4108060750877,
+      "savings_vs_fixed": 5360.625214174972
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-03",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 503615.4308227,
+      "just_in_time_cost": 502264.16315950005,
+      "fixed_50_50_cost": 506768.38870350004,
+      "savings_vs_jit": -1351.2676631999202,
+      "savings_vs_fixed": 3152.957880800066
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-10",
+      "fraction_bought_early": 0.35,
+      "model_policy_cost": 503229.24190696504,
+      "just_in_time_cost": 500429.6414852,
+      "fixed_50_50_cost": 504429.07065914996,
+      "savings_vs_jit": -2799.6004217650625,
+      "savings_vs_fixed": 1199.828752184927
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-17",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 500464.25298576005,
+      "just_in_time_cost": 499513.667877,
+      "fixed_50_50_cost": 502682.2849062,
+      "savings_vs_jit": -950.5851087600458,
+      "savings_vs_fixed": 2218.031920439971
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-24",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 499970.45077871496,
+      "just_in_time_cost": 499352.2024981,
+      "fixed_50_50_cost": 501413.03010015,
+      "savings_vs_jit": -618.2482806149637,
+      "savings_vs_fixed": 1442.5793214350124
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-31",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 497421.48789998004,
+      "just_in_time_cost": 496566.8981483,
+      "fixed_50_50_cost": 499415.5306539,
+      "savings_vs_jit": -854.5897516800324,
+      "savings_vs_fixed": 1994.042753919959
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-07",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 495765.28959635994,
+      "just_in_time_cost": 494942.1686748,
+      "fixed_50_50_cost": 497685.90508,
+      "savings_vs_jit": -823.1209215599229,
+      "savings_vs_fixed": 1920.6154836400528
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-14",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 492662.68323947495,
+      "just_in_time_cost": 491453.6859505,
+      "fixed_50_50_cost": 495483.67691374995,
+      "savings_vs_jit": -1208.9972889749333,
+      "savings_vs_fixed": 2820.9936742749996
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-21",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 490565.142954005,
+      "just_in_time_cost": 489014.48538739997,
+      "fixed_50_50_cost": 494183.34394275,
+      "savings_vs_jit": -1550.6575666050194,
+      "savings_vs_fixed": 3618.200988745026
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-28",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 490840.87428032997,
+      "just_in_time_cost": 489830.3994801,
+      "fixed_50_50_cost": 493198.6488142,
+      "savings_vs_jit": -1010.4748002299457,
+      "savings_vs_fixed": 2357.774533870048
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-07-05",
+      "fraction_bought_early": 0.15,
+      "model_policy_cost": 490009.95899397496,
+      "just_in_time_cost": 489139.5690503,
+      "fixed_50_50_cost": 492040.86886255,
+      "savings_vs_jit": -870.3899436749634,
+      "savings_vs_fixed": 2030.9098685750505
+    }
+  ],
+  "caveat": "Backtest contrafactual sem frete, desconto, custo de capital ou restrições privadas de tanque."
+}

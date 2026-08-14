@@ -1,0 +1,38 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+Untitled*.ipynb
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Frontend
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
+apps/web/*.tsbuildinfo
+npm-debug.log*
+
+# Runtime
+artifacts/logs/
+artifacts/runtime/
+*.duckdb.wal
+
+# Dados brutos locais (~350 MB). Use Git LFS/storage externo se precisar publicá-los.
+raw/
+
+# Saidas reproduziveis; os arquivos brutos nunca devem ser alterados.
+processed/inventory/*.csv
+processed/inventory/*.json
+processed/anp/revenda/*.csv
+processed/anp/revenda/*.json
+processed/baseline/*.csv
+processed/baseline/*.json
+processed/external/*.csv
+processed/external/*.json
+final/*.csv
+final/*.json

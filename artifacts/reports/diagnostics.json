@@ -1,0 +1,2093 @@
+{
+  "generated_at": "2026-08-14T10:24:52+00:00",
+  "dm_test": {
+    "loss": "absolute error",
+    "null": "equal expected forecast loss versus naive",
+    "interpretation": "negative statistic favours the candidate; p-values use a normal approximation",
+    "rows": [
+      {
+        "horizon_days": 7,
+        "model": "seasonal_naive",
+        "statistic": 11.626360248647456,
+        "p_value": 3.0273249356397598e-31,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "moving_average_4",
+        "statistic": 3.020935236989446,
+        "p_value": 0.0025199525250191633,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "moving_average_8",
+        "statistic": 3.79069402846201,
+        "p_value": 0.00015022692457464834,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "moving_average_12",
+        "statistic": 4.356951143476447,
+        "p_value": 1.318866921977282e-05,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "arima",
+        "statistic": -1.5921744455103193,
+        "p_value": 0.1113455134309394,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "sarima",
+        "statistic": -1.2035194653130548,
+        "p_value": 0.22877536340199267,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "sarimax",
+        "statistic": 0.35940744057335505,
+        "p_value": 0.7192903093137102,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "lightgbm",
+        "statistic": 5.0736844409959225,
+        "p_value": 3.901859127428525e-07,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "lightgbm_price_only",
+        "statistic": 6.119481897197091,
+        "p_value": 9.388009440265419e-10,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "simple_average",
+        "statistic": 1.016404795451244,
+        "p_value": 0.3094366629813703,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 7,
+        "model": "inverse_mase",
+        "statistic": 1.0072995460044059,
+        "p_value": 0.31379084789398703,
+        "observations": 24,
+        "lag": 0
+      },
+      {
+        "horizon_days": 14,
+        "model": "seasonal_naive",
+        "statistic": 6.780283714376348,
+        "p_value": 1.1994011050948583e-11,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "moving_average_4",
+        "statistic": 2.2283436239759276,
+        "p_value": 0.025857609392241798,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "moving_average_8",
+        "statistic": 2.5300764679172967,
+        "p_value": 0.01140376701840596,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "moving_average_12",
+        "statistic": 2.9650087269125325,
+        "p_value": 0.003026743432852357,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "arima",
+        "statistic": -1.1981851293133154,
+        "p_value": 0.23084495329293064,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "sarima",
+        "statistic": -0.5683929182704899,
+        "p_value": 0.5697681979915611,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "sarimax",
+        "statistic": 1.3819312037860825,
+        "p_value": 0.16699282580437236,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "lightgbm",
+        "statistic": 3.861083394083834,
+        "p_value": 0.0001128853625742062,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "lightgbm_price_only",
+        "statistic": 4.436380020750649,
+        "p_value": 9.14842862634394e-06,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "simple_average",
+        "statistic": 1.0389242942786647,
+        "p_value": 0.2988399466567174,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 14,
+        "model": "inverse_mase",
+        "statistic": 1.0266225477674926,
+        "p_value": 0.30459823255260277,
+        "observations": 24,
+        "lag": 1
+      },
+      {
+        "horizon_days": 30,
+        "model": "seasonal_naive",
+        "statistic": 3.3388966002768576,
+        "p_value": 0.0008411186666536179,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "moving_average_4",
+        "statistic": 1.8081513082188847,
+        "p_value": 0.07058295451393436,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "moving_average_8",
+        "statistic": 1.9560706531332164,
+        "p_value": 0.05045683167619424,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "moving_average_12",
+        "statistic": 2.2165803561911925,
+        "p_value": 0.026651781157388154,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "arima",
+        "statistic": -0.5415814969091668,
+        "p_value": 0.5881068412613724,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "sarima",
+        "statistic": 0.6887313499358647,
+        "p_value": 0.49099234390787805,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "sarimax",
+        "statistic": 1.7131714552764132,
+        "p_value": 0.08668100138503314,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "lightgbm",
+        "statistic": 3.275371429348984,
+        "p_value": 0.0010552313436956104,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "lightgbm_price_only",
+        "statistic": 3.8327711839186014,
+        "p_value": 0.00012670779925433155,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "simple_average",
+        "statistic": -0.05647485956639883,
+        "p_value": 0.9549635227133618,
+        "observations": 24,
+        "lag": 3
+      },
+      {
+        "horizon_days": 30,
+        "model": "inverse_mase",
+        "statistic": -0.014963413850132187,
+        "p_value": 0.9880613686311351,
+        "observations": 24,
+        "lag": 3
+      }
+    ]
+  },
+  "error_correlations": [
+    {
+      "horizon_days": 7,
+      "models": [
+        "naive",
+        "seasonal_naive",
+        "moving_average_4",
+        "moving_average_8",
+        "moving_average_12",
+        "arima",
+        "sarima",
+        "sarimax",
+        "lightgbm",
+        "lightgbm_price_only",
+        "simple_average",
+        "inverse_mase"
+      ],
+      "matrix": {
+        "naive": {
+          "naive": 1.0,
+          "seasonal_naive": -0.176478,
+          "moving_average_4": 0.814012,
+          "moving_average_8": 0.58168,
+          "moving_average_12": 0.459822,
+          "arima": 0.835636,
+          "sarima": 0.799645,
+          "sarimax": 0.881916,
+          "lightgbm": 0.241458,
+          "lightgbm_price_only": 0.169189,
+          "simple_average": 0.964084,
+          "inverse_mase": 0.963232
+        },
+        "seasonal_naive": {
+          "naive": -0.176478,
+          "seasonal_naive": 1.0,
+          "moving_average_4": 0.01789,
+          "moving_average_8": 0.144915,
+          "moving_average_12": 0.216222,
+          "arima": -0.278745,
+          "sarima": -0.289066,
+          "sarimax": -0.231362,
+          "lightgbm": 0.473688,
+          "lightgbm_price_only": 0.575378,
+          "simple_average": -0.12303,
+          "inverse_mase": -0.122801
+        },
+        "moving_average_4": {
+          "naive": 0.814012,
+          "seasonal_naive": 0.01789,
+          "moving_average_4": 1.0,
+          "moving_average_8": 0.880908,
+          "moving_average_12": 0.749887,
+          "arima": 0.41119,
+          "sarima": 0.360135,
+          "sarimax": 0.54136,
+          "lightgbm": 0.513615,
+          "lightgbm_price_only": 0.436357,
+          "simple_average": 0.840104,
+          "inverse_mase": 0.837125
+        },
+        "moving_average_8": {
+          "naive": 0.58168,
+          "seasonal_naive": 0.144915,
+          "moving_average_4": 0.880908,
+          "moving_average_8": 1.0,
+          "moving_average_12": 0.945521,
+          "arima": 0.217305,
+          "sarima": 0.162834,
+          "sarimax": 0.327754,
+          "lightgbm": 0.751863,
+          "lightgbm_price_only": 0.645049,
+          "simple_average": 0.609778,
+          "inverse_mase": 0.606502
+        },
+        "moving_average_12": {
+          "naive": 0.459822,
+          "seasonal_naive": 0.216222,
+          "moving_average_4": 0.749887,
+          "moving_average_8": 0.945521,
+          "moving_average_12": 1.0,
+          "arima": 0.143662,
+          "sarima": 0.085657,
+          "sarimax": 0.240063,
+          "lightgbm": 0.891173,
+          "lightgbm_price_only": 0.7828,
+          "simple_average": 0.497555,
+          "inverse_mase": 0.494932
+        },
+        "arima": {
+          "naive": 0.835636,
+          "seasonal_naive": -0.278745,
+          "moving_average_4": 0.41119,
+          "moving_average_8": 0.217305,
+          "moving_average_12": 0.143662,
+          "arima": 1.0,
+          "sarima": 0.993798,
+          "sarimax": 0.84476,
+          "lightgbm": -0.004875,
+          "lightgbm_price_only": -0.055564,
+          "simple_average": 0.732036,
+          "inverse_mase": 0.732654
+        },
+        "sarima": {
+          "naive": 0.799645,
+          "seasonal_naive": -0.289066,
+          "moving_average_4": 0.360135,
+          "moving_average_8": 0.162834,
+          "moving_average_12": 0.085657,
+          "arima": 0.993798,
+          "sarima": 1.0,
+          "sarimax": 0.819344,
+          "lightgbm": -0.057049,
+          "lightgbm_price_only": -0.092505,
+          "simple_average": 0.691582,
+          "inverse_mase": 0.692491
+        },
+        "sarimax": {
+          "naive": 0.881916,
+          "seasonal_naive": -0.231362,
+          "moving_average_4": 0.54136,
+          "moving_average_8": 0.327754,
+          "moving_average_12": 0.240063,
+          "arima": 0.84476,
+          "sarima": 0.819344,
+          "sarimax": 1.0,
+          "lightgbm": 0.074213,
+          "lightgbm_price_only": 0.016965,
+          "simple_average": 0.775771,
+          "inverse_mase": 0.775738
+        },
+        "lightgbm": {
+          "naive": 0.241458,
+          "seasonal_naive": 0.473688,
+          "moving_average_4": 0.513615,
+          "moving_average_8": 0.751863,
+          "moving_average_12": 0.891173,
+          "arima": -0.004875,
+          "sarima": -0.057049,
+          "sarimax": 0.074213,
+          "lightgbm": 1.0,
+          "lightgbm_price_only": 0.946152,
+          "simple_average": 0.291809,
+          "inverse_mase": 0.290299
+        },
+        "lightgbm_price_only": {
+          "naive": 0.169189,
+          "seasonal_naive": 0.575378,
+          "moving_average_4": 0.436357,
+          "moving_average_8": 0.645049,
+          "moving_average_12": 0.7828,
+          "arima": -0.055564,
+          "sarima": -0.092505,
+          "sarimax": 0.016965,
+          "lightgbm": 0.946152,
+          "lightgbm_price_only": 1.0,
+          "simple_average": 0.221065,
+          "inverse_mase": 0.220035
+        },
+        "simple_average": {
+          "naive": 0.964084,
+          "seasonal_naive": -0.12303,
+          "moving_average_4": 0.840104,
+          "moving_average_8": 0.609778,
+          "moving_average_12": 0.497555,
+          "arima": 0.732036,
+          "sarima": 0.691582,
+          "sarimax": 0.775771,
+          "lightgbm": 0.291809,
+          "lightgbm_price_only": 0.221065,
+          "simple_average": 1.0,
+          "inverse_mase": 0.999966
+        },
+        "inverse_mase": {
+          "naive": 0.963232,
+          "seasonal_naive": -0.122801,
+          "moving_average_4": 0.837125,
+          "moving_average_8": 0.606502,
+          "moving_average_12": 0.494932,
+          "arima": 0.732654,
+          "sarima": 0.692491,
+          "sarimax": 0.775738,
+          "lightgbm": 0.290299,
+          "lightgbm_price_only": 0.220035,
+          "simple_average": 0.999966,
+          "inverse_mase": 1.0
+        }
+      }
+    },
+    {
+      "horizon_days": 14,
+      "models": [
+        "naive",
+        "seasonal_naive",
+        "moving_average_4",
+        "moving_average_8",
+        "moving_average_12",
+        "arima",
+        "sarima",
+        "sarimax",
+        "lightgbm",
+        "lightgbm_price_only",
+        "simple_average",
+        "inverse_mase"
+      ],
+      "matrix": {
+        "naive": {
+          "naive": 1.0,
+          "seasonal_naive": -0.042705,
+          "moving_average_4": 0.877295,
+          "moving_average_8": 0.685767,
+          "moving_average_12": 0.577543,
+          "arima": 0.888868,
+          "sarima": 0.854614,
+          "sarimax": 0.897078,
+          "lightgbm": 0.39939,
+          "lightgbm_price_only": 0.309962,
+          "simple_average": 0.985853,
+          "inverse_mase": 0.985543
+        },
+        "seasonal_naive": {
+          "naive": -0.042705,
+          "seasonal_naive": 1.0,
+          "moving_average_4": 0.087521,
+          "moving_average_8": 0.170614,
+          "moving_average_12": 0.23049,
+          "arima": -0.150423,
+          "sarima": -0.172147,
+          "sarimax": -0.117533,
+          "lightgbm": 0.526817,
+          "lightgbm_price_only": 0.631877,
+          "simple_average": -0.033378,
+          "inverse_mase": -0.033346
+        },
+        "moving_average_4": {
+          "naive": 0.877295,
+          "seasonal_naive": 0.087521,
+          "moving_average_4": 1.0,
+          "moving_average_8": 0.905214,
+          "moving_average_12": 0.795541,
+          "arima": 0.587461,
+          "sarima": 0.534835,
+          "sarimax": 0.635342,
+          "lightgbm": 0.601911,
+          "lightgbm_price_only": 0.515179,
+          "simple_average": 0.878101,
+          "inverse_mase": 0.876971
+        },
+        "moving_average_8": {
+          "naive": 0.685767,
+          "seasonal_naive": 0.170614,
+          "moving_average_4": 0.905214,
+          "moving_average_8": 1.0,
+          "moving_average_12": 0.95415,
+          "arima": 0.393565,
+          "sarima": 0.334391,
+          "sarimax": 0.437516,
+          "lightgbm": 0.777336,
+          "lightgbm_price_only": 0.686827,
+          "simple_average": 0.682257,
+          "inverse_mase": 0.680825
+        },
+        "moving_average_12": {
+          "naive": 0.577543,
+          "seasonal_naive": 0.23049,
+          "moving_average_4": 0.795541,
+          "moving_average_8": 0.95415,
+          "moving_average_12": 1.0,
+          "arima": 0.311112,
+          "sarima": 0.247594,
+          "sarimax": 0.349773,
+          "lightgbm": 0.896407,
+          "lightgbm_price_only": 0.809591,
+          "simple_average": 0.578421,
+          "inverse_mase": 0.577133
+        },
+        "arima": {
+          "naive": 0.888868,
+          "seasonal_naive": -0.150423,
+          "moving_average_4": 0.587461,
+          "moving_average_8": 0.393565,
+          "moving_average_12": 0.311112,
+          "arima": 1.0,
+          "sarima": 0.994491,
+          "sarimax": 0.91301,
+          "lightgbm": 0.169756,
+          "lightgbm_price_only": 0.092237,
+          "simple_average": 0.848614,
+          "inverse_mase": 0.848831
+        },
+        "sarima": {
+          "naive": 0.854614,
+          "seasonal_naive": -0.172147,
+          "moving_average_4": 0.534835,
+          "moving_average_8": 0.334391,
+          "moving_average_12": 0.247594,
+          "arima": 0.994491,
+          "sarima": 1.0,
+          "sarimax": 0.892576,
+          "lightgbm": 0.110466,
+          "lightgbm_price_only": 0.044393,
+          "simple_average": 0.812484,
+          "inverse_mase": 0.81283
+        },
+        "sarimax": {
+          "naive": 0.897078,
+          "seasonal_naive": -0.117533,
+          "moving_average_4": 0.635342,
+          "moving_average_8": 0.437516,
+          "moving_average_12": 0.349773,
+          "arima": 0.91301,
+          "sarima": 0.892576,
+          "sarimax": 1.0,
+          "lightgbm": 0.20505,
+          "lightgbm_price_only": 0.134393,
+          "simple_average": 0.845387,
+          "inverse_mase": 0.845354
+        },
+        "lightgbm": {
+          "naive": 0.39939,
+          "seasonal_naive": 0.526817,
+          "moving_average_4": 0.601911,
+          "moving_average_8": 0.777336,
+          "moving_average_12": 0.896407,
+          "arima": 0.169756,
+          "sarima": 0.110466,
+          "sarimax": 0.20505,
+          "lightgbm": 1.0,
+          "lightgbm_price_only": 0.952488,
+          "simple_average": 0.407592,
+          "inverse_mase": 0.406884
+        },
+        "lightgbm_price_only": {
+          "naive": 0.309962,
+          "seasonal_naive": 0.631877,
+          "moving_average_4": 0.515179,
+          "moving_average_8": 0.686827,
+          "moving_average_12": 0.809591,
+          "arima": 0.092237,
+          "sarima": 0.044393,
+          "sarimax": 0.134393,
+          "lightgbm": 0.952488,
+          "lightgbm_price_only": 1.0,
+          "simple_average": 0.313798,
+          "inverse_mase": 0.313139
+        },
+        "simple_average": {
+          "naive": 0.985853,
+          "seasonal_naive": -0.033378,
+          "moving_average_4": 0.878101,
+          "moving_average_8": 0.682257,
+          "moving_average_12": 0.578421,
+          "arima": 0.848614,
+          "sarima": 0.812484,
+          "sarimax": 0.845387,
+          "lightgbm": 0.407592,
+          "lightgbm_price_only": 0.313798,
+          "simple_average": 1.0,
+          "inverse_mase": 0.999991
+        },
+        "inverse_mase": {
+          "naive": 0.985543,
+          "seasonal_naive": -0.033346,
+          "moving_average_4": 0.876971,
+          "moving_average_8": 0.680825,
+          "moving_average_12": 0.577133,
+          "arima": 0.848831,
+          "sarima": 0.81283,
+          "sarimax": 0.845354,
+          "lightgbm": 0.406884,
+          "lightgbm_price_only": 0.313139,
+          "simple_average": 0.999991,
+          "inverse_mase": 1.0
+        }
+      }
+    },
+    {
+      "horizon_days": 30,
+      "models": [
+        "naive",
+        "seasonal_naive",
+        "moving_average_4",
+        "moving_average_8",
+        "moving_average_12",
+        "arima",
+        "sarima",
+        "sarimax",
+        "lightgbm",
+        "lightgbm_price_only",
+        "simple_average",
+        "inverse_mase"
+      ],
+      "matrix": {
+        "naive": {
+          "naive": 1.0,
+          "seasonal_naive": 0.134051,
+          "moving_average_4": 0.925453,
+          "moving_average_8": 0.791832,
+          "moving_average_12": 0.711722,
+          "arima": 0.936865,
+          "sarima": 0.90686,
+          "sarimax": 0.911833,
+          "lightgbm": 0.550624,
+          "lightgbm_price_only": 0.41375,
+          "simple_average": 0.948406,
+          "inverse_mase": 0.947575
+        },
+        "seasonal_naive": {
+          "naive": 0.134051,
+          "seasonal_naive": 1.0,
+          "moving_average_4": 0.191199,
+          "moving_average_8": 0.220661,
+          "moving_average_12": 0.270605,
+          "arima": 0.052768,
+          "sarima": 0.024968,
+          "sarimax": 0.041299,
+          "lightgbm": 0.613674,
+          "lightgbm_price_only": 0.8122,
+          "simple_average": 0.187099,
+          "inverse_mase": 0.187805
+        },
+        "moving_average_4": {
+          "naive": 0.925453,
+          "seasonal_naive": 0.191199,
+          "moving_average_4": 1.0,
+          "moving_average_8": 0.933185,
+          "moving_average_12": 0.852159,
+          "arima": 0.74857,
+          "sarima": 0.697826,
+          "sarimax": 0.733205,
+          "lightgbm": 0.669739,
+          "lightgbm_price_only": 0.523793,
+          "simple_average": 0.953973,
+          "inverse_mase": 0.954615
+        },
+        "moving_average_8": {
+          "naive": 0.791832,
+          "seasonal_naive": 0.220661,
+          "moving_average_4": 0.933185,
+          "moving_average_8": 1.0,
+          "moving_average_12": 0.965247,
+          "arima": 0.59936,
+          "sarima": 0.534743,
+          "sarimax": 0.581163,
+          "lightgbm": 0.787476,
+          "lightgbm_price_only": 0.622281,
+          "simple_average": 0.911724,
+          "inverse_mase": 0.912539
+        },
+        "moving_average_12": {
+          "naive": 0.711722,
+          "seasonal_naive": 0.270605,
+          "moving_average_4": 0.852159,
+          "moving_average_8": 0.965247,
+          "moving_average_12": 1.0,
+          "arima": 0.530593,
+          "sarima": 0.462582,
+          "sarimax": 0.510094,
+          "lightgbm": 0.88708,
+          "lightgbm_price_only": 0.725085,
+          "simple_average": 0.853104,
+          "inverse_mase": 0.85375
+        },
+        "arima": {
+          "naive": 0.936865,
+          "seasonal_naive": 0.052768,
+          "moving_average_4": 0.74857,
+          "moving_average_8": 0.59936,
+          "moving_average_12": 0.530593,
+          "arima": 1.0,
+          "sarima": 0.994735,
+          "sarimax": 0.943297,
+          "lightgbm": 0.393797,
+          "lightgbm_price_only": 0.272433,
+          "simple_average": 0.855675,
+          "inverse_mase": 0.854602
+        },
+        "sarima": {
+          "naive": 0.90686,
+          "seasonal_naive": 0.024968,
+          "moving_average_4": 0.697826,
+          "moving_average_8": 0.534743,
+          "moving_average_12": 0.462582,
+          "arima": 0.994735,
+          "sarima": 1.0,
+          "sarimax": 0.929686,
+          "lightgbm": 0.330766,
+          "lightgbm_price_only": 0.220817,
+          "simple_average": 0.816427,
+          "inverse_mase": 0.815364
+        },
+        "sarimax": {
+          "naive": 0.911833,
+          "seasonal_naive": 0.041299,
+          "moving_average_4": 0.733205,
+          "moving_average_8": 0.581163,
+          "moving_average_12": 0.510094,
+          "arima": 0.943297,
+          "sarima": 0.929686,
+          "sarimax": 1.0,
+          "lightgbm": 0.374553,
+          "lightgbm_price_only": 0.251534,
+          "simple_average": 0.818237,
+          "inverse_mase": 0.817368
+        },
+        "lightgbm": {
+          "naive": 0.550624,
+          "seasonal_naive": 0.613674,
+          "moving_average_4": 0.669739,
+          "moving_average_8": 0.787476,
+          "moving_average_12": 0.88708,
+          "arima": 0.393797,
+          "sarima": 0.330766,
+          "sarimax": 0.374553,
+          "lightgbm": 1.0,
+          "lightgbm_price_only": 0.947481,
+          "simple_average": 0.684905,
+          "inverse_mase": 0.685917
+        },
+        "lightgbm_price_only": {
+          "naive": 0.41375,
+          "seasonal_naive": 0.8122,
+          "moving_average_4": 0.523793,
+          "moving_average_8": 0.622281,
+          "moving_average_12": 0.725085,
+          "arima": 0.272433,
+          "sarima": 0.220817,
+          "sarimax": 0.251534,
+          "lightgbm": 0.947481,
+          "lightgbm_price_only": 1.0,
+          "simple_average": 0.535878,
+          "inverse_mase": 0.536972
+        },
+        "simple_average": {
+          "naive": 0.948406,
+          "seasonal_naive": 0.187099,
+          "moving_average_4": 0.953973,
+          "moving_average_8": 0.911724,
+          "moving_average_12": 0.853104,
+          "arima": 0.855675,
+          "sarima": 0.816427,
+          "sarimax": 0.818237,
+          "lightgbm": 0.684905,
+          "lightgbm_price_only": 0.535878,
+          "simple_average": 1.0,
+          "inverse_mase": 0.999891
+        },
+        "inverse_mase": {
+          "naive": 0.947575,
+          "seasonal_naive": 0.187805,
+          "moving_average_4": 0.954615,
+          "moving_average_8": 0.912539,
+          "moving_average_12": 0.85375,
+          "arima": 0.854602,
+          "sarima": 0.815364,
+          "sarimax": 0.817368,
+          "lightgbm": 0.685917,
+          "lightgbm_price_only": 0.536972,
+          "simple_average": 0.999891,
+          "inverse_mase": 1.0
+        }
+      }
+    }
+  ],
+  "probabilistic_metrics": [
+    {
+      "horizon_days": 7,
+      "model": "probability_layer",
+      "label": "Probabilidade ensemble",
+      "mae": null,
+      "rmse": null,
+      "mase": null,
+      "smape_pct": null,
+      "directional_accuracy": null,
+      "gain_vs_naive_pct": null,
+      "gain_vs_sarimax_pct": null,
+      "folds": 24,
+      "brier": 0.31704746299446396,
+      "log_loss": 1.1131837434445964,
+      "precision_up": 0.0,
+      "recall_up": 0.0,
+      "f1_up": 0.0,
+      "picp_p10_p90": 0.8333333333333334,
+      "interval_width": 0.4576589448874185,
+      "pinball_p10": 0.028007557086466267,
+      "pinball_p90": 0.08553678954006087
+    },
+    {
+      "horizon_days": 14,
+      "model": "probability_layer",
+      "label": "Probabilidade ensemble",
+      "mae": null,
+      "rmse": null,
+      "mase": null,
+      "smape_pct": null,
+      "directional_accuracy": null,
+      "gain_vs_naive_pct": null,
+      "gain_vs_sarimax_pct": null,
+      "folds": 24,
+      "brier": 0.3374876097711615,
+      "log_loss": 1.157843915772194,
+      "precision_up": 0.0,
+      "recall_up": 0.0,
+      "f1_up": 0.0,
+      "picp_p10_p90": 0.8333333333333334,
+      "interval_width": 0.8528781281766241,
+      "pinball_p10": 0.05075073813627353,
+      "pinball_p90": 0.1590120326128542
+    },
+    {
+      "horizon_days": 30,
+      "model": "probability_layer",
+      "label": "Probabilidade ensemble",
+      "mae": null,
+      "rmse": null,
+      "mase": null,
+      "smape_pct": null,
+      "directional_accuracy": null,
+      "gain_vs_naive_pct": null,
+      "gain_vs_sarimax_pct": null,
+      "folds": 24,
+      "brier": 0.3180382369872063,
+      "log_loss": 1.1754382493535545,
+      "precision_up": 0.0,
+      "recall_up": 0.0,
+      "f1_up": 0.0,
+      "picp_p10_p90": 0.7083333333333334,
+      "interval_width": 1.4174044569946698,
+      "pinball_p10": 0.09219147852974574,
+      "pinball_p90": 0.26632044384697634
+    }
+  ],
+  "model_governance": [
+    {
+      "horizon_days": 7,
+      "model": "naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "seasonal_naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "moving_average_4",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "moving_average_8",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "moving_average_12",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "arima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "sarima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "sarimax",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "lightgbm",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "lightgbm_price_only",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "simple_average",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 7,
+      "model": "inverse_mase",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "seasonal_naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "moving_average_4",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "moving_average_8",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "moving_average_12",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "arima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "sarima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "sarimax",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "lightgbm",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "lightgbm_price_only",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "simple_average",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 14,
+      "model": "inverse_mase",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "seasonal_naive",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "moving_average_4",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "moving_average_8",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "moving_average_12",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "arima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "sarima",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "sarimax",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "lightgbm",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "lightgbm_price_only",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado",
+        "não superou naive em MAE"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "simple_average",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    },
+    {
+      "horizon_days": 30,
+      "model": "inverse_mase",
+      "status": "review",
+      "reasons": [
+        "MASE > 1 no painel avaliado"
+      ]
+    }
+  ],
+  "weight_history": [
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-02-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-02-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-01",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-08",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-03-29",
+      "weights": {
+        "arima": 0.2958889113341735,
+        "naive": 0.205224273814414,
+        "sarima": 0.29817842672278877,
+        "sarimax": 0.2007083881286238
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-05",
+      "weights": {
+        "arima": 0.2904963797589331,
+        "naive": 0.21705562242841775,
+        "sarima": 0.29017629058911354,
+        "sarimax": 0.20227170722353555
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-12",
+      "weights": {
+        "arima": 0.2890151785885516,
+        "naive": 0.2175562016832497,
+        "sarima": 0.2908993008217402,
+        "sarimax": 0.20252931890645853
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-19",
+      "weights": {
+        "arima": 0.28642102826912463,
+        "naive": 0.22014043028996924,
+        "sarima": 0.2855338699654258,
+        "sarimax": 0.2079046714754803
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-04-26",
+      "weights": {
+        "arima": 0.2876986250581452,
+        "naive": 0.22043287127571942,
+        "sarima": 0.285209572468606,
+        "sarimax": 0.20665893119752943
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-03",
+      "weights": {
+        "arima": 0.2889708369781688,
+        "naive": 0.21798305639761714,
+        "sarima": 0.28517820008445627,
+        "sarimax": 0.2078679065397577
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-10",
+      "weights": {
+        "arima": 0.28877693170577395,
+        "naive": 0.21596451521496496,
+        "sarima": 0.28597406211743115,
+        "sarimax": 0.20928449096182986
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-17",
+      "weights": {
+        "arima": 0.28831952874448646,
+        "naive": 0.21588703387245456,
+        "sarima": 0.28456995308577204,
+        "sarimax": 0.2112234842972869
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-24",
+      "weights": {
+        "arima": 0.2893062748401464,
+        "naive": 0.2157893639285453,
+        "sarima": 0.28449728967894233,
+        "sarimax": 0.21040707155236588
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-05-31",
+      "weights": {
+        "arima": 0.29012172770998607,
+        "naive": 0.215323346417142,
+        "sarima": 0.284150513071577,
+        "sarimax": 0.21040441280129482
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-07",
+      "weights": {
+        "arima": 0.29015588171979184,
+        "naive": 0.21595098606899948,
+        "sarima": 0.2832367914060371,
+        "sarimax": 0.21065634080517154
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-14",
+      "weights": {
+        "arima": 0.29365263210984593,
+        "naive": 0.21737461550223985,
+        "sarima": 0.2767878825066383,
+        "sarimax": 0.21218486988127594
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-21",
+      "weights": {
+        "arima": 0.2939361285424393,
+        "naive": 0.2174810980012585,
+        "sarima": 0.27629489421628145,
+        "sarimax": 0.2122878792400208
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-06-28",
+      "weights": {
+        "arima": 0.292989204634915,
+        "naive": 0.2188118059252041,
+        "sarima": 0.2752520593415531,
+        "sarimax": 0.21294693009832785
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-05",
+      "weights": {
+        "arima": 0.2941896996515808,
+        "naive": 0.21780542893683394,
+        "sarima": 0.2758445071168524,
+        "sarimax": 0.21216036429473278
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-12",
+      "weights": {
+        "arima": 0.2934329301272286,
+        "naive": 0.21845079373103998,
+        "sarima": 0.27507926174460684,
+        "sarimax": 0.2130370143971246
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-19",
+      "weights": {
+        "arima": 0.2940518931039581,
+        "naive": 0.21698472271361083,
+        "sarima": 0.275356924999776,
+        "sarimax": 0.21360645918265503
+      }
+    },
+    {
+      "horizon_days": 7,
+      "origin_date": "2026-07-26",
+      "weights": {
+        "arima": 0.29293976997397464,
+        "naive": 0.21818880250039369,
+        "sarima": 0.27509599265972495,
+        "sarimax": 0.21377543486590667
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-08",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-02-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-01",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-08",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-03-29",
+      "weights": {
+        "arima": 0.2706323353163528,
+        "naive": 0.22705167444713958,
+        "sarima": 0.279531507551144,
+        "sarimax": 0.22278448268536374
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-05",
+      "weights": {
+        "arima": 0.275475027367729,
+        "naive": 0.2316628328168449,
+        "sarima": 0.277769291531654,
+        "sarimax": 0.21509284828377218
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-12",
+      "weights": {
+        "arima": 0.27265928690266317,
+        "naive": 0.24078144265728296,
+        "sarima": 0.2723833879955762,
+        "sarimax": 0.21417588244447772
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-19",
+      "weights": {
+        "arima": 0.2732301721135182,
+        "naive": 0.24149380754727978,
+        "sarima": 0.27076383946938315,
+        "sarimax": 0.21451218086981885
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-04-26",
+      "weights": {
+        "arima": 0.27149010449569916,
+        "naive": 0.24315524455816326,
+        "sarima": 0.26688477407992206,
+        "sarimax": 0.21846987686621552
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-03",
+      "weights": {
+        "arima": 0.27265504602558527,
+        "naive": 0.2431235261968591,
+        "sarima": 0.2666981244043889,
+        "sarimax": 0.21752330337316658
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-10",
+      "weights": {
+        "arima": 0.27417234673005786,
+        "naive": 0.24102272405080932,
+        "sarima": 0.26693213802774224,
+        "sarimax": 0.21787279119139058
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-17",
+      "weights": {
+        "arima": 0.27572166041410334,
+        "naive": 0.23874347856569658,
+        "sarima": 0.2674803293469933,
+        "sarimax": 0.21805453167320674
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-24",
+      "weights": {
+        "arima": 0.27542855047582665,
+        "naive": 0.2386933550837316,
+        "sarima": 0.26634459339961136,
+        "sarimax": 0.21953350104083047
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-05-31",
+      "weights": {
+        "arima": 0.27628951435125293,
+        "naive": 0.23877751152309495,
+        "sarima": 0.26609725970493636,
+        "sarimax": 0.2188357144207158
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-07",
+      "weights": {
+        "arima": 0.2767035920105705,
+        "naive": 0.23868266272168676,
+        "sarima": 0.26579639170330494,
+        "sarimax": 0.21881735356443782
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-14",
+      "weights": {
+        "arima": 0.2768516396022203,
+        "naive": 0.23918580454389177,
+        "sarima": 0.2651318397294869,
+        "sarimax": 0.21883071612440105
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-21",
+      "weights": {
+        "arima": 0.2788493265474591,
+        "naive": 0.24026639536627079,
+        "sarima": 0.26120978211878393,
+        "sarimax": 0.21967449596748626
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-06-28",
+      "weights": {
+        "arima": 0.2786306575793429,
+        "naive": 0.2406547902331929,
+        "sarima": 0.26048039280809765,
+        "sarimax": 0.22023415937936658
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-05",
+      "weights": {
+        "arima": 0.2782552827848388,
+        "naive": 0.24149590473729624,
+        "sarima": 0.2598021406077249,
+        "sarimax": 0.2204466718701401
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-12",
+      "weights": {
+        "arima": 0.2788212792968441,
+        "naive": 0.24105948921499545,
+        "sarima": 0.25998674460295745,
+        "sarimax": 0.22013248688520293
+      }
+    },
+    {
+      "horizon_days": 14,
+      "origin_date": "2026-07-19",
+      "weights": {
+        "arima": 0.2785445640268302,
+        "naive": 0.24135550252381882,
+        "sarima": 0.259549871255643,
+        "sarimax": 0.22055006219370804
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-01-25",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-01",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-08",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-02-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-01",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-08",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-15",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-22",
+      "weights": {
+        "arima": 0.3333333333333333,
+        "lightgbm": 0.3333333333333333,
+        "naive": 0.3333333333333333
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-03-29",
+      "weights": {
+        "moving_average_4": 0.24586085854225256,
+        "moving_average_8": 0.24483455464274279,
+        "naive": 0.24345432860041202,
+        "seasonal_naive": 0.2658502582145926
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-05",
+      "weights": {
+        "arima": 0.2428417654760852,
+        "moving_average_4": 0.24320383425961026,
+        "sarimax": 0.24291638627835452,
+        "seasonal_naive": 0.27103801398595
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-12",
+      "weights": {
+        "arima": 0.2616984521883344,
+        "naive": 0.2366044043635188,
+        "sarima": 0.25663509847747423,
+        "seasonal_naive": 0.2450620449706727
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-19",
+      "weights": {
+        "arima": 0.26511151655058385,
+        "naive": 0.24923850559075605,
+        "sarima": 0.2554100219530595,
+        "seasonal_naive": 0.23023995590560065
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-04-26",
+      "weights": {
+        "arima": 0.2647937317591662,
+        "naive": 0.25771622739312944,
+        "sarima": 0.25336399317075275,
+        "sarimax": 0.2241260476769516
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-03",
+      "weights": {
+        "arima": 0.26461148509569216,
+        "moving_average_4": 0.22539920390303297,
+        "naive": 0.25831503608235407,
+        "sarima": 0.25167427491892086
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-10",
+      "weights": {
+        "arima": 0.26338408026949867,
+        "moving_average_4": 0.22861740785202977,
+        "naive": 0.2588962565720818,
+        "sarima": 0.2491022553063897
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-17",
+      "weights": {
+        "arima": 0.26403587287191654,
+        "moving_average_4": 0.22860681064578567,
+        "naive": 0.2586691348355478,
+        "sarima": 0.2486881816467499
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-24",
+      "weights": {
+        "arima": 0.2657138222056791,
+        "moving_average_4": 0.22679956867126946,
+        "naive": 0.25827541813675164,
+        "sarima": 0.24921119098629985
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-05-31",
+      "weights": {
+        "arima": 0.2670988255021765,
+        "naive": 0.2576723365464743,
+        "sarima": 0.2496302894410028,
+        "sarimax": 0.22559854851034647
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-07",
+      "weights": {
+        "arima": 0.26695279971944313,
+        "naive": 0.25782715851196064,
+        "sarima": 0.2487482010956351,
+        "sarimax": 0.22647184067296106
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-14",
+      "weights": {
+        "arima": 0.26703642593766813,
+        "naive": 0.25777500257847397,
+        "sarima": 0.2496751220101651,
+        "sarimax": 0.2255134494736927
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-21",
+      "weights": {
+        "arima": 0.26691515715606495,
+        "naive": 0.25762585335528426,
+        "sarima": 0.2505473740738676,
+        "sarimax": 0.2249116154147832
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-06-28",
+      "weights": {
+        "arima": 0.26703975222219767,
+        "naive": 0.2582370542989332,
+        "sarima": 0.2498880028389144,
+        "sarimax": 0.22483519063995483
+      }
+    },
+    {
+      "horizon_days": 30,
+      "origin_date": "2026-07-05",
+      "weights": {
+        "arima": 0.26672261715083334,
+        "naive": 0.2579847168011784,
+        "sarima": 0.2509428314200069,
+        "sarimax": 0.2243498346279813
+      }
+    }
+  ],
+  "latest_forecasts": [
+    {
+      "horizon_days": 7,
+      "horizon_weeks": 1,
+      "origin_date": "2026-08-02",
+      "target_date": "2026-08-09",
+      "current_price": 6.98770812929,
+      "point": 6.981890199063944,
+      "change_abs": -0.005817930226055701,
+      "change_pct": -0.08325949107217401,
+      "p10": 6.895704167000865,
+      "p90": 7.068076231127023,
+      "probability_relevant_up": 0.45060426356848887,
+      "relevant_up_threshold_pct": 0.5,
+      "champion": "arima",
+      "operational_model": "arima",
+      "model_predictions": {
+        "naive": 6.98770812929,
+        "seasonal_naive": 6.11730496454,
+        "moving_average_4": 6.9979933566725,
+        "moving_average_8": 7.05323763761875,
+        "moving_average_12": 7.097418620653333,
+        "arima": 6.981890199063944,
+        "sarima": 6.984694315050541,
+        "sarimax": 6.990244774717112,
+        "lightgbm": 7.088182544219706,
+        "lightgbm_price_only": 7.023793798087903
+      },
+      "eligible_models": [
+        "arima",
+        "sarima",
+        "naive",
+        "sarimax"
+      ],
+      "weights": {
+        "arima": 0.2919130729909723,
+        "sarima": 0.2739195538913363,
+        "naive": 0.21946926992094717,
+        "sarimax": 0.2146981031967442
+      },
+      "agreement": "HIGH",
+      "model_dispersion": 0.0031408155959991428,
+      "historical_interval_coverage": 0.8333333333333334,
+      "confidence": 92.0,
+      "confidence_label": "HIGH",
+      "confidence_components": {
+        "calibration": 0.9583333333333334,
+        "agreement": 1.0,
+        "interval_width": 0.7533210303910158,
+        "recent_performance": 0.9228431368023732
+      },
+      "training_rows": 134,
+      "trained_until": "2026-08-02",
+      "experimental": false
+    },
+    {
+      "horizon_days": 14,
+      "horizon_weeks": 2,
+      "origin_date": "2026-08-02",
+      "target_date": "2026-08-16",
+      "current_price": 6.98770812929,
+      "point": 6.9896569814951865,
+      "change_abs": 0.001948852205186924,
+      "change_pct": 0.02788971962091047,
+      "p10": 6.779827271438284,
+      "p90": 7.199486691552089,
+      "probability_relevant_up": 0.47579506009985323,
+      "relevant_up_threshold_pct": 0.5,
+      "champion": "arima",
+      "operational_model": "inverse_mase",
+      "model_predictions": {
+        "naive": 6.98770812929,
+        "seasonal_naive": 6.11730496454,
+        "moving_average_4": 6.9979933566725,
+        "moving_average_8": 7.05323763761875,
+        "moving_average_12": 7.097418620653333,
+        "arima": 6.983072629319959,
+        "sarima": 6.991118733057037,
+        "sarimax": 6.998370912047007,
+        "lightgbm": 7.089740032928204,
+        "lightgbm_price_only": 7.054495372595798
+      },
+      "eligible_models": [
+        "arima",
+        "sarima",
+        "naive",
+        "sarimax"
+      ],
+      "weights": {
+        "arima": 0.27799998646630897,
+        "sarima": 0.26007086124063905,
+        "naive": 0.24148740376977354,
+        "sarimax": 0.2204417485232785
+      },
+      "agreement": "HIGH",
+      "model_dispersion": 0.00558002214376326,
+      "historical_interval_coverage": 0.8333333333333334,
+      "confidence": 83.38507245449317,
+      "confidence_label": "HIGH",
+      "confidence_components": {
+        "calibration": 0.9583333333333334,
+        "agreement": 1.0,
+        "interval_width": 0.39943195630232375,
+        "recent_performance": 0.8427383330890008
+      },
+      "training_rows": 133,
+      "trained_until": "2026-08-02",
+      "experimental": false
+    },
+    {
+      "horizon_days": 30,
+      "horizon_weeks": 4,
+      "origin_date": "2026-08-02",
+      "target_date": "2026-08-30",
+      "current_price": 6.98770812929,
+      "point": 7.003542029307978,
+      "change_abs": 0.01583390001797813,
+      "change_pct": 0.22659647090306212,
+      "p10": 6.2779162193668725,
+      "p90": 7.729167839249083,
+      "probability_relevant_up": 0.4907435314408791,
+      "relevant_up_threshold_pct": 0.5,
+      "champion": "arima",
+      "operational_model": "inverse_mase",
+      "model_predictions": {
+        "naive": 6.98770812929,
+        "seasonal_naive": 6.11730496454,
+        "moving_average_4": 6.9979933566725,
+        "moving_average_8": 7.05323763761875,
+        "moving_average_12": 7.097418620653333,
+        "arima": 6.9933285157091305,
+        "sarima": 7.014439131364356,
+        "sarimax": 7.0218779554906705,
+        "lightgbm": 6.894052009950195,
+        "lightgbm_price_only": 6.572560299132465
+      },
+      "eligible_models": [
+        "arima",
+        "naive",
+        "sarima",
+        "sarimax"
+      ],
+      "weights": {
+        "arima": 0.26691095003165016,
+        "naive": 0.25933437931441883,
+        "sarima": 0.24928098678105004,
+        "sarimax": 0.22447368387288097
+      },
+      "agreement": "HIGH",
+      "model_dispersion": 0.014207781643232371,
+      "historical_interval_coverage": 0.7083333333333334,
+      "confidence": 68.51816075248452,
+      "confidence_label": "MODERATE",
+      "confidence_components": {
+        "calibration": 0.8854166666666666,
+        "agreement": 1.0,
+        "interval_width": 0.0,
+        "recent_performance": 0.6264288709575592
+      },
+      "training_rows": 131,
+      "trained_until": "2026-08-02",
+      "experimental": false
+    }
+  ],
+  "limitations": [
+    "Only 24 outer origins per horizon are shown; statistical power is limited.",
+    "DM p-values use an asymptotic normal approximation and are diagnostic, not proof of superiority.",
+    "The interval layer uses past-only empirical residuals and targets 80% P10–P90 coverage.",
+    "Economic results are a stylized counterfactual and omit private logistics, financing and supplier terms.",
+    "VS-ePL-KRLS remains experimental because no licensed author reference implementation was located.",
+    "A neural challenger was not fit because 130–135 weekly target observations create a high overfit risk."
+  ]
+}
