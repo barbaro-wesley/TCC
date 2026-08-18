@@ -1,0 +1,70 @@
+# Atlas S10 — deploy numa VM (API ao vivo + pipeline agendado).
+# A VM segura o raw/ e roda tudo. O painel (Vercel) consome a API via Caddy (HTTPS).
+#
+#   docker compose up -d                 # sobe api + caddy
+#   docker compose run --rm pipeline     # roda o ciclo completo (sync -> train -> build)
+#
+# Portas: só o Caddy (80/443) é público; a API (8000) fica interna.
+
+services:
+  api:
+    build: .
+    image: atlas-s10:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./processed:/app/processed
+      - ./raw:/app/raw:ro
+      - ./apps/web/public:/app/apps/web/public
+    expose:
+      - "8000"
+    networks: [web]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=5).status==200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 25s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    networks: [web]
+
+  # Pipeline: não sobe no `up` (profile). Rode sob demanda / via systemd timer:
+  #   docker compose run --rm pipeline
+  pipeline:
+    build: .
+    image: atlas-s10:latest
+    profiles: ["refresh"]
+    env_file: .env
+    environment:
+      - PYTHONPATH=/app
+      - ALLOW_NETWORK_SYNC=1
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./processed:/app/processed
+      - ./raw:/app/raw
+      - ./apps/web/public:/app/apps/web/public
+    command: ["bash", "deploy/pipeline.sh"]
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -26,9 +26,17 @@ app = FastAPI(
     version="0.1.0",
     description="Causal Diesel S10 procurement intelligence for Brazil.",
 )
+# Origins liberadas para o painel. Em produção, defina ATLAS_ALLOWED_ORIGINS
+# (lista separada por vírgula) com a origem real do painel — ex.: o domínio do Vercel.
+_DEFAULT_ALLOWED_ORIGINS = "http://localhost:3000,http://127.0.0.1:3000"
+_allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("ATLAS_ALLOWED_ORIGINS", _DEFAULT_ALLOWED_ORIGINS).split(",")
+    if origin.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
