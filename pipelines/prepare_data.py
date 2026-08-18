@@ -23,10 +23,12 @@ features use an as-of join against target availability and never a future row.
 from __future__ import annotations
 
 import argparse
+import calendar
 import hashlib
 import json
+import re
 from collections.abc import Iterable
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +44,18 @@ PRODUCER_PRODUCT = "Óleo Diesel S-10 (R$/litro)"
 SOURCE_URL = (
     "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/"
     "serie-historica-de-precos-de-combustiveis"
+)
+
+ANP_MONTH_CACHE_PATTERN = re.compile(
+    r"^(?P<year>\d{4})-(?P<month>\d{2})-diesel-gnv\.csv$"
+)
+ANP_ROLLING_CACHE_PATTERN = re.compile(
+    r"^(?:latest-4-weeks-diesel-gnv|ultimas-4-semanas-diesel-gnv)-"
+    r"(?P<vintage>\d{4}-\d{2}-\d{2})\.csv$"
+)
+BCB_PTAX_CACHE_PATTERN = re.compile(
+    r"^ptax-usd-(?P<start>\d{4}-\d{2}-\d{2})_"
+    r"(?P<end>\d{4}-\d{2}-\d{2})\.json$"
 )
 
 SOURCE_COLUMNS = [
@@ -77,6 +91,15 @@ BRENT_COLUMNS = [
     "brent_observacoes",
     "brent_variacao_semanal_pct",
 ]
+
+EIA_CANONICAL_COLUMNS = {
+    "period",
+    "series",
+    "value",
+    "units",
+    "retrieved_at",
+    "vintage_id",
+}
 
 COST_DRIVER_COLUMNS = [
     "distribuicao_s10_preco_asof",
@@ -141,7 +164,11 @@ def availability_at_end_of_day(
         + pd.Timedelta(days=lag_days)
         + pd.Timedelta(hours=23, minutes=59, seconds=59)
     )
-    return local.dt.tz_localize(TIMEZONE).dt.tz_convert("UTC")
+    return (
+        local.dt.tz_localize(TIMEZONE)
+        .dt.tz_convert("UTC")
+        .astype("datetime64[ns, UTC]")
+    )
 
 
 def normalize_text(series: pd.Series) -> pd.Series:
@@ -167,30 +194,224 @@ def discover_retail_files(root: Path) -> list[Path]:
     return files
 
 
-def discover_optional_retail_caches(root: Path) -> list[dict[str, Any]]:
-    """Return known official ANP cache extensions when present.
+def _local_as_of_date(as_of: pd.Timestamp | str | None) -> date:
+    """Return the Sao Paulo calendar date used to select dated cache vintages."""
+    stamp = pd.Timestamp(datetime.now(UTC) if as_of is None else as_of)
+    if stamp.tzinfo is None:
+        stamp = stamp.tz_localize("UTC")
+    else:
+        stamp = stamp.tz_convert("UTC")
+    return stamp.tz_convert(TIMEZONE).date()
 
-    Priority is used only to resolve the same station-day appearing in multiple
-    snapshots.  The rolling four-week snapshot is the newest known vintage.
+
+def _iso_date(value: str, path: Path) -> date:
+    """Parse an ISO date embedded in a cache filename with a useful error."""
+    try:
+        return date.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(f"Invalid dated cache filename: {path.name}") from exc
+
+
+def _cache_sidecar(path: Path) -> dict[str, Any]:
+    """Read optional exact publication metadata without inferring it from mtime."""
+    metadata_path = path.with_suffix(f"{path.suffix}.metadata.json")
+    if not metadata_path.exists():
+        return {
+            "metadata_path": None,
+            "published_at": None,
+            "source_url": None,
+        }
+
+    payload = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Cache metadata must be a JSON object: {metadata_path.name}")
+    raw_published_at = payload.get("published_at")
+    if not isinstance(raw_published_at, str) or not raw_published_at.strip():
+        raise ValueError(f"Cache metadata requires published_at: {metadata_path.name}")
+    published_at = pd.Timestamp(raw_published_at)
+    if published_at is pd.NaT or published_at.tzinfo is None:
+        raise ValueError(
+            f"Cache metadata published_at must include a timezone: {metadata_path.name}"
+        )
+    published_at = published_at.tz_convert("UTC").floor("s")
+    source_url = payload.get("source_url")
+    if source_url is not None and not isinstance(source_url, str):
+        raise ValueError(f"Cache metadata source_url must be text: {metadata_path.name}")
+    return {
+        "metadata_path": metadata_path,
+        "published_at": published_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "source_url": source_url,
+    }
+
+
+def _capture_sidecar(path: Path) -> dict[str, Any]:
+    """Read a required cache capture timestamp from an adjacent JSON sidecar."""
+    metadata_path = path.with_suffix(f"{path.suffix}.metadata.json")
+    if not metadata_path.exists():
+        raise ValueError(f"Point-in-time cache requires metadata sidecar: {metadata_path.name}")
+    payload = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Cache metadata must be a JSON object: {metadata_path.name}")
+
+    timestamp_values = {
+        field: payload[field]
+        for field in ("captured_at", "retrieved_at")
+        if payload.get(field) is not None
+    }
+    if not timestamp_values:
+        raise ValueError(
+            f"Cache metadata requires captured_at or retrieved_at: {metadata_path.name}"
+        )
+    normalized: dict[str, pd.Timestamp] = {}
+    for field, raw_value in timestamp_values.items():
+        if not isinstance(raw_value, str) or not raw_value.strip():
+            raise ValueError(f"Cache metadata {field} must be text: {metadata_path.name}")
+        stamp = pd.Timestamp(raw_value)
+        if pd.isna(stamp) or stamp.tzinfo is None:
+            raise ValueError(
+                f"Cache metadata {field} must include a timezone: {metadata_path.name}"
+            )
+        normalized[field] = stamp.tz_convert("UTC").floor("s")
+    if len(set(normalized.values())) > 1:
+        raise ValueError(
+            f"Cache metadata captured_at and retrieved_at disagree: {metadata_path.name}"
+        )
+    captured_at = next(iter(normalized.values()))
+
+    source_url = payload.get("source_url")
+    if source_url is not None and not isinstance(source_url, str):
+        raise ValueError(f"Cache metadata source_url must be text: {metadata_path.name}")
+    provenance_basis = payload.get("provenance_basis")
+    if provenance_basis is not None and not isinstance(provenance_basis, str):
+        raise ValueError(
+            f"Cache metadata provenance_basis must be text: {metadata_path.name}"
+        )
+    return {
+        "metadata_path": metadata_path,
+        "captured_at": captured_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "source_url": source_url,
+        "provenance_basis": provenance_basis,
+    }
+
+
+def discover_optional_retail_caches(
+    root: Path,
+    as_of: pd.Timestamp | str | None = None,
+) -> list[dict[str, Any]]:
+    """Discover eligible ANP month and rolling vintages deterministically.
+
+    Rolling filenames encode their snapshot/publication calendar date.  Files
+    dated after ``as_of`` are deliberately invisible to reproducible historical
+    runs.  A same-day file also needs an exact sidecar ``published_at``; otherwise
+    it becomes eligible on the following local date.  All eligible rolling
+    vintages remain available so their four-week windows can bridge months;
+    station-day deduplication later selects the most recent vintage for overlaps.
+
+    A month filename identifies an observation period rather than a publication
+    instant.  Consequently it is admitted only after that month has ended and
+    retains ``published_on=None`` instead of inventing release provenance.
     """
-    candidates = [
-        {
-            "path": root / "data/cache/anp/2026-07-diesel-gnv.csv",
-            "snapshot_kind": "official_month_cache",
-            "priority": 1,
-            "published_on": None,
-        },
-        {
-            "path": (
-                root
-                / "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv"
-            ),
-            "snapshot_kind": "official_rolling_four_weeks",
-            "priority": 2,
-            "published_on": "2026-08-07",
-        },
-    ]
-    return [item for item in candidates if item["path"].exists()]
+    cache_dir = root / "data" / "cache" / "anp"
+    if not cache_dir.exists():
+        return []
+
+    cutoff = _local_as_of_date(as_of)
+    cutoff_stamp, _ = normalize_ingested_at(None if as_of is None else str(as_of))
+    candidates: list[dict[str, Any]] = []
+    for path in sorted(cache_dir.glob("*.csv"), key=lambda item: item.name):
+        month_match = ANP_MONTH_CACHE_PATTERN.fullmatch(path.name)
+        if month_match:
+            year = int(month_match.group("year"))
+            month = int(month_match.group("month"))
+            try:
+                month_end = date(year, month, calendar.monthrange(year, month)[1])
+            except (ValueError, calendar.IllegalMonthError) as exc:
+                raise ValueError(f"Invalid ANP month cache filename: {path.name}") from exc
+            if month_end <= cutoff:
+                candidates.append(
+                    {
+                        "path": path,
+                        "snapshot_kind": "official_month_cache",
+                        "priority": 1,
+                        "published_on": None,
+                        "observation_month": f"{year:04d}-{month:02d}",
+                    }
+                )
+            continue
+
+        rolling_match = ANP_ROLLING_CACHE_PATTERN.fullmatch(path.name)
+        if not rolling_match:
+            continue
+        vintage = _iso_date(rolling_match.group("vintage"), path)
+        metadata = _cache_sidecar(path)
+        published_at = (
+            pd.Timestamp(metadata["published_at"]) if metadata["published_at"] else None
+        )
+        eligible = (
+            vintage < cutoff
+            if published_at is None
+            else vintage <= cutoff and published_at <= cutoff_stamp
+        )
+        if eligible:
+            candidates.append(
+                {
+                    "path": path,
+                    "snapshot_kind": "official_rolling_four_weeks",
+                    "priority": 2,
+                    "published_on": vintage.isoformat(),
+                    "snapshot_on": vintage.isoformat(),
+                    **metadata,
+                }
+            )
+
+    return sorted(
+        candidates,
+        key=lambda item: (
+            int(item["priority"]),
+            item.get("published_on") or item.get("observation_month") or "",
+            item["path"].name,
+        ),
+    )
+
+
+def discover_ptax_caches(
+    root: Path,
+    as_of: pd.Timestamp | str | None = None,
+) -> list[dict[str, Any]]:
+    """Discover eligible BCB PTAX query snapshots from their encoded ranges."""
+    cache_dir = root / "data" / "cache" / "bcb"
+    if not cache_dir.exists():
+        return []
+
+    cutoff = _local_as_of_date(as_of)
+    cutoff_stamp, _ = normalize_ingested_at(None if as_of is None else str(as_of))
+    candidates: list[dict[str, Any]] = []
+    for path in sorted(cache_dir.glob("ptax-usd-*.json"), key=lambda item: item.name):
+        match = BCB_PTAX_CACHE_PATTERN.fullmatch(path.name)
+        if not match:
+            continue
+        query_start = _iso_date(match.group("start"), path)
+        query_end = _iso_date(match.group("end"), path)
+        if query_start > query_end:
+            raise ValueError(f"BCB PTAX cache starts after it ends: {path.name}")
+        if query_end > cutoff:
+            continue
+        metadata = _capture_sidecar(path)
+        captured_at = pd.Timestamp(metadata["captured_at"])
+        if captured_at <= cutoff_stamp:
+            candidates.append(
+                {
+                    "path": path,
+                    "query_start": query_start.isoformat(),
+                    "query_end": query_end.isoformat(),
+                    "vintage_on": query_end.isoformat(),
+                    **metadata,
+                }
+            )
+    return sorted(
+        candidates,
+        key=lambda item: (item["captured_at"], item["query_start"], item["path"].name),
+    )
 
 
 def load_retail_target(
@@ -209,6 +430,9 @@ def load_retail_target(
             "snapshot_kind": "official_semester_snapshot",
             "priority": 0,
             "published_on": None,
+            "published_at": None,
+            "metadata_path": None,
+            "source_url": SOURCE_URL,
         }
         for path in files
     ]
@@ -223,6 +447,14 @@ def load_retail_target(
             "snapshot_kind": source["snapshot_kind"],
             "snapshot_priority": int(source["priority"]),
             "published_on": source["published_on"],
+            "published_at": source.get("published_at"),
+            "metadata_path": (
+                source["metadata_path"].relative_to(root).as_posix()
+                if source.get("metadata_path")
+                else None
+            ),
+            "source_url": source.get("source_url"),
+            "observation_month": source.get("observation_month"),
             "raw_rows": 0,
             "blank_rows": 0,
             "nonblank_rows": 0,
@@ -260,6 +492,8 @@ def load_retail_target(
             file_target["source_file"] = path.relative_to(root).as_posix()
             file_target["source_priority"] = int(source["priority"])
             file_target["source_published_on"] = source["published_on"]
+            file_target["source_published_at"] = source.get("published_at")
+            file_target["source_url"] = source.get("source_url")
             selected.append(file_target)
         diagnostics.append(stats)
 
@@ -291,6 +525,9 @@ def load_retail_target(
     target["normalized_unit"] = normalize_text(target["unit_raw"]).str.casefold()
     target["source_published_on"] = pd.to_datetime(
         target["source_published_on"], errors="coerce"
+    )
+    target["source_published_at"] = pd.to_datetime(
+        target["source_published_at"], errors="coerce", utc=True
     )
 
     invalid_units = target.loc[
@@ -326,6 +563,7 @@ def station_day_medians(target: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, i
         "source_file",
         "source_priority",
         "source_published_on",
+        "source_published_at",
     ]
     per_snapshot = (
         target.sort_values([*source_keys, "station_name"])
@@ -346,7 +584,13 @@ def station_day_medians(target: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, i
     }
     station_day = (
         per_snapshot.sort_values(
-            [*keys, "source_priority", "source_published_on", "source_file"],
+            [
+                *keys,
+                "source_priority",
+                "source_published_on",
+                "source_published_at",
+                "source_file",
+            ],
             na_position="first",
         )
         .drop_duplicates(keys, keep="last")
@@ -385,6 +629,11 @@ def aggregate_national_weekly(
     station_day: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Build the complete national target and return excluded partial weeks."""
+
+    def complete_publication_max(values: pd.Series) -> pd.Timestamp:
+        """Use an exact release only when every selected contribution has one."""
+        return values.max() if values.notna().all() else pd.NaT
+
     weekly = (
         station_day.groupby("week_end", as_index=False)
         .agg(
@@ -397,6 +646,11 @@ def aggregate_national_weekly(
             numero_postos=("station_id", "nunique"),
             numero_municipios=("municipality_id", "nunique"),
             numero_ufs=("state_code", "nunique"),
+            anp_published_at=("source_published_at", complete_publication_max),
+            anp_publication_coverage=(
+                "source_published_at",
+                lambda values: float(values.notna().mean()),
+            ),
         )
         .sort_values("week_end")
         .reset_index(drop=True)
@@ -405,14 +659,21 @@ def aggregate_national_weekly(
     complete = weekly["week_end"].le(last_observation)
     excluded = weekly.loc[~complete].copy()
     weekly = weekly.loc[complete].copy().reset_index(drop=True)
+    weekly["anp_published_at"] = pd.to_datetime(
+        weekly["anp_published_at"], errors="coerce", utc=True
+    ).astype("datetime64[ns, UTC]")
     weekly["semana_inicio"] = weekly["week_end"] - pd.Timedelta(days=6)
     weekly["semana_sem_dados"] = False
     weekly["is_complete_week"] = True
     return weekly, excluded
 
 
-def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[dict[str, Any]]]:
-    """Combine historical USD closes with an optional official BCB JSON cache."""
+def load_external_weekly(
+    root: Path,
+    as_of: pd.Timestamp | str | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, list[dict[str, Any]]]:
+    """Combine historical sources with eligible BCB and EIA cache vintages."""
+    cutoff_stamp, _ = normalize_ingested_at(None if as_of is None else str(as_of))
     usd_path = root / "processed/external/usd_brl_diario.csv"
     brent_path = root / "processed/external/brent_semanal.csv"
     missing = [path for path in (usd_path, brent_path) if not path.exists()]
@@ -427,15 +688,15 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
     usd_history = usd_history[["data", "usd_brl", "usd_brl_compra"]].copy()
     usd_history["source_priority"] = 0
     usd_history["source_timestamp"] = pd.NaT
+    usd_history["source_vintage_on"] = pd.NaT
+    usd_history["source_vintage_at"] = pd.NaT
     usd_history["source_file"] = usd_path.relative_to(root).as_posix()
 
-    bcb_cache_path = (
-        root / "data/cache/bcb/ptax-usd-2026-07-01_2026-08-13.json"
-    )
     usd_parts = [usd_history]
     bcb_provenance: list[dict[str, Any]] = []
     bcb_closing_rows = 0
-    if bcb_cache_path.exists():
+    for cache_descriptor in discover_ptax_caches(root, as_of):
+        bcb_cache_path = cache_descriptor["path"]
         payload = json.loads(bcb_cache_path.read_text(encoding="utf-8"))
         if not isinstance(payload.get("value"), list):
             raise ValueError("BCB PTAX cache does not contain an OData value array")
@@ -451,10 +712,28 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
             raise ValueError(f"BCB PTAX cache missing columns: {missing_cache}")
         bulletin = normalize_text(cache_raw["tipoBoletim"]).str.casefold()
         cache = cache_raw.loc[bulletin.eq("fechamento")].copy()
+        if cache.empty:
+            raise ValueError("BCB PTAX cache has no closing bulletin")
         cache["source_timestamp"] = pd.to_datetime(
             cache["dataHoraCotacao"], errors="coerce"
         )
-        cache["data"] = cache["source_timestamp"].dt.normalize()
+        if cache["source_timestamp"].isna().any():
+            raise ValueError("Invalid timestamp in BCB PTAX closing cache")
+        if cache["source_timestamp"].dt.tz is None:
+            cache["source_available_at"] = (
+                cache["source_timestamp"]
+                .dt.tz_localize(TIMEZONE, ambiguous="raise", nonexistent="raise")
+                .dt.tz_convert("UTC")
+            )
+            cache["data"] = cache["source_timestamp"].dt.normalize()
+        else:
+            cache["source_available_at"] = cache["source_timestamp"].dt.tz_convert("UTC")
+            cache["data"] = (
+                cache["source_timestamp"]
+                .dt.tz_convert(TIMEZONE)
+                .dt.tz_localize(None)
+                .dt.normalize()
+            )
         cache["usd_brl"] = pd.to_numeric(cache["cotacaoVenda"], errors="coerce")
         cache["usd_brl_compra"] = pd.to_numeric(
             cache["cotacaoCompra"], errors="coerce"
@@ -466,7 +745,19 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
             raise ValueError("More than one PTAX closing bulletin for a cached date")
         if not cache["usd_brl"].between(1, 15).all():
             raise ValueError("Implausible PTAX closing quote in cache")
+        query_start = pd.Timestamp(cache_descriptor["query_start"])
+        query_end = pd.Timestamp(cache_descriptor["query_end"])
+        if not cache["data"].between(query_start, query_end).all():
+            raise ValueError(
+                f"BCB PTAX closing outside the encoded query range: {bcb_cache_path.name}"
+            )
+        future_closing_rows = int(cache["source_available_at"].gt(cutoff_stamp).sum())
+        cache = cache.loc[cache["source_available_at"].le(cutoff_stamp)].copy()
+        if cache.empty:
+            continue
         cache["source_priority"] = 1
+        cache["source_vintage_on"] = pd.Timestamp(cache_descriptor["vintage_on"])
+        cache["source_vintage_at"] = pd.Timestamp(cache_descriptor["captured_at"])
         cache["source_file"] = bcb_cache_path.relative_to(root).as_posix()
         cache = cache[
             [
@@ -475,11 +766,13 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
                 "usd_brl_compra",
                 "source_priority",
                 "source_timestamp",
+                "source_vintage_on",
+                "source_vintage_at",
                 "source_file",
             ]
         ]
         usd_parts.append(cache)
-        bcb_closing_rows = int(len(cache))
+        bcb_closing_rows += int(len(cache))
         bcb_provenance.append(
             {
                 "path": bcb_cache_path.relative_to(root).as_posix(),
@@ -491,6 +784,16 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
                 "closing_bulletins": int(len(cache)),
                 "observation_start": cache["data"].min().date().isoformat(),
                 "observation_end": cache["data"].max().date().isoformat(),
+                "query_start": cache_descriptor["query_start"],
+                "query_end": cache_descriptor["query_end"],
+                "vintage_on": cache_descriptor["vintage_on"],
+                "captured_at": cache_descriptor["captured_at"],
+                "metadata_path": cache_descriptor["metadata_path"]
+                .relative_to(root)
+                .as_posix(),
+                "source_url": cache_descriptor["source_url"],
+                "provenance_basis": cache_descriptor["provenance_basis"],
+                "future_closing_bulletins_excluded": future_closing_rows,
                 "first_closing_timestamp": cache["source_timestamp"].min().isoformat(),
                 "last_closing_timestamp": cache["source_timestamp"].max().isoformat(),
             }
@@ -508,7 +811,15 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
     )
     usd_daily = (
         usd_all.sort_values(
-            ["data", "source_priority", "source_timestamp"], na_position="first"
+            [
+                "data",
+                "source_priority",
+                "source_vintage_at",
+                "source_vintage_on",
+                "source_timestamp",
+                "source_file",
+            ],
+            na_position="first",
         )
         .drop_duplicates("data", keep="last")
         .sort_values("data")
@@ -534,7 +845,72 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
         .reset_index(drop=True)
     )
     usd["usd_brl_variacao_semanal_pct"] = usd["usd_brl_ultimo"].pct_change() * 100
-    brent = pd.read_csv(brent_path, parse_dates=["semana_fim"])
+    legacy_brent = pd.read_csv(brent_path, parse_dates=["semana_fim"])
+    eia_cache_path = root / "data/cache/eia/spot-prices-daily.csv"
+    eia_provenance: list[dict[str, Any]] = []
+    if eia_cache_path.exists():
+        eia_raw = pd.read_csv(eia_cache_path, dtype="string")
+        missing_eia = sorted(EIA_CANONICAL_COLUMNS - set(eia_raw.columns))
+        if missing_eia:
+            raise ValueError(f"EIA canonical cache missing columns: {missing_eia}")
+        eia = eia_raw.loc[eia_raw["series"].str.upper().eq("RBRTE")].copy()
+        if eia.empty:
+            raise ValueError("EIA canonical cache has no RBRTE observations")
+        eia["data"] = pd.to_datetime(eia["period"], format="%Y-%m-%d", errors="coerce")
+        eia["brent_usd_barril"] = pd.to_numeric(eia["value"], errors="coerce")
+        eia["retrieved_at"] = pd.to_datetime(eia["retrieved_at"], errors="coerce", utc=True)
+        if eia[["data", "brent_usd_barril", "retrieved_at"]].isna().any().any():
+            raise ValueError("EIA canonical cache contains an invalid date, price or vintage")
+        if not eia["units"].str.upper().eq("$/BBL").all():
+            raise ValueError("EIA canonical RBRTE cache must use $/BBL")
+        if not eia["brent_usd_barril"].between(5, 250).all():
+            raise ValueError("EIA canonical RBRTE price is outside USD 5-250/bbl")
+        if eia["data"].duplicated().any():
+            raise ValueError("EIA canonical cache contains duplicate RBRTE dates")
+        future_eia_rows = int(eia["retrieved_at"].gt(cutoff_stamp).sum())
+        eia = eia.loc[eia["retrieved_at"].le(cutoff_stamp)].copy()
+        if eia.empty:
+            brent = legacy_brent
+        else:
+            eia = eia.sort_values("data").reset_index(drop=True)
+            eia["retorno_diario_pct"] = eia["brent_usd_barril"].pct_change() * 100
+            eia["semana_fim"] = (
+                eia["data"].dt.to_period("W-SUN").dt.end_time.dt.normalize()
+            )
+            brent = (
+                eia.groupby("semana_fim", as_index=False)
+                .agg(
+                    brent_media=("brent_usd_barril", "mean"),
+                    brent_minimo=("brent_usd_barril", "min"),
+                    brent_maximo=("brent_usd_barril", "max"),
+                    brent_ultimo=("brent_usd_barril", "last"),
+                    brent_volatilidade_diaria=("retorno_diario_pct", "std"),
+                    brent_observacoes=("brent_usd_barril", "size"),
+                )
+                .sort_values("semana_fim")
+                .reset_index(drop=True)
+            )
+            brent["brent_variacao_semanal_pct"] = brent["brent_ultimo"].pct_change() * 100
+            eia_provenance.append(
+                {
+                    "path": eia_cache_path.relative_to(root).as_posix(),
+                    "bytes": eia_cache_path.stat().st_size,
+                    "sha256": sha256(eia_cache_path),
+                    "snapshot_kind": "official_eia_api_or_xls_canonical_daily",
+                    "series": "RBRTE",
+                    "rows": int(len(eia)),
+                    "future_rows_excluded": future_eia_rows,
+                    "selection_cutoff_at": cutoff_stamp.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "observation_start": eia["data"].min().date().isoformat(),
+                    "observation_end": eia["data"].max().date().isoformat(),
+                    "retrieved_at_min": eia["retrieved_at"].min().isoformat(),
+                    "retrieved_at_max": eia["retrieved_at"].max().isoformat(),
+                    "vintages": int(eia["vintage_id"].nunique()),
+                    "weekly_rows": int(len(brent)),
+                }
+            )
+    else:
+        brent = legacy_brent
     missing_usd = sorted(set(USD_COLUMNS) - set(usd.columns))
     missing_brent = sorted(set(BRENT_COLUMNS) - set(brent.columns))
     if missing_usd or missing_brent:
@@ -564,11 +940,17 @@ def load_external_weekly(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, list[d
             "path": brent_path.relative_to(root).as_posix(),
             "bytes": brent_path.stat().st_size,
             "sha256": sha256(brent_path),
-            "rows": int(len(brent)),
-            "observation_start": brent["semana_fim"].min().date().isoformat(),
-            "observation_end": brent["semana_fim"].max().date().isoformat(),
+            "snapshot_kind": (
+                "normalized_historical_weekly_fallback"
+                if eia_cache_path.exists()
+                else "normalized_historical_weekly_active"
+            ),
+            "rows": int(len(legacy_brent)),
+            "observation_start": legacy_brent["semana_fim"].min().date().isoformat(),
+            "observation_end": legacy_brent["semana_fim"].max().date().isoformat(),
         },
         *bcb_provenance,
+        *eia_provenance,
     ]
     return usd[USD_COLUMNS], brent[BRENT_COLUMNS], provenance
 
@@ -885,8 +1267,23 @@ def merge_market(
     if any(missing.values()):
         raise ValueError(f"External weekly coverage is incomplete: {missing}")
 
-    market["anp_available_at"] = availability_at_end_of_day(
+    anp_proxy_available_at = availability_at_end_of_day(
         market["semana_fim"], anp_lag_days
+    )
+    exact_anp_publication = pd.to_datetime(
+        market["anp_published_at"], utc=True
+    ).astype("datetime64[ns, UTC]")
+    observation_utc = pd.to_datetime(market["semana_fim"], utc=True)
+    if exact_anp_publication.dropna().lt(observation_utc[exact_anp_publication.notna()]).any():
+        raise ValueError("ANP published_at precedes its target observation period")
+    exact_precedes_proxy = exact_anp_publication.notna() & exact_anp_publication.lt(
+        anp_proxy_available_at
+    )
+    market["anp_available_at"] = anp_proxy_available_at.where(
+        ~exact_precedes_proxy, exact_anp_publication
+    )
+    market["anp_availability_basis"] = exact_precedes_proxy.map(
+        {True: "exact_snapshot_publication", False: "conservative_lag_proxy"}
     )
     market["usd_brl_available_at"] = availability_at_end_of_day(
         market["semana_fim"], usd_lag_days
@@ -905,17 +1302,26 @@ def merge_market(
     market["geography_type"] = "country"
     market["geography_code"] = "BR"
     market["geography"] = "Brasil"
-    market["metadata"] = compact_json(
-        {
-            "aggregation": "station-day median, then unweighted national mean",
-            "availability_assumption": (
-                f"end of day {anp_lag_days} calendar days after reference Sunday"
-            ),
-            "product": TARGET_PRODUCT,
-            "source_url": SOURCE_URL,
-            "week_convention": "W-SUN",
-        }
-    )
+    market["metadata"] = [
+        compact_json(
+            {
+                "aggregation": "station-day median, then unweighted national mean",
+                "availability_basis": row["anp_availability_basis"],
+                "availability_fallback": (
+                    f"end of day {anp_lag_days} calendar days after reference Sunday"
+                ),
+                "published_at": (
+                    row["anp_published_at"].strftime("%Y-%m-%dT%H:%M:%SZ")
+                    if pd.notna(row["anp_published_at"])
+                    else None
+                ),
+                "product": TARGET_PRODUCT,
+                "source_url": SOURCE_URL,
+                "week_convention": "W-SUN",
+            }
+        )
+        for _, row in market.iterrows()
+    ]
     return market.sort_values("semana_fim").reset_index(drop=True), missing
 
 
@@ -948,6 +1354,12 @@ def build_normalized_observations(
                 "number_of_stations": int(row["numero_postos"]),
                 "number_of_states": int(row["numero_ufs"]),
                 "product": TARGET_PRODUCT,
+                "availability_basis": row["anp_availability_basis"],
+                "published_at": (
+                    row["anp_published_at"].strftime("%Y-%m-%dT%H:%M:%SZ")
+                    if pd.notna(row["anp_published_at"])
+                    else None
+                ),
                 "publication_lag_assumption_days": anp_lag_days,
                 "week_convention": "W-SUN",
             },
@@ -1154,9 +1566,10 @@ def build_quality_report(
     )
     all_states = set(target["state_code"].dropna().unique())
     included_weeks = set(market["semana_fim"])
-    state_sets = station_day.groupby("week_end")["state_code"].agg(
-        lambda values: set(values.dropna())
-    )
+    state_sets = {
+        week_end: set(values.dropna().tolist())
+        for week_end, values in station_day.groupby("week_end")["state_code"]
+    }
     geography_gaps = [
         {
             "week_end": week_end.date().isoformat(),
@@ -1322,6 +1735,17 @@ def build_quality_report(
             "Every observation is unavailable until after its reference date",
         ),
         quality_check(
+            "exact_anp_publications_not_future",
+            pd.to_datetime(market["anp_published_at"], utc=True)
+            .dropna()
+            .le(ingested_stamp)
+            .all(),
+            (
+                f"{int(market['anp_published_at'].notna().sum())} target week(s) use "
+                "sidecar-proven exact publication timestamps"
+            ),
+        ),
+        quality_check(
             "external_known_before_target_release",
             market["usd_brl_available_at"].le(market["anp_available_at"]).all()
             and market["brent_available_at"].le(market["anp_available_at"]).all(),
@@ -1383,6 +1807,19 @@ def build_quality_report(
             "weekly_states_min": int(market["numero_ufs"].min()),
             "weekly_states_max": int(market["numero_ufs"].max()),
             "weekly_geography_gaps": geography_gaps,
+            "weeks_with_exact_published_at": int(
+                market["anp_published_at"].notna().sum()
+            ),
+            "weeks_using_exact_published_at": int(
+                market["anp_availability_basis"].eq("exact_snapshot_publication").sum()
+            ),
+            "latest_exact_published_at": (
+                pd.to_datetime(market["anp_published_at"], utc=True)
+                .max()
+                .strftime("%Y-%m-%dT%H:%M:%SZ")
+                if market["anp_published_at"].notna().any()
+                else None
+            ),
         },
         "normalized_observations": {
             "rows": int(len(normalized)),
@@ -1395,14 +1832,18 @@ def build_quality_report(
         "cache_extensions": {
             "anp": {
                 "files_used": len(optional_retail_inputs),
+                "selection_cutoff_on": _local_as_of_date(ingested_stamp).isoformat(),
                 "paths": [item["path"] for item in optional_retail_inputs],
                 "published_snapshots": [
                     {
                         "path": item["path"],
                         "published_on": item["published_on"],
+                        "published_at": item.get("published_at"),
+                        "metadata_path": item.get("metadata_path"),
                         "availability_policy": (
-                            f"Target weeks retain conservative +{anp_lag_days}-day "
-                            "availability even when snapshot publication is known"
+                            "Use exact published_at only when every selected station-day "
+                            "contribution has proof and it precedes the historical proxy; "
+                            f"otherwise use conservative +{anp_lag_days}-day lag"
                         ),
                     }
                     for item in optional_retail_inputs
@@ -1418,6 +1859,7 @@ def build_quality_report(
             },
             "bcb": {
                 "files_used": len(bcb_cache_inputs),
+                "selection_cutoff_on": _local_as_of_date(ingested_stamp).isoformat(),
                 "closing_bulletins": int(
                     sum(item["closing_bulletins"] for item in bcb_cache_inputs)
                 ),
@@ -1468,7 +1910,10 @@ def build_quality_report(
             "anp_retail": {
                 "lag_calendar_days": anp_lag_days,
                 "available_time": f"23:59:59 {TIMEZONE}",
-                "basis": "Conservative implementation assumption; verify against publication history",
+                "basis": (
+                    "Exact sidecar published_at when coverage is complete; otherwise "
+                    "the earlier conservative historical availability assumption"
+                ),
             },
             "bcb_usd_brl": {
                 "lag_calendar_days": usd_lag_days,
@@ -1515,7 +1960,9 @@ def build_quality_report(
             "Both ANP cost workbooks describe preliminary or revisable information without a historical vintage ledger.",
             *(
                 [
-                    "The rolling ANP snapshot was published on 2026-08-07, but target available_at remains the more conservative configured release rule."
+                    "Dated rolling ANP snapshots preserve their filename publication date, "
+                    "and an exact sidecar published_at overrides the lag only when it is "
+                    "earlier and has complete station-day coverage."
                 ]
                 if any(item.get("published_on") for item in optional_retail_inputs)
                 else []
@@ -1554,7 +2001,7 @@ def prepare_data(
     ingested_stamp, ingested_at = normalize_ingested_at(ingested_at_value)
 
     retail_files = discover_retail_files(root)
-    optional_retail_caches = discover_optional_retail_caches(root)
+    optional_retail_caches = discover_optional_retail_caches(root, ingested_stamp)
     target, file_diagnostics = load_retail_target(
         root,
         retail_files,
@@ -1563,7 +2010,7 @@ def prepare_data(
     )
     station_day, station_stats = station_day_medians(target)
     weekly, excluded_weeks = aggregate_national_weekly(station_day)
-    usd, brent, external_provenance = load_external_weekly(root)
+    usd, brent, external_provenance = load_external_weekly(root, ingested_stamp)
     distribution, producer, cost_provenance = load_anp_cost_drivers(
         root,
         distribution_lag_days,
@@ -1640,6 +2087,7 @@ def prepare_data(
     ]:
         market_output[column] = date_iso(market_output[column])
     for column in [
+        "anp_published_at",
         "available_at",
         "anp_available_at",
         "usd_brl_available_at",
@@ -1679,6 +2127,9 @@ def prepare_data(
         "is_complete_week",
         *USD_COLUMNS[1:],
         *BRENT_COLUMNS[1:],
+        "anp_published_at",
+        "anp_publication_coverage",
+        "anp_availability_basis",
         "anp_available_at",
         "usd_brl_available_at",
         "brent_available_at",

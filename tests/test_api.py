@@ -10,7 +10,12 @@ def test_health_and_forecasts():
     for horizon in (7, 14, 30):
         response = client.get("/forecast", params={"horizon": horizon})
         assert response.status_code == 200
-        assert response.json()["horizon_days"] == horizon
+        payload = response.json()
+        assert payload["horizon_days"] == horizon
+        assert payload["horizon_contract"]["calendar_days"] == {7: 7, 14: 14, 30: 28}[
+            horizon
+        ]
+        assert payload["horizon_contract"]["legacy_id"] == (30 if horizon == 30 else None)
 
 
 def test_dashboard_contract_and_decision_validation():
@@ -30,4 +35,3 @@ def test_time_machine_enforces_availability():
     response = client.get("/time-machine", params={"as_of": "2025-01-01T00:00:00Z"})
     assert response.status_code == 200
     assert response.json()["known_observations"] > 0
-

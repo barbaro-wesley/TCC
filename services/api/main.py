@@ -152,7 +152,19 @@ def _validate_horizon(horizon: int) -> int:
 def forecast(horizon: int = 7) -> dict:
     horizon = _validate_horizon(horizon)
     forecasts = _json(ARTIFACTS_DIR / "forecasts" / "latest.json")
-    return next(item for item in forecasts if item["horizon_days"] == horizon)
+    result = dict(next(item for item in forecasts if item["horizon_days"] == horizon))
+    calendar_days = int(
+        (pd.Timestamp(result["target_date"]) - pd.Timestamp(result["origin_date"])).days
+    )
+    weeks = int(result["horizon_weeks"])
+    result["horizon_contract"] = {
+        "id": horizon,
+        "weeks": weeks,
+        "calendar_days": calendar_days,
+        "label": f"{weeks} semana{'s' if weeks != 1 else ''} ({calendar_days} dias)",
+        "legacy_id": horizon if horizon != calendar_days else None,
+    }
+    return result
 
 
 @app.get("/models")

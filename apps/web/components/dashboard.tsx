@@ -148,7 +148,11 @@ export function Metric({ label, value, sub, tone = "default", icon }: { label: s
 }
 
 export function HorizonTabs({ horizon, setHorizon }: { horizon: number; setHorizon: (value: number) => void }) {
-  return <div className="segmented" aria-label="Selecionar horizonte">{[7,14,30].map(value=><button key={value} className={horizon===value?"active":""} onClick={()=>setHorizon(value)}>{value} dias</button>)}</div>;
+  return <div className="segmented" aria-label="Selecionar horizonte">{[7,14,30].map(value=><button key={value} className={horizon===value?"active":""} onClick={()=>setHorizon(value)} title={value===30?"Identificador legado 30: horizonte real de 4 semanas (28 dias)":undefined}>{horizonLabel(value)}</button>)}</div>;
+}
+
+export function horizonLabel(horizon: number) {
+  return horizon === 30 ? "4 sem. (28d)" : `${horizon} dias`;
 }
 
 export function StatusPill({ status }: { status: string }) {

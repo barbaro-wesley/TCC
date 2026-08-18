@@ -14,7 +14,7 @@ import os
 import sys
 import tempfile
 import urllib.request
-from datetime import date, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -99,6 +99,28 @@ def _download(url: str, target: Path, validator) -> dict[str, Any]:
             temp_path.unlink()
 
 
+def _write_metadata_sidecar(path: Path, payload: dict[str, Any]) -> Path:
+    """Atomically persist point-in-time capture metadata beside a cache file."""
+    metadata_path = path.with_suffix(f"{path.suffix}.metadata.json")
+    temp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=metadata_path.parent,
+            prefix=f".{metadata_path.name}.",
+            delete=False,
+        ) as handle:
+            temp_path = Path(handle.name)
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+        temp_path.replace(metadata_path)
+        return metadata_path
+    finally:
+        if temp_path is not None and temp_path.exists():
+            temp_path.unlink()
+
+
 def _ptax_url(start: date, end: date) -> str:
     select = "cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim"
     return (
@@ -126,12 +148,30 @@ def sync_sources(today: date | None = None) -> dict[str, Any]:
     ptax_start = today - timedelta(days=75)
     ptax_path = CACHE_DIR / "bcb" / f"ptax-usd-{ptax_start.isoformat()}_{today.isoformat()}.json"
     anp = _download(ANP_LATEST_URL, anp_path, validate_anp_csv)
-    bcb = _download(_ptax_url(ptax_start, today), ptax_path, validate_ptax_json)
+    ptax_url = _ptax_url(ptax_start, today)
+    bcb = _download(ptax_url, ptax_path, validate_ptax_json)
+    captured_at = datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    bcb_metadata_path = _write_metadata_sidecar(
+        ptax_path,
+        {
+            "captured_at": captured_at,
+            "provenance_basis": "sync_completion_time_utc",
+            "source_url": ptax_url,
+            "sha256": bcb["sha256"],
+        },
+    )
     return {
         "status": "synced",
         "official_sources": [
             {"source": "ANP", "url": ANP_LATEST_URL, "path": str(anp_path.relative_to(ROOT)), **anp},
-            {"source": "BCB", "url": _ptax_url(ptax_start, today), "path": str(ptax_path.relative_to(ROOT)), **bcb},
+            {
+                "source": "BCB",
+                "url": ptax_url,
+                "path": str(ptax_path.relative_to(ROOT)),
+                "metadata_path": str(bcb_metadata_path.relative_to(ROOT)),
+                "captured_at": captured_at,
+                **bcb,
+            },
         ],
     }
 

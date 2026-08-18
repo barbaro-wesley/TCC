@@ -1,0 +1,10 @@
+{
+  "released_on": "2026-08-12",
+  "retrieved_at": "2026-08-14T22:59:07Z",
+  "latest_observation": "2026-08-11",
+  "series": "RBRTE",
+  "unit": "USD/bbl",
+  "source_url": "https://www.eia.gov/dnav/pet/hist_xls/RBRTEd.xls",
+  "source_page_url": "https://www.eia.gov/dnav/pet/hist/RBRTED.htm",
+  "sha256": "aab443b7546f34761f8adc85da595d24eacc99e183fc0d6a22c535baeb102f61"
+}
