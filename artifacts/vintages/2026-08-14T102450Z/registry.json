@@ -1,0 +1,728 @@
+[
+  {
+    "model_id": "naive-h7-v1",
+    "family": "naive",
+    "label": "Naive",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.08675895226750001,
+      "rmse": 0.18097599711447093,
+      "mase": 6.167805526300561,
+      "smape_pct": 1.247337069191839,
+      "directional_accuracy": 0.0
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "seasonal_naive-h7-v1",
+    "family": "seasonal_naive",
+    "label": "Seasonal naive (52s)",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.9093401886687499,
+      "rmse": 0.9482024040324857,
+      "mase": 64.6461638179477,
+      "smape_pct": 13.547919397392254,
+      "directional_accuracy": 0.7083333333333334
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_4-h7-v1",
+    "family": "moving_average_4",
+    "label": "Média móvel 4",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.20696594072093752,
+      "rmse": 0.35333906580107105,
+      "mase": 14.713474973726493,
+      "smape_pct": 2.947045995911443,
+      "directional_accuracy": 0.125
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_8-h7-v1",
+    "family": "moving_average_8",
+    "label": "Média móvel 8",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.3210243318902083,
+      "rmse": 0.4812814568909669,
+      "mase": 22.82203273046081,
+      "smape_pct": 4.572986302336784,
+      "directional_accuracy": 0.25
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_12-h7-v1",
+    "family": "moving_average_12",
+    "label": "Média móvel 12",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.39446574327767364,
+      "rmse": 0.5581752933937101,
+      "mase": 28.04307714347184,
+      "smape_pct": 5.6476680498210685,
+      "directional_accuracy": 0.4166666666666667
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "arima-h7-v1",
+    "family": "arima",
+    "label": "ARIMA",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.0593619917783352,
+      "rmse": 0.1437485550278771,
+      "mase": 4.220120360763948,
+      "smape_pct": 0.862423613113295,
+      "directional_accuracy": 0.75
+    },
+    "status": "champion",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarima-h7-v1",
+    "family": "sarima",
+    "label": "SARIMA",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.06441426393914018,
+      "rmse": 0.14533688506670633,
+      "mase": 4.579292888086648,
+      "smape_pct": 0.9318692878836311,
+      "directional_accuracy": 0.7083333333333334
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarimax-h7-v1",
+    "family": "sarimax",
+    "label": "SARIMAX + mercado",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.0894787377875405,
+      "rmse": 0.1917594242498695,
+      "mase": 6.361158577742861,
+      "smape_pct": 1.2835177762393275,
+      "directional_accuracy": 0.625
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm-h7-v1",
+    "family": "lightgbm",
+    "label": "LightGBM",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.5175481029771212,
+      "rmse": 0.6828948230827903,
+      "mase": 36.793160431749904,
+      "smape_pct": 7.50706964380728,
+      "directional_accuracy": 0.75
+    },
+    "status": "challenger",
+    "artifact": "artifacts/models/lightgbm_h7.txt",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm_price_only-h7-v1",
+    "family": "lightgbm_price_only",
+    "label": "LightGBM — somente preço",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "causal target-price features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.5975156174725237,
+      "rmse": 0.7309872650766744,
+      "mase": 42.47815391010045,
+      "smape_pct": 8.694358191277521,
+      "directional_accuracy": 0.625
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "simple_average-h7-v1",
+    "family": "simple_average",
+    "label": "Média simples",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.0982986456420994,
+      "rmse": 0.20768771269874858,
+      "mase": 6.98817717334649,
+      "smape_pct": 1.4070326021640958,
+      "directional_accuracy": 0.6666666666666666
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "inverse_mase-h7-v1",
+    "family": "inverse_mase",
+    "label": "Ensemble inverse-MASE",
+    "horizon": 7,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.09828994274854774,
+      "rmse": 0.20769490101466684,
+      "mase": 6.987558473448211,
+      "smape_pct": 1.4067882892821653,
+      "directional_accuracy": 0.6666666666666666
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "naive-h14-v1",
+    "family": "naive",
+    "label": "Naive",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.1709167622691666,
+      "rmse": 0.32727995225140366,
+      "mase": 6.721848527285698,
+      "smape_pct": 2.455117544555168,
+      "directional_accuracy": 0.0
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "seasonal_naive-h14-v1",
+    "family": "seasonal_naive",
+    "label": "Seasonal naive (52s)",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.8949916921583333,
+      "rmse": 0.9312578682670313,
+      "mase": 35.19841183507321,
+      "smape_pct": 13.320578435551283,
+      "directional_accuracy": 0.75
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_4-h14-v1",
+    "family": "moving_average_4",
+    "label": "Média móvel 4",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.2849499056871874,
+      "rmse": 0.45889180765412524,
+      "mase": 11.206566743156449,
+      "smape_pct": 4.0698293373492165,
+      "directional_accuracy": 0.25
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_8-h14-v1",
+    "family": "moving_average_8",
+    "label": "Média móvel 8",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.3749440330212499,
+      "rmse": 0.5533587114263543,
+      "mase": 14.74587373828994,
+      "smape_pct": 5.367731795185065,
+      "directional_accuracy": 0.375
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_12-h14-v1",
+    "family": "moving_average_12",
+    "label": "Média móvel 12",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.4399825867102778,
+      "rmse": 0.6153102831384205,
+      "mase": 17.303722954055544,
+      "smape_pct": 6.327843853548441,
+      "directional_accuracy": 0.4583333333333333
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "arima-h14-v1",
+    "family": "arima",
+    "label": "ARIMA",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.14195783270498596,
+      "rmse": 0.29088696264600034,
+      "mase": 5.5829459675929085,
+      "smape_pct": 2.0437610087165314,
+      "directional_accuracy": 0.7083333333333334
+    },
+    "status": "champion",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarima-h14-v1",
+    "family": "sarima",
+    "label": "SARIMA",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.15484028749854784,
+      "rmse": 0.29620261982936974,
+      "mase": 6.0895897199801485,
+      "smape_pct": 2.219150245701004,
+      "directional_accuracy": 0.5416666666666666
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarimax-h14-v1",
+    "family": "sarimax",
+    "label": "SARIMAX + mercado",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.19369146454928676,
+      "rmse": 0.34739305380069596,
+      "mase": 7.617536562493776,
+      "smape_pct": 2.7487317565908,
+      "directional_accuracy": 0.4166666666666667
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm-h14-v1",
+    "family": "lightgbm",
+    "label": "LightGBM",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.5957321537028878,
+      "rmse": 0.7573596358030275,
+      "mase": 23.4290729993947,
+      "smape_pct": 8.699428221886716,
+      "directional_accuracy": 0.7083333333333334
+    },
+    "status": "challenger",
+    "artifact": "artifacts/models/lightgbm_h14.txt",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm_price_only-h14-v1",
+    "family": "lightgbm_price_only",
+    "label": "LightGBM — somente preço",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "causal target-price features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.6618563487238555,
+      "rmse": 0.7908017639366212,
+      "mase": 26.029618534066504,
+      "smape_pct": 9.68093092555935,
+      "directional_accuracy": 0.75
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "simple_average-h14-v1",
+    "family": "simple_average",
+    "label": "Média simples",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.18492513568212707,
+      "rmse": 0.3430216495797278,
+      "mase": 7.272772631776316,
+      "smape_pct": 2.647565256206397,
+      "directional_accuracy": 0.4583333333333333
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "inverse_mase-h14-v1",
+    "family": "inverse_mase",
+    "label": "Ensemble inverse-MASE",
+    "horizon": 14,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.1849184400284097,
+      "rmse": 0.3430156426309181,
+      "mase": 7.272509303771025,
+      "smape_pct": 2.647363741471496,
+      "directional_accuracy": 0.4583333333333333
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "naive-h30-v1",
+    "family": "naive",
+    "label": "Naive",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.33175387291124997,
+      "rmse": 0.5377784783916201,
+      "mase": 7.320343326403612,
+      "smape_pct": 4.763763127598474,
+      "directional_accuracy": 0.0
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "seasonal_naive-h30-v1",
+    "family": "seasonal_naive",
+    "label": "Seasonal naive (52s)",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.8501377209245833,
+      "rmse": 0.8938642054831464,
+      "mase": 18.758786257060795,
+      "smape_pct": 12.61253516956486,
+      "directional_accuracy": 0.8333333333333334
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_4-h30-v1",
+    "family": "moving_average_4",
+    "label": "Média móvel 4",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.4115923468560417,
+      "rmse": 0.6139182813097096,
+      "mase": 9.08202597023624,
+      "smape_pct": 5.913372492007885,
+      "directional_accuracy": 0.2916666666666667
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_8-h30-v1",
+    "family": "moving_average_8",
+    "label": "Média móvel 8",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.4773051950866665,
+      "rmse": 0.6671620668000536,
+      "mase": 10.532018417295674,
+      "smape_pct": 6.883311220792277,
+      "directional_accuracy": 0.375
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "moving_average_12-h30-v1",
+    "family": "moving_average_12",
+    "label": "Média móvel 12",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.5254176978520486,
+      "rmse": 0.7100449401416179,
+      "mase": 11.593648943096227,
+      "smape_pct": 7.6123663603300775,
+      "directional_accuracy": 0.4583333333333333
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "arima-h30-v1",
+    "family": "arima",
+    "label": "ARIMA",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.3194572505678334,
+      "rmse": 0.5265392805334193,
+      "mase": 7.049011159218888,
+      "smape_pct": 4.570462814491833,
+      "directional_accuracy": 0.4583333333333333
+    },
+    "status": "champion",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarima-h30-v1",
+    "family": "sarima",
+    "label": "SARIMA",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.3496104118433649,
+      "rmse": 0.5442862056779036,
+      "mase": 7.714358306416648,
+      "smape_pct": 4.96660014106252,
+      "directional_accuracy": 0.4166666666666667
+    },
+    "status": "baseline",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "sarimax-h30-v1",
+    "family": "sarimax",
+    "label": "SARIMAX + mercado",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.4031556297230645,
+      "rmse": 0.5924259741856063,
+      "mase": 8.895864870083338,
+      "smape_pct": 5.679763270285395,
+      "directional_accuracy": 0.25
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm-h30-v1",
+    "family": "lightgbm",
+    "label": "LightGBM",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "causal weekly market features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.7322973862344181,
+      "rmse": 0.8727116612341757,
+      "mase": 16.158570319683967,
+      "smape_pct": 10.789565021664108,
+      "directional_accuracy": 0.7083333333333334
+    },
+    "status": "challenger",
+    "artifact": "artifacts/models/lightgbm_h30.txt",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "lightgbm_price_only-h30-v1",
+    "family": "lightgbm_price_only",
+    "label": "LightGBM — somente preço",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "causal target-price features",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.8362835488638538,
+      "rmse": 0.9319329918028614,
+      "mase": 18.45308584398758,
+      "smape_pct": 12.386607667515861,
+      "directional_accuracy": 0.8333333333333334
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "simple_average-h30-v1",
+    "family": "simple_average",
+    "label": "Média simples",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.33022679959640955,
+      "rmse": 0.547788864717062,
+      "mase": 7.286647560168468,
+      "smape_pct": 4.76808805457338,
+      "directional_accuracy": 0.375
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "inverse_mase-h30-v1",
+    "family": "inverse_mase",
+    "label": "Ensemble inverse-MASE",
+    "horizon": 30,
+    "trained_until": "2026-08-02",
+    "features": "target history",
+    "hyperparameters": "fixed parsimonious specification; LightGBM tuned by inner temporal origins",
+    "metrics": {
+      "mae": 0.3313544146581524,
+      "rmse": 0.5482192248984454,
+      "mase": 7.311529046312232,
+      "smape_pct": 4.7839337848996335,
+      "directional_accuracy": 0.375
+    },
+    "status": "challenger",
+    "artifact": "artifacts/forecasts/backtest_predictions.csv",
+    "created_at": "2026-08-14T10:24:50+00:00"
+  },
+  {
+    "model_id": "vs-epl-krls-h7-experimental",
+    "family": "vs-epl-krls",
+    "label": "VS-ePL-KRLS — Experimental",
+    "horizon": 7,
+    "trained_until": null,
+    "features": [],
+    "hyperparameters": {},
+    "metrics": {},
+    "status": "experimental",
+    "artifact": null,
+    "created_at": "2026-08-14T10:24:50+00:00",
+    "limitation": "Paper reviewed; no author-licensed reference implementation was located. No approximation is presented as faithful."
+  },
+  {
+    "model_id": "vs-epl-krls-h14-experimental",
+    "family": "vs-epl-krls",
+    "label": "VS-ePL-KRLS — Experimental",
+    "horizon": 14,
+    "trained_until": null,
+    "features": [],
+    "hyperparameters": {},
+    "metrics": {},
+    "status": "experimental",
+    "artifact": null,
+    "created_at": "2026-08-14T10:24:50+00:00",
+    "limitation": "Paper reviewed; no author-licensed reference implementation was located. No approximation is presented as faithful."
+  },
+  {
+    "model_id": "vs-epl-krls-h30-experimental",
+    "family": "vs-epl-krls",
+    "label": "VS-ePL-KRLS — Experimental",
+    "horizon": 30,
+    "trained_until": null,
+    "features": [],
+    "hyperparameters": {},
+    "metrics": {},
+    "status": "experimental",
+    "artifact": null,
+    "created_at": "2026-08-14T10:24:50+00:00",
+    "limitation": "Paper reviewed; no author-licensed reference implementation was located. No approximation is presented as faithful."
+  }
+]

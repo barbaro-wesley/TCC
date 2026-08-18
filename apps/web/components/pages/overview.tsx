@@ -5,7 +5,7 @@ import { brl, compact, fullDate, liters, percent } from "@/lib/format";
 import type { DashboardData, PageId } from "@/lib/types";
 import { Donut, MarketChart } from "../charts";
 import { Icon } from "../icons";
-import { HorizonTabs, Metric, PageHeader, SectionHeader } from "../dashboard";
+import { HorizonTabs, Metric, PageHeader, SectionHeader, horizonLabel } from "../dashboard";
 
 export function Overview({ data, navigate }: { data: DashboardData; navigate: (page: PageId) => void }) {
   const [horizon, setHorizon] = useState(7);
@@ -38,7 +38,7 @@ export function Overview({ data, navigate }: { data: DashboardData; navigate: (p
     </section>
 
     <section className="forecast-strip">
-      <Metric label={`PREVISÃO ${horizon} DIAS`} value={`${brl.format(forecast.point)}/L`} sub={percent(forecast.changePct) + " vs. atual"} tone={forecast.changePct > .5 ? "risk" : forecast.changePct < 0 ? "positive" : "default"}/>
+      <Metric label={`PREVISÃO ${horizonLabel(horizon).toUpperCase()}`} value={`${brl.format(forecast.point)}/L`} sub={percent(forecast.changePct) + " vs. atual"} tone={forecast.changePct > .5 ? "risk" : forecast.changePct < 0 ? "positive" : "default"}/>
       <Metric label="PROB. DE ALTA" value={`${forecast.probabilityUp}%`} sub="Alta relevante > 0,5%" tone={forecast.probabilityUp > 65 ? "risk" : "default"}/>
       <Metric label="INTERVALO P10–P90" value={`${brl.format(forecast.p10)} — ${brl.format(forecast.p90)}`} sub={`${forecast.coverage}% de cobertura histórica`} tone="info"/>
       <Metric label="MODEL AGREEMENT" value={forecast.agreement} sub={`${forecast.champion} · champion`} icon="shield"/>

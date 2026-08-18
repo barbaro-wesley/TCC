@@ -1,0 +1,31 @@
+{
+  "run_at": "2026-08-14T10:24:50+00:00",
+  "validation": "expanding-window rolling-origin with inner temporal tuning",
+  "config": {
+    "outer_origins": 24,
+    "min_training_rows": 60,
+    "relevant_up_threshold": 0.005,
+    "conformal_alpha": 0.2,
+    "ensemble_shrinkage": 0.25,
+    "max_weight": 0.6,
+    "seed": 42
+  },
+  "horizons_days": [
+    7,
+    14,
+    30
+  ],
+  "models": [
+    "naive",
+    "seasonal_naive",
+    "moving_average_4",
+    "moving_average_8",
+    "moving_average_12",
+    "arima",
+    "sarima",
+    "sarimax",
+    "lightgbm",
+    "lightgbm_price_only"
+  ],
+  "observations": 72
+}

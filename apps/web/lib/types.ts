@@ -11,6 +11,9 @@ export type HistoryPoint = {
 
 export type Forecast = {
   horizon: number;
+  horizonCalendarDays: number;
+  horizonWeeks: number;
+  horizonLabel: string;
   point: number;
   p10: number;
   p90: number;

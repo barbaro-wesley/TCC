@@ -1,0 +1,8 @@
+{
+  "published_at": "2026-08-14T17:04:00Z",
+  "retrieved_at": "2026-08-14T22:39:12Z",
+  "workbook_modified_at": "2026-08-14T16:34:40Z",
+  "source_page_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+  "sha256": "530767b448d36e737918fd950e317945d070b7eea7ddd65e42d5d74168e77342",
+  "note": "The page timestamp is evidence of availability, while workbook_modified_at is generation metadata and not a publication claim."
+}

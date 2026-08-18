@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-08-14T10:24:50+00:00",
+  "run_at": "2026-08-14T23:58:15+00:00",
   "validation": "expanding-window rolling-origin with inner temporal tuning",
   "config": {
     "outer_origins": 24,

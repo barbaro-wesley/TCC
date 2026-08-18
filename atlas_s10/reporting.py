@@ -164,7 +164,7 @@ def build_diagnostics(
             "The interval layer uses past-only empirical residuals and targets 80% P10–P90 coverage.",
             "Economic results are a stylized counterfactual and omit private logistics, financing and supplier terms.",
             "VS-ePL-KRLS remains experimental because no licensed author reference implementation was located.",
-            "A neural challenger was not fit because 130–135 weekly target observations create a high overfit risk.",
+            "A neural challenger was not fit because fewer than 200 weekly target observations create a high overfit risk.",
         ],
     }
 

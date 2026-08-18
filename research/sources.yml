@@ -1,5 +1,5 @@
 schema_version: "1.1"
-manifest_as_of: "2026-08-13T00:00:00-03:00"
+manifest_as_of: "2026-08-14T20:21:19-03:00"
 project: "Atlas S10"
 manifest_purpose: >-
   Point-in-time source contract. Coverage and hashes describe the snapshots that
@@ -29,14 +29,15 @@ required_observation_contract:
 status_vocabulary:
   cached_audited: "A local snapshot exists and its content/coverage was profiled."
   cached_provenance_gap: "A local snapshot exists, but original fetch URL/time or vintage history is incomplete."
+  active_vintaged: "The source has a validated current snapshot, captured retrieval metadata and an incremental vintage contract."
   planned_official: "An official source was identified but no local snapshot was acquired."
   optional_blocked: "Optional input is not allowed to block the MVP."
 
 global_caveats:
-  - "No local source currently carries genuine row-level available_at, ingested_at, revision, or historical-vintage fields."
-  - "Local file modification times are not reliable download timestamps; consequently last_sync is null for inherited snapshots."
+  - "Recent ANP, BCB and EIA refreshes carry captured vintage metadata; inherited historical snapshots still lack genuine row-level release timestamps."
+  - "Local file modification times are not promoted to publication timestamps; inherited snapshots keep last_sync null unless a capture ledger exists."
   - "Latest_observation is a local-coverage fact, not a freshness claim about the upstream publisher."
-  - "The existing processed target is Rio Grande do Sul; the audited raw ANP files also support a national primary target."
+  - "The production target is the national Diesel S10 station-day series; Rio Grande do Sul remains an optional drill-down."
 
 sources:
   - id: "SRC-ANP-REVENDA-S10"
@@ -61,21 +62,22 @@ sources:
     official_start: "2004-05"
     local_coverage:
       observation_start: "2024-01-01"
-      observation_end: "2026-06-30"
-      complete_national_weeks: 130
+      observation_end: "2026-08-14"
+      complete_national_weeks: 136
       first_complete_national_week: "2024-01-07"
-      last_complete_national_week: "2026-06-28"
-      station_rows_after_s10_filter: 387927
+      last_complete_national_week: "2026-08-09"
+      station_rows_before_snapshot_deduplication: 426047
+      station_days_after_snapshot_deduplication: 407496
       states: 27
       municipalities: 461
-      stations: 10463
+      stations: 10561
       weekly_station_count_range: [2267, 3532]
       individual_price_range_brl_per_litre: [4.73, 9.99]
       national_weekly_mean_range_brl_per_litre: [5.9612, 7.5837]
       last_complete_week:
-        mean_brl_per_litre: 7.0938
-        stations: 3024
-        municipalities: 377
+        mean_brl_per_litre: 6.9763
+        stations: 3117
+        municipalities: 382
         states: 27
     publication_lag:
       type: "publisher_schedule_with_exceptions"
@@ -86,14 +88,16 @@ sources:
       available_at_policy: "Prefer captured response/release timestamp. For legacy files without a release ledger, use the first verified official publication timestamp; a proxy must be flagged assumed and sensitivity-tested."
     timezone: "America/Sao_Paulo"
     license: "Creative Commons Attribution-NoDerivatives 3.0 Unported on the ANP site"
-    status: "cached_provenance_gap"
-    last_sync: null
+    status: "active_vintaged"
+    last_sync: "2026-08-14T23:01:44Z"
     local_snapshots:
       - {path: "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.01.csv", sha256: "EB439DC323B082201039BD5404D1D7376E44485881CB0FDC4F23EF9016772870"}
       - {path: "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.02.csv", sha256: "FE3296F9DE5977EB95A2F859F68B80F8336E446494D3BE6D07DE99EBF7E775AE"}
       - {path: "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.01.csv", sha256: "D308B91E79D112262253E66C84610254B6DF8F9F5BFD7C76ECD6C79FD82FB4FA"}
       - {path: "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.02.csv", sha256: "206CC66333EBACB3E33B3F6294A5AAEB3415F1579D35F7F28E25351826AE7745"}
       - {path: "raw/anp/2026/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2026.01.csv", sha256: "04406F4E411380C07FFF0343A746BCC5EF693BD4B26A267101AB0698C44B76A9"}
+      - {path: "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv", sha256: "A621038D13739F0D68794B83AC9A3416D4D7EA47F3405C96D508221DB6B5AF8E", published_at: "2026-08-14T17:04:00Z"}
+      - {path: "data/cache/anp/resumo_semanal_lpc_2026-08-09_2026-08-15.xlsx", sha256: "530767B448D36E737918FD950E317945D070B7EEA7DDD65E42D5D74168E77342", role: "official rounded reconciliation series"}
     derived_snapshot:
       path: "processed/anp/revenda/diesel_s10_rs_semanal.csv"
       sha256: "96F128164C813271E06BD6209CBD3F82F35CB78D6B68A65F19C0BA0E937D08B2"
@@ -103,7 +107,7 @@ sources:
       - "The 2025.01 file contains 9,114 empty separator rows."
       - "Valor de Compra is entirely empty and must not be treated as a usable feature."
       - "Panel composition changes by week; report station/municipality coverage beside means and test a balanced-panel sensitivity."
-      - "A partial RS week ending 2026-07-05 exists and must not enter a complete-week target."
+      - "The local W-SUN bucket ending 2026-08-16 remains excluded until its operational completion contract is satisfied."
       - "The local aggregation convention must be reconciled with ANP's displayed reference-week boundaries; do not infer release date from a resample label."
 
   - id: "SRC-BCB-PTAX-USD"
@@ -127,22 +131,23 @@ sources:
     official_start: "1984-11-28 for non-EUR currencies"
     local_coverage:
       observation_start: "2024-01-02"
-      observation_end: "2026-06-30"
-      observations: 627
+      observation_end: "2026-08-14"
+      observations: 660
     publication_lag:
       type: "same_day_multiple_releases"
       value: "Use the timestamp of the closing bulletin returned by BCB; never expose that day's closing rate to a forecast issued earlier."
       evidence_url: "https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios"
     timezone: "America/Sao_Paulo"
     license: "Open Data Commons Open Database License (ODbL)"
-    status: "cached_provenance_gap"
-    last_sync: null
+    status: "active_vintaged"
+    last_sync: "2026-08-14T23:01:45Z"
     local_snapshots:
       - {path: "raw/anp/2024/dolar/CotacoesMoedasPeriodo01012024-30062024.csv", sha256: "61D51883AD9839415EEBBB18F0A5C432971588EF11F556511E1C9527B5F8D57C"}
       - {path: "raw/anp/2024/dolar/CotacoesMoedasPeriodo01072024-31122024.csv", sha256: "69ECCA19310C84E1ED72621926115E1C6122A1C87C928AF1CB47F68735CADFC2"}
       - {path: "raw/anp/2025/dolar/CotacoesMoedasPeriodo01012025-30062025.csv", sha256: "3ACA32AE687631FE587379DB116F3ABEC8BDF78EA3AE20DD9C1CA24774EA563B"}
       - {path: "raw/anp/2025/dolar/CotacoesMoedasPeriodo01072025-31122025.csv", sha256: "987FDB077635C97470E07DF684A3F7C281BE94D77D4AA755601DD7F1F6E9D953"}
       - {path: "raw/anp/2026/dolar/CotacoesMoedasPeriodo (1).csv", sha256: "5BDC237D2E9E759E2C2B1A1CD3D2CC493CDFF81866045D6677663EFC91E33950"}
+      - {path: "data/cache/bcb/ptax-usd-2026-05-31_2026-08-14.json", sha256: "9CC31BE3ED2302E7903EC626EC75D63D78CA9F52F75B5CC501AC9CC0325C3ECE"}
     derived_snapshot: {path: "processed/external/usd_brl_diario.csv", sha256: "C6429EA66F342A6A192D255F9F84A5C792F2BB6B013AEA92C9655F6FF1789D06"}
     known_issues:
       - "The legacy directory name raw/anp/.../dolar is misleading: provenance is BCB, not ANP."
@@ -159,7 +164,7 @@ sources:
     download_url: "https://www.eia.gov/dnav/pet/hist_xls/RBRTEd.xls"
     acquisition:
       method: "Official keyless XLS download; EIA Open Data API is an alternative when an API key is configured."
-      format: "XLS"
+      format: "XLS/JSON"
       authentication: "none for XLS; API key for API"
     observation_frequency: "business day"
     publication_frequency: "business-day series; exact historical release timestamp not included in the workbook"
@@ -170,8 +175,8 @@ sources:
     official_start: "1987-05-20"
     local_coverage:
       observation_start: "1987-05-20"
-      observation_end: "2026-08-03"
-      observations: 9947
+      observation_end: "2026-08-11"
+      observations: 9953
       range_usd_per_barrel: [9.10, 143.95]
     publication_lag:
       type: "unknown_in_local_snapshot"
@@ -179,17 +184,18 @@ sources:
       available_at_policy: "Capture future release timestamps. For legacy backtests, use a documented conservative business-day lag and run a 1/2/3-business-day sensitivity; never call the proxy observed fact."
     timezone: "America/New_York for publication capture; observation is a date"
     license: "not verified for this workbook; record EIA terms at connector implementation"
-    status: "cached_provenance_gap"
-    last_sync: null
+    status: "active_vintaged"
+    last_sync: "2026-08-14T22:59:07Z"
     local_snapshots:
       - {path: "raw/eia/brent/brent_daily.xlsx.xls", sha256: "8E9CFDA76B3AC298B28AB5BB023084378AFBD9C59C9DEB895BEEB804F4E9206A"}
-    derived_snapshot: {path: "processed/external/brent_diario.csv", sha256: "467B10D4332F927D442997460F0384156EA26E5E900975470DE0F97BAD9389A9"}
+      - {path: "data/cache/eia/RBRTEd-2026-08-14.xls", sha256: "AAB443B7546F34761F8ADC85DA595D24EACC99E183FC0D6A22C535BAEB102F61", release_date: "2026-08-12"}
+    derived_snapshot: {path: "data/cache/eia/spot-prices-daily.csv", sha256: "8CAD0D96B460AB288B53001C82A4A1ECF7EB038712378B26A79397A6AADDC6B8", vintage_id: "xls-20260812-aab443b7546f"}
     known_issues:
       - "The filename has a double extension but the content is an XLS workbook."
-      - "No vintage ledger exists locally, so historical revisions/publication times cannot be reconstructed exactly."
+      - "The new connector captures future vintages, but exact release times for inherited historical observations cannot be reconstructed retroactively."
 
   - id: "SRC-EIA-WTI-SPOT"
-    series_id: "eia.petroleum.wti_spot.rwtx"
+    series_id: "eia.petroleum.wti_spot.rwtc"
     name: "Cushing, OK WTI Spot Price FOB"
     variable: "WTI spot price"
     role: "optional_exogenous_upstream_driver"

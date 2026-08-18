@@ -9,9 +9,10 @@ o resultado histórico de uma política operacional.
 
 ## Estado atual
 
-- Target nacional ANP: 135 semanas completas, de 07/01/2024 a 02/08/2026.
-- Último preço observado: **R$ 6,9877/L**, amostra de 3.063 postos.
-- Horizontes diretos: 7 dias (1 semana), 14 dias (2 semanas) e 30 dias (4 semanas).
+- Target nacional ANP: 136 semanas completas, de 07/01/2024 a 09/08/2026.
+- Último preço observado: **R$ 6,9763/L**, amostra de 3.117 postos.
+- Horizontes diretos: 7 dias (1 semana), 14 dias (2 semanas) e 4 semanas
+  (28 dias). O identificador `30` é mantido na API por compatibilidade.
 - Validação: 24 rolling origins por horizonte, sem random split.
 - Modelos: naive, seasonal naive, médias móveis, ARIMA, SARIMA, SARIMAX,
   LightGBM, ablação LightGBM somente-preço e ensembles.
@@ -23,9 +24,9 @@ Resultados do último treino:
 
 | Horizonte | P50 | Variação | P10–P90 | Prob. alta relevante |
 |---|---:|---:|---:|---:|
-| 7 dias | R$ 6,9819 | -0,08% | R$ 6,8957–7,0681 | 45,1% |
-| 14 dias | R$ 6,9897 | +0,03% | R$ 6,7798–7,1995 | 47,6% |
-| 30 dias | R$ 7,0035 | +0,23% | R$ 6,2779–7,7292 | 49,1% |
+| 7 dias | R$ 6,9738 | -0,04% | R$ 6,8776–7,0699 | 45,6% |
+| 14 dias | R$ 6,9808 | +0,06% | R$ 6,6175–7,3442 | 47,8% |
+| 4 semanas (28 dias; id `30`) | R$ 6,9952 | +0,27% | R$ 6,2695–7,7208 | 49,2% |
 
 Esses números são artefatos do corte atual, não valores fixos no código.
 
@@ -38,7 +39,7 @@ raw/ + data/cache/             snapshots oficiais locais
 pipelines/prepare_data.py      parsing, DQ, available_at, gold causal
           │
           ▼
-atlas_s10/features.py          features e alvos diretos 7/14/30
+atlas_s10/features.py          features e alvos diretos 1/2/4 semanas
           │
           ▼
 pipelines/train.py             rolling-origin, modelos, ensemble, intervalos
@@ -131,28 +132,51 @@ injetado nesse fallback.
 
 ```powershell
 .\.venv\Scripts\python.exe pipelines\sync_data.py
+.\.venv\Scripts\python.exe pipelines\sync_eia.py
 .\.venv\Scripts\python.exe pipelines\prepare_data.py
 .\.venv\Scripts\python.exe pipelines\train.py
 .\.venv\Scripts\python.exe pipelines\build_product.py
 ```
 
-O primeiro comando valida hashes e schemas do cache sem acessar a internet. O
-treino completo leva aproximadamente dois a três minutos nesta máquina.
+Os dois primeiros comandos validam hashes e schemas dos caches sem acessar a
+internet. O treino completo leva aproximadamente dois a três minutos nesta
+máquina.
+
+Um workbook oficial da EIA também pode ser importado sem chave:
+
+```powershell
+.\.venv\Scripts\python.exe pipelines\sync_eia.py --import-xls data\cache\eia\RBRTEd-2026-08-14.xls --series RBRTE
+```
 
 ### Solicitar atualização de rede
 
 ```powershell
 $env:ALLOW_NETWORK_SYNC='1'
 .\.venv\Scripts\python.exe pipelines\sync_data.py --network
+.\.venv\Scripts\python.exe pipelines\sync_eia.py --network --series RBRTE
 .\.venv\Scripts\python.exe pipelines\prepare_data.py
 ```
 
-O conector baixa snapshots oficiais recentes da ANP e do BCB de maneira atômica.
-Se uma fonte estiver indisponível, preserve o cache validado e não substitua dados
-reais por valores sintéticos.
+O conector principal baixa snapshots oficiais recentes da ANP e do BCB. O
+conector EIA usa a API v2, pagina resultados, preserva vintages e remove a chave
+de qualquer resposta bruta persistida. Defina uma chave nova somente no `.env`
+local como `EIA_API_KEY=...`; esse arquivo é ignorado pelo Git. Nunca envie a
+chave em mensagens, logs ou commits. Se uma fonte estiver indisponível, preserve
+o cache validado e não substitua dados reais por valores sintéticos.
 
 Depois da preparação, execute novamente `train.py` e `build_product.py` para
 publicar novas previsões no dashboard.
+
+Para pontuar uma previsão já emitida antes de retreinar:
+
+```powershell
+.\.venv\Scripts\python.exe pipelines\evaluate_release.py `
+  --summary data\cache\anp\resumo_semanal_lpc_2026-08-09_2026-08-15.xlsx `
+  --frozen-forecast artifacts\vintages\2026-08-14T102450Z\latest.json
+```
+
+O resumo oficial ANP e o target operacional por posto são comparados, mas não
+misturados: usam calendários e metodologias de agregação diferentes.
 
 ## Endpoints principais
 
@@ -163,7 +187,7 @@ GET  /sources
 POST /data/sync
 GET  /market/s10
 GET  /market/features
-GET  /forecast?horizon=7|14|30
+GET  /forecast?horizon=7|14|30  # 30 é o id legado para 4 semanas/28 dias
 GET  /models
 GET  /models/leaderboard
 GET  /models/weights
@@ -194,7 +218,7 @@ npm.cmd run typecheck
 npm.cmd run build
 ```
 
-Última validação local: **16 testes passaram**, lint, typecheck e build de produção
+Última validação local: **33 testes passaram**, lint, typecheck e build de produção
 concluídos com sucesso.
 
 ## Dados e causalidade
@@ -220,7 +244,8 @@ em `research/sources.yml`.
 
 ## Artefatos
 
-- `artifacts/forecasts/latest.json`: forecast atual 7/14/30.
+- `artifacts/forecasts/latest.json`: forecast atual de 1/2/4 semanas; o campo
+  legado `horizon_days=30` representa 4 semanas/28 dias.
 - `artifacts/forecasts/backtest_predictions.csv`: painel rolling-origin.
 - `artifacts/models/registry.json`: model registry.
 - `artifacts/models/lightgbm_h*.txt`: challengers LightGBM serializados.
@@ -228,6 +253,8 @@ em `research/sources.yml`.
 - `artifacts/reports/backtest.html`: relatório estático completo.
 - `artifacts/reports/diagnostics.json`: DM tests, correlações e governança.
 - `artifacts/reports/economic_backtest.json`: contrafactual operacional.
+- `artifacts/reports/release_evaluation.json`: placar da previsão congelada contra a nova publicação.
+- `artifacts/vintages/`: previsões preservadas antes de cada atualização relevante.
 - `data/gold/`: tabelas causais em CSV e Parquet.
 - `data/atlas_s10.duckdb`: catálogo analítico local.
 
@@ -240,7 +267,7 @@ uma aproximação não é apresentada como reprodução fiel.
 
 ## Limitações conhecidas
 
-- A série nacional semanal ainda é curta para deep learning: 135 semanas.
+- A série nacional semanal ainda é curta para deep learning: 136 semanas.
 - O backtest externo contém 24 origens por horizonte; testes estatísticos têm
   poder limitado.
 - O lag histórico da revenda ANP usa premissa conservadora de oito dias.
@@ -258,4 +285,3 @@ Os aproximadamente 350 MB em `raw/` são mantidos localmente e ignorados pelo Gi
 para evitar inflar o repositório. Gold, artefatos pequenos e o snapshot do frontend
 podem ser versionados para que a demo continue abrindo offline. Para publicar o
 histórico bruto, prefira storage de objetos ou Git LFS e preserve hashes/proveniência.
-

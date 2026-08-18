@@ -1,7 +1,7 @@
 {
   "pipeline": "national_weekly_v1",
   "status": "pass",
-  "generated_at": "2026-08-14T00:48:02Z",
+  "generated_at": "2026-08-14T23:52:49Z",
   "timezone": "America/Sao_Paulo",
   "target": {
     "product": "DIESEL S10",
@@ -9,15 +9,15 @@
     "geography_type": "country",
     "geography_code": "BR",
     "geography": "Brasil",
-    "source_rows": 2178403,
-    "source_nonblank_rows": 2169289,
+    "source_rows": 2199477,
+    "source_nonblank_rows": 2190363,
     "blank_rows_ignored": 9114,
-    "target_rows": 413649,
+    "target_rows": 426047,
     "exact_duplicate_target_rows": 2,
-    "raw_target_rows": 413649,
-    "station_day_rows": 404357,
-    "snapshot_overlap_rows": 18580,
-    "snapshot_overlap_extra_rows_removed": 9290,
+    "raw_target_rows": 426047,
+    "station_day_rows": 407496,
+    "snapshot_overlap_rows": 30956,
+    "snapshot_overlap_extra_rows_removed": 18549,
     "snapshot_overlap_conflicting_keys": 0,
     "target_rows_by_source_before_deduplication": {
       "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.01.csv": 89385,
@@ -26,7 +26,8 @@
       "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.01.csv": 76134,
       "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.02.csv": 68407,
       "data/cache/anp/2026-07-diesel-gnv.csv": 13315,
-      "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv": 12407
+      "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv": 12407,
+      "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv": 12398
     },
     "station_days_by_source_after_deduplication": {
       "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.01.csv": 89385,
@@ -34,22 +35,23 @@
       "raw/anp/2024/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2024.02.csv": 76883,
       "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.01.csv": 76134,
       "raw/anp/2025/gasolina-etanol/Preços semestrais - AUTOMOTIVOS_2025.02.csv": 68407,
-      "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv": 12407,
-      "data/cache/anp/2026-07-diesel-gnv.csv": 4025
+      "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv": 12398,
+      "data/cache/anp/2026-07-diesel-gnv.csv": 4025,
+      "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv": 3148
     },
     "rows_in_repeated_station_days": 4,
-    "extra_rows_collapsed": 9292,
-    "unique_stations": 10546,
+    "extra_rows_collapsed": 18551,
+    "unique_stations": 10561,
     "unique_municipalities": 461,
     "states": 27,
     "first_collection": "2024-01-01",
-    "last_collection": "2026-08-07",
-    "freshness_days_at_ingestion": 6,
-    "weekly_rows": 135,
+    "last_collection": "2026-08-14",
+    "freshness_days_at_ingestion": 0,
+    "weekly_rows": 136,
     "first_complete_week": "2024-01-07",
-    "last_complete_week": "2026-08-02",
+    "last_complete_week": "2026-08-09",
     "partial_weeks_excluded": [
-      "2026-08-09"
+      "2026-08-16"
     ],
     "weekly_price_min": 5.961177149451817,
     "weekly_price_max": 7.583704446673353,
@@ -100,42 +102,58 @@
           "AP"
         ]
       }
-    ]
+    ],
+    "weeks_with_exact_published_at": 3,
+    "weeks_using_exact_published_at": 1,
+    "latest_exact_published_at": "2026-08-14T17:04:00Z"
   },
   "normalized_observations": {
-    "rows": 1419,
+    "rows": 1422,
     "series": {
-      "anp.diesel_s10.revenda.br.mean": 135,
+      "anp.diesel_s10.revenda.br.mean": 136,
       "anp.distribution.diesel_s10.br.mean": 305,
       "anp.producer_importer.diesel_s10.br.weighted_mean": 709,
-      "bcb.usd_brl.ptax.sell.weekly_last": 135,
-      "eia.brent.rbrte.weekly_last": 135
+      "bcb.usd_brl.ptax.sell.weekly_last": 136,
+      "eia.brent.rbrte.weekly_last": 136
     },
     "null_values": 0
   },
   "cache_extensions": {
     "anp": {
-      "files_used": 2,
+      "files_used": 3,
+      "selection_cutoff_on": "2026-08-14",
       "paths": [
         "data/cache/anp/2026-07-diesel-gnv.csv",
-        "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv"
+        "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv",
+        "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv"
       ],
       "published_snapshots": [
         {
           "path": "data/cache/anp/ultimas-4-semanas-diesel-gnv-2026-08-07.csv",
           "published_on": "2026-08-07",
-          "availability_policy": "Target weeks retain conservative +8-day availability even when snapshot publication is known"
+          "published_at": null,
+          "metadata_path": null,
+          "availability_policy": "Use exact published_at only when every selected station-day contribution has proof and it precedes the historical proxy; otherwise use conservative +8-day lag"
+        },
+        {
+          "path": "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv",
+          "published_on": "2026-08-14",
+          "published_at": "2026-08-14T17:04:00Z",
+          "metadata_path": "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv.metadata.json",
+          "availability_policy": "Use exact published_at only when every selected station-day contribution has proof and it precedes the historical proxy; otherwise use conservative +8-day lag"
         }
       ],
-      "overlap_rows": 18580,
-      "overlap_extra_rows_removed": 9290,
+      "overlap_rows": 30956,
+      "overlap_extra_rows_removed": 18549,
       "overlap_conflicting_keys": 0
     },
     "bcb": {
-      "files_used": 1,
-      "closing_bulletins": 32,
+      "files_used": 2,
+      "selection_cutoff_on": "2026-08-14",
+      "closing_bulletins": 86,
       "paths": [
-        "data/cache/bcb/ptax-usd-2026-07-01_2026-08-13.json"
+        "data/cache/bcb/ptax-usd-2026-07-01_2026-08-13.json",
+        "data/cache/bcb/ptax-usd-2026-05-31_2026-08-14.json"
       ]
     }
   },
@@ -149,9 +167,9 @@
       "value_max": 7.021158021696074,
       "publication_lag_days": 14,
       "publication_lag_status": "assumed_unverified",
-      "asof_feature_rows": 135,
+      "asof_feature_rows": 136,
       "asof_source_age_days_min": 8,
-      "asof_source_age_days_max": 36
+      "asof_source_age_days_max": 43
     },
     "producer_importer": {
       "series_id": "anp.producer_importer.diesel_s10.br.weighted_mean",
@@ -162,16 +180,16 @@
       "value_max": 5.64431,
       "publication_lag_days": 12,
       "publication_lag_status": "official_estimate_in_workbook",
-      "asof_feature_rows": 135,
+      "asof_feature_rows": 136,
       "asof_source_age_days_min": 7,
-      "asof_source_age_days_max": 7
+      "asof_source_age_days_max": 14
     }
   },
   "availability_assumptions": {
     "anp_retail": {
       "lag_calendar_days": 8,
       "available_time": "23:59:59 America/Sao_Paulo",
-      "basis": "Conservative implementation assumption; verify against publication history"
+      "basis": "Exact sidecar published_at when coverage is complete; otherwise the earlier conservative historical availability assumption"
     },
     "bcb_usd_brl": {
       "lag_calendar_days": 1,
@@ -210,6 +228,10 @@
       "snapshot_kind": "official_semester_snapshot",
       "snapshot_priority": 0,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+      "observation_month": null,
       "raw_rows": 477154,
       "blank_rows": 0,
       "nonblank_rows": 477154,
@@ -223,6 +245,10 @@
       "snapshot_kind": "official_semester_snapshot",
       "snapshot_priority": 0,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+      "observation_month": null,
       "raw_rows": 421382,
       "blank_rows": 0,
       "nonblank_rows": 421382,
@@ -236,6 +262,10 @@
       "snapshot_kind": "official_semester_snapshot",
       "snapshot_priority": 0,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+      "observation_month": null,
       "raw_rows": 429523,
       "blank_rows": 9114,
       "nonblank_rows": 420409,
@@ -249,6 +279,10 @@
       "snapshot_kind": "official_semester_snapshot",
       "snapshot_priority": 0,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+      "observation_month": null,
       "raw_rows": 384208,
       "blank_rows": 0,
       "nonblank_rows": 384208,
@@ -262,6 +296,10 @@
       "snapshot_kind": "official_semester_snapshot",
       "snapshot_priority": 0,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis",
+      "observation_month": null,
       "raw_rows": 422418,
       "blank_rows": 0,
       "nonblank_rows": 422418,
@@ -275,6 +313,10 @@
       "snapshot_kind": "official_month_cache",
       "snapshot_priority": 1,
       "published_on": null,
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": null,
+      "observation_month": "2026-07",
       "raw_rows": 22625,
       "blank_rows": 0,
       "nonblank_rows": 22625,
@@ -288,11 +330,32 @@
       "snapshot_kind": "official_rolling_four_weeks",
       "snapshot_priority": 2,
       "published_on": "2026-08-07",
+      "published_at": null,
+      "metadata_path": null,
+      "source_url": null,
+      "observation_month": null,
       "raw_rows": 21093,
       "blank_rows": 0,
       "nonblank_rows": 21093,
       "target_rows": 12407,
       "purchase_value_missing_rows": 21093
+    },
+    {
+      "path": "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv",
+      "bytes": 3581158,
+      "sha256": "a621038d13739f0d68794b83ac9a3416d4d7ea47f3405c96d508221db6b5af8e",
+      "snapshot_kind": "official_rolling_four_weeks",
+      "snapshot_priority": 2,
+      "published_on": "2026-08-14",
+      "published_at": "2026-08-14T17:04:00Z",
+      "metadata_path": "data/cache/anp/latest-4-weeks-diesel-gnv-2026-08-14.csv.metadata.json",
+      "source_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/shpc/qus/ultimas-4-semanas-diesel-gnv.csv",
+      "observation_month": null,
+      "raw_rows": 21074,
+      "blank_rows": 0,
+      "nonblank_rows": 21074,
+      "target_rows": 12398,
+      "purchase_value_missing_rows": 21074
     },
     {
       "path": "processed/external/usd_brl_diario.csv",
@@ -302,17 +365,18 @@
       "rows": 627,
       "observation_start": "2024-01-02",
       "observation_end": "2026-06-30",
-      "combined_daily_rows": 659,
+      "combined_daily_rows": 660,
       "combined_weekly_rows": 137,
-      "combined_observation_end": "2026-08-13",
-      "cache_closing_rows": 32,
-      "overlap_rows": 0,
+      "combined_observation_end": "2026-08-14",
+      "cache_closing_rows": 86,
+      "overlap_rows": 106,
       "overlap_conflicting_dates": 0
     },
     {
       "path": "processed/external/brent_semanal.csv",
       "bytes": 163501,
       "sha256": "84104bdfed7a6ecf031a8451c6296a1adcfe69409cb48337e843a24ff1ba92bf",
+      "snapshot_kind": "normalized_historical_weekly_fallback",
       "rows": 2047,
       "observation_start": "1987-05-24",
       "observation_end": "2026-08-09"
@@ -327,8 +391,53 @@
       "closing_bulletins": 32,
       "observation_start": "2026-07-01",
       "observation_end": "2026-08-13",
+      "query_start": "2026-07-01",
+      "query_end": "2026-08-13",
+      "vintage_on": "2026-08-13",
+      "captured_at": "2026-08-14T00:36:14Z",
+      "metadata_path": "data/cache/bcb/ptax-usd-2026-07-01_2026-08-13.json.metadata.json",
+      "source_url": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo",
+      "provenance_basis": "filesystem_creation_time_utc",
+      "future_closing_bulletins_excluded": 0,
       "first_closing_timestamp": "2026-07-01T13:11:18.043495",
       "last_closing_timestamp": "2026-08-13T13:09:15.558931"
+    },
+    {
+      "path": "data/cache/bcb/ptax-usd-2026-05-31_2026-08-14.json",
+      "bytes": 33809,
+      "sha256": "9cc31be3ed2302e7903ec626ec75d63d78ca9f52f75b5cc501ac9cc0325c3ece",
+      "snapshot_kind": "official_bcb_odata_cache",
+      "odata_context": "https://was-p.bcnet.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata$metadata#_CotacaoMoedaPeriodo(cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim)",
+      "raw_bulletins": 270,
+      "closing_bulletins": 54,
+      "observation_start": "2026-06-01",
+      "observation_end": "2026-08-14",
+      "query_start": "2026-05-31",
+      "query_end": "2026-08-14",
+      "vintage_on": "2026-08-14",
+      "captured_at": "2026-08-14T23:01:45Z",
+      "metadata_path": "data/cache/bcb/ptax-usd-2026-05-31_2026-08-14.json.metadata.json",
+      "source_url": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo",
+      "provenance_basis": "filesystem_creation_time_utc",
+      "future_closing_bulletins_excluded": 0,
+      "first_closing_timestamp": "2026-06-01T13:11:27.630000",
+      "last_closing_timestamp": "2026-08-14T13:10:22.941660"
+    },
+    {
+      "path": "data/cache/eia/spot-prices-daily.csv",
+      "bytes": 1303402,
+      "sha256": "8cad0d96b460ab288b53001c82a4a1ecf7eb038712378b26a79397a6aaddc6b8",
+      "snapshot_kind": "official_eia_api_or_xls_canonical_daily",
+      "series": "RBRTE",
+      "rows": 9953,
+      "future_rows_excluded": 0,
+      "selection_cutoff_at": "2026-08-14T23:52:49Z",
+      "observation_start": "1987-05-20",
+      "observation_end": "2026-08-11",
+      "retrieved_at_min": "2026-08-14T22:59:07+00:00",
+      "retrieved_at_max": "2026-08-14T22:59:07+00:00",
+      "vintages": 1,
+      "weekly_rows": 2048
     },
     {
       "path": "raw/anp/distribuicao/brasil_semanal/combustiveis-liquidos-brasil.xlsx",
@@ -379,7 +488,7 @@
       "check": "diesel_unit",
       "status": "pass",
       "severity": "critical",
-      "detail": "All 413649 target rows validated as R$ / litro"
+      "detail": "All 426047 target rows validated as R$ / litro"
     },
     {
       "check": "target_dates",
@@ -397,19 +506,19 @@
       "check": "station_day_unique",
       "status": "pass",
       "severity": "critical",
-      "detail": "9292 repeated rows collapsed by median"
+      "detail": "18551 repeated rows collapsed by median"
     },
     {
       "check": "retail_snapshot_overlap",
       "status": "pass",
       "severity": "critical",
-      "detail": "Removed 9290 lower-priority duplicate station-days; 0 conflicting keys"
+      "detail": "Removed 18549 lower-priority duplicate station-days; 0 conflicting keys"
     },
     {
       "check": "optional_retail_cache_provenance",
       "status": "pass",
       "severity": "critical",
-      "detail": "2 optional ANP cache snapshot(s) checksummed"
+      "detail": "3 optional ANP cache snapshot(s) checksummed"
     },
     {
       "check": "weekly_unique",
@@ -439,19 +548,19 @@
       "check": "external_coverage",
       "status": "pass",
       "severity": "critical",
-      "detail": "USD/BRL and Brent cover all 135 target weeks"
+      "detail": "USD/BRL and Brent cover all 136 target weeks"
     },
     {
       "check": "bcb_closing_cache",
       "status": "pass",
       "severity": "critical",
-      "detail": "1 optional BCB cache(s); only explicit Fechamento bulletins enter daily deduplication"
+      "detail": "2 optional BCB cache(s); only explicit Fechamento bulletins enter daily deduplication"
     },
     {
       "check": "cost_driver_coverage",
       "status": "pass",
       "severity": "critical",
-      "detail": "Both ANP cost drivers cover all 135 target origins"
+      "detail": "Both ANP cost drivers cover all 136 target origins"
     },
     {
       "check": "cost_driver_asof_availability",
@@ -490,6 +599,12 @@
       "detail": "Every observation is unavailable until after its reference date"
     },
     {
+      "check": "exact_anp_publications_not_future",
+      "status": "pass",
+      "severity": "critical",
+      "detail": "3 target week(s) use sidecar-proven exact publication timestamps"
+    },
+    {
       "check": "external_known_before_target_release",
       "status": "pass",
       "severity": "critical",
@@ -508,22 +623,22 @@
     "The national mean is not volume weighted and the station sample composition changes over time.",
     "Distribution publication timing is unverified; its as-of feature uses a conservative 14-day lag and remains experimental.",
     "Both ANP cost workbooks describe preliminary or revisable information without a historical vintage ledger.",
-    "The rolling ANP snapshot was published on 2026-08-07, but target available_at remains the more conservative configured release rule."
+    "Dated rolling ANP snapshots preserve their filename publication date, and an exact sidecar published_at overrides the lag only when it is earlier and has complete station-day coverage."
   ],
   "outputs": {
     "market_weekly": {
       "path": "data/gold/market_weekly.csv",
-      "rows": 135,
-      "columns": 57,
-      "bytes": 122689,
-      "sha256": "d86995e729c9ea46d085992aa58c9ad2c4d12d2214a674227602fa0ec292612b"
+      "rows": 136,
+      "columns": 60,
+      "bytes": 136841,
+      "sha256": "a251717f28268eb6880961bdcbac8469879c0b6e77c2e7d3a566e6d4d1f2bdbc"
     },
     "normalized_observations": {
       "path": "data/gold/normalized_observations.csv",
-      "rows": 1419,
+      "rows": 1422,
       "columns": 12,
-      "bytes": 545375,
-      "sha256": "c72f5dd28969cb00d5982e5eef9fd50a3fc2cb6f85e591bb554b29d04f71a533"
+      "bytes": 556236,
+      "sha256": "d4d898244a963a50cc2f01b7612703577f447d7aa56bea1d9312c910d34cf42e"
     }
   }
 }

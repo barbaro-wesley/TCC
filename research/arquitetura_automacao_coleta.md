@@ -8,6 +8,15 @@ cobrir as fontes atuais **+ IPCA + biodiesel**.
 **Decisão em aberto (esta análise recomenda):** onde executar a automação —
 prioridade em **baixo custo**.
 
+> **Atualização (pós-decisão).** O desenho canônico de coleta passou a ser o da
+> `main` (`pipelines/sync_data.py` para ANP/BCB + `pipelines/sync_eia.py` para o
+> Brent via API v2 da EIA). O framework `atlas_s10/sources/` proposto abaixo foi
+> **aposentado** em favor desses CLIs. Como o `prepare_data`/`train` dependem de
+> `raw/` (ausente no CI), a automação em GitHub Actions ficou **só de coleta**:
+> baixa os caches oficiais e abre um PR; o retreino segue local. A análise de
+> custo, o "muro do `raw/`" e a estratégia incremental abaixo permanecem válidos
+> como referência.
+
 ---
 
 ## 1. Objetivo e problema

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-08-14T23:21:19Z",
+  "frozen_forecast_file": "artifacts/vintages/2026-08-14T102450Z/latest.json",
+  "operational_scores": [
+    {
+      "status": "definitive_operational_target",
+      "origin_date": "2026-08-02",
+      "target_date": "2026-08-09",
+      "horizon_days": 7,
+      "current_price": 6.98770812929,
+      "forecast": 6.981890199063944,
+      "actual": 6.97634263715,
+      "error": 0.005547561913943788,
+      "absolute_error": 0.005547561913943788,
+      "absolute_percentage_error_pct": 0.07951963087939869,
+      "predicted_change_pct": -0.08325949107217401,
+      "realized_change_pct": -0.1626497834441465,
+      "direction_match": true,
+      "p10": 6.895704167000865,
+      "p90": 7.068076231127023,
+      "interval_contains_actual": true
+    }
+  ],
+  "official_summary": {
+    "source_file": "data/cache/anp/resumo_semanal_lpc_2026-08-09_2026-08-15.xlsx",
+    "period_start": "2026-08-09",
+    "period_end": "2026-08-15",
+    "atlas_w_sun_target_date": "2026-08-16",
+    "geography": "BRASIL",
+    "product": "OLEO DIESEL S10",
+    "station_count": 3139,
+    "unit": "BRL/L",
+    "price": 6.91,
+    "standard_deviation": 0.438,
+    "minimum": 5.77,
+    "maximum": 9.27,
+    "coefficient_of_variation": 0.063
+  },
+  "provisional_official_summary_score": {
+    "status": "provisional_official_summary_rounded",
+    "origin_date": "2026-08-02",
+    "target_date": "2026-08-16",
+    "horizon_days": 14,
+    "current_price": 6.98770812929,
+    "forecast": 6.9896569814951865,
+    "actual": 6.91,
+    "error": 0.07965698149518641,
+    "absolute_error": 0.07965698149518641,
+    "absolute_percentage_error_pct": 1.1527783139679653,
+    "predicted_change_pct": 0.02788971962091047,
+    "realized_change_pct": -1.112068905171848,
+    "direction_match": false,
+    "p10": 6.779827271438284,
+    "p90": 7.199486691552089,
+    "interval_contains_actual": true
+  },
+  "methodology": {
+    "atlas_target": "station-day microdata aggregated with local W-SUN convention",
+    "official_summary": "rounded ANP national aggregate for a Sunday-to-Saturday period",
+    "rule": "compare and report separately; never append the rounded summary to the operational target"
+  }
+}

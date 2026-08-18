@@ -39,6 +39,20 @@ def _sources_for_ui(market: pd.DataFrame) -> list[dict[str, Any]]:
     quality = _load_json(DATA_DIR / "gold" / "quality_report.json")
     rows: list[dict[str, Any]] = []
     today = pd.Timestamp.now(tz="America/Sao_Paulo").normalize().tz_localize(None)
+    inputs = quality.get("inputs", [])
+    usd_input = next(
+        item
+        for item in inputs
+        if item.get("snapshot_kind") == "normalized_historical_daily"
+    )
+    eia_input = next(
+        (
+            item
+            for item in inputs
+            if item.get("snapshot_kind") == "official_eia_api_or_xls_canonical_daily"
+        ),
+        next(item for item in inputs if "brent" in item.get("path", "").casefold()),
+    )
     specs = [
         (
             "anp",
@@ -57,10 +71,10 @@ def _sources_for_ui(market: pd.DataFrame) -> list[dict[str, Any]]:
             "bcb",
             "USD/BRL PTAX venda",
             "Banco Central do Brasil",
-            627,
-            "2024-01-02",
-            "2026-06-30",
-            "2026-06-30",
+            usd_input["combined_daily_rows"],
+            usd_input["observation_start"],
+            usd_input["combined_observation_end"],
+            usd_input["combined_observation_end"],
             "1 dia (premissa conservadora)",
             97,
             "BRL/USD",
@@ -70,10 +84,10 @@ def _sources_for_ui(market: pd.DataFrame) -> list[dict[str, Any]]:
             "eia",
             "Europe Brent Spot Price FOB",
             "U.S. EIA",
-            9947,
-            "1987-05-20",
-            "2026-08-03",
-            "2026-08-03",
+            eia_input["rows"],
+            eia_input["observation_start"],
+            eia_input["observation_end"],
+            eia_input["observation_end"],
             "3 dias (premissa conservadora)",
             99,
             "USD/bbl",
@@ -106,15 +120,15 @@ def _sources_for_ui(market: pd.DataFrame) -> list[dict[str, Any]]:
                 "id": "anp-dist",
                 "name": "Preço de distribuição S10",
                 "institution": "ANP",
-                "status": "healthy",
+                "status": "stale",
                 "rows": 305,
                 "coverage": "2020-08-23 — 2026-06-27",
                 "latest": "2026-06-27",
-                "lag": "Até o mês subsequente",
+                "lag": "14 dias (premissa não verificada)",
                 "quality": 96,
                 "unit": "BRL/L",
                 "frequency": "Semanal",
-                "warning": "Disponível para lineage; inclusão causal como feature em validação.",
+                "warning": "Feature causal ativa, mas o snapshot está defasado e o lag é assumido.",
             },
             {
                 "id": "anp-producer",
@@ -128,7 +142,7 @@ def _sources_for_ui(market: pd.DataFrame) -> list[dict[str, Any]]:
                 "quality": 96,
                 "unit": "BRL/L",
                 "frequency": "Semanal",
-                "warning": "Feature candidata; precisa respeitar o calendário de publicação.",
+                "warning": "Feature causal ativa via as-of; a estimativa oficial de publicação é 12 dias.",
             },
             {
                 "id": "ibge",
@@ -280,9 +294,19 @@ def build_dashboard() -> dict[str, Any]:
 
     forecast_rows = []
     for forecast in forecasts:
+        calendar_days = int(
+            (pd.Timestamp(forecast["target_date"]) - pd.Timestamp(forecast["origin_date"])).days
+        )
+        horizon_weeks = int(forecast["horizon_weeks"])
         forecast_rows.append(
             {
                 "horizon": forecast["horizon_days"],
+                "horizonCalendarDays": calendar_days,
+                "horizonWeeks": horizon_weeks,
+                "horizonLabel": (
+                    f"{horizon_weeks} semana{'s' if horizon_weeks != 1 else ''} "
+                    f"({calendar_days} dias)"
+                ),
                 "point": _round(forecast["point"]),
                 "p10": _round(forecast["p10"]),
                 "p90": _round(forecast["p90"]),
@@ -433,7 +457,7 @@ def build_dashboard() -> dict[str, Any]:
             },
             {
                 "title": "Sinal operacional moderado",
-                "body": "A recomendação preserva flexibilidade porque o forecast de 30 dias está praticamente estável e o intervalo é largo.",
+                "body": "A recomendação preserva flexibilidade porque o forecast de 4 semanas (28 dias; identificador legado 30) está praticamente estável e o intervalo é largo.",
                 "tone": "neutral",
             },
         ],
