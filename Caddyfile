@@ -1,0 +1,18 @@
+# Troque api.seudominio.com pelo seu domínio real (A record apontando para o IP da VM).
+# O Caddy provisiona e renova o certificado Let's Encrypt automaticamente (HTTPS).
+api.seudominio.com {
+	reverse_proxy api:8000
+	encode gzip
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

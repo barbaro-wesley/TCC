@@ -1,0 +1,28 @@
+# Controle de versão e caches
+.git
+.gitignore
+.venv
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Frontend (o painel vai pro Vercel, não pra imagem da API)
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
+
+# Dados e artefatos entram por bind-mount no compose (não na imagem)
+raw/
+data/
+artifacts/
+processed/
+final/
+*.duckdb.wal
+
+# Segredos e planos locais
+.env
+.env.*
+!.env.example

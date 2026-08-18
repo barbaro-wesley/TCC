@@ -1,0 +1,12 @@
+[Unit]
+Description=Atlas S10 — refresh semanal (após a publicação da ANP)
+
+[Timer]
+# Quarta-feira, 12:00 no fuso do sistema. Deixe a VM em America/Sao_Paulo
+# (timedatectl set-timezone America/Sao_Paulo) ou ajuste o horário para UTC.
+OnCalendar=Wed *-*-* 12:00:00
+# Se a VM estava desligada na hora, roda assim que voltar.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

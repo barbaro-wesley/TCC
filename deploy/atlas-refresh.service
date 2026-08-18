@@ -1,0 +1,13 @@
+[Unit]
+Description=Atlas S10 — refresh (coleta + treino + build) num container one-shot
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+# Ajuste o caminho para onde você clonou o repositório na VM.
+WorkingDirectory=/opt/atlas/TCC
+ExecStart=/usr/bin/env bash /opt/atlas/TCC/deploy/refresh.sh
+# O ciclo (prepare+train) pode levar alguns minutos.
+TimeoutStartSec=1800
