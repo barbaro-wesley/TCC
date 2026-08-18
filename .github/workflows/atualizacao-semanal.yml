@@ -1,0 +1,72 @@
+name: Coleta semanal de dados oficiais
+
+# Automação de COLETA (opção "CI só de coleta"): roda os syncs oficiais da main
+# e abre um PR com os caches atualizados. NÃO roda prepare/train/build — esses
+# dependem de raw/ (~350MB, fora do repo) e continuam locais.
+#
+# Requer o secret EIA_API_KEY (Settings → Secrets and variables → Actions) para
+# incluir o Brent; sem ele, a etapa do EIA é pulada com um aviso.
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # Quarta, 12:00 America/Sao_Paulo (UTC-3) — após o lag de publicação da ANP.
+    # (O agendamento só passa a valer quando este workflow estiver na branch padrão.)
+    - cron: "0 15 * * 3"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  coleta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências de coleta
+        run: python -m pip install --upgrade pip python-dotenv pandas openpyxl xlrd
+
+      - name: Sync ANP + BCB
+        run: python -m pipelines.sync_data --network
+
+      - name: Sync EIA Brent (RBRTE)
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: |
+          if [ -z "${EIA_API_KEY}" ]; then
+            echo "::warning::EIA_API_KEY não configurado; pulando o Brent. Adicione o secret para incluí-lo."
+            exit 0
+          fi
+          python -m pipelines.sync_eia --network --series RBRTE
+
+      - name: Abrir PR com os caches atualizados
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git add -A data/cache
+          if git diff --cached --quiet; then
+            echo "Nenhuma mudança nos caches; nada a publicar."
+            exit 0
+          fi
+          BRANCH="dados/coleta-$(date -u +%Y-%m-%d)-${GITHUB_RUN_ID}"
+          git config user.name "atlas-s10-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git switch -c "${BRANCH}"
+          git commit -m "chore(dados): coleta semanal automática (ANP/BCB/EIA)"
+          git push -u origin "${BRANCH}"
+          BODY="Atualização automática dos caches oficiais (ANP revenda, BCB PTAX e EIA Brent) pela rotina de coleta. Rodar \`prepare_data\`/\`train\`/\`build_product\` localmente para publicar novas previsões."
+          # PR é best-effort: se a org/repo não permitir Actions abrir PR, o branch já
+          # está empurrado e o job segue verde (abra o PR manualmente pelo link do push).
+          if gh pr create --base main --head "${BRANCH}" \
+               --title "Coleta semanal de dados oficiais" --body "${BODY}"; then
+            echo "PR aberto para ${BRANCH}."
+          else
+            echo "::warning::Não consegui abrir o PR automaticamente. Habilite 'Allow GitHub Actions to create and approve pull requests' em Settings → Actions → General. O branch ${BRANCH} já foi enviado; abra o PR manualmente."
+          fi
