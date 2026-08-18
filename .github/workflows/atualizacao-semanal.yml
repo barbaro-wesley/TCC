@@ -34,8 +34,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Instalar ferramentas de teste
-        run: python -m pip install --upgrade pip pytest
+      - name: Instalar dependências de coleta
+        run: python -m pip install --upgrade pip pytest pandas xlrd openpyxl
 
       - name: Testes de contrato dos conectores (offline)
         run: python -m pytest tests/test_sources.py tests/test_sync_parsers.py -q

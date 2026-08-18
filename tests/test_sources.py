@@ -9,6 +9,7 @@ from datetime import date
 from pathlib import Path
 
 from atlas_s10.sources import CONNECTORS
+from atlas_s10.sources.anp_produtor_importador import PRODUCER_SHEET, PRODUCER_URL
 from atlas_s10.sources.anp_revenda import AnpRevendaConnector, validate_anp_csv
 from atlas_s10.sources.bcb_ptax import BcbPtaxConnector, ptax_url, validate_ptax_json
 
@@ -19,9 +20,15 @@ BCB_FIXTURE = ROOT / "data" / "cache" / "bcb" / "ptax-usd-2026-07-01_2026-08-13.
 
 def test_registry_exposes_current_connectors():
     ids = {connector.id for connector in CONNECTORS}
-    assert {"anp_revenda", "bcb_ptax"}.issubset(ids)
+    assert {"anp_revenda", "bcb_ptax", "anp_produtor_importador"}.issubset(ids)
     assert isinstance(AnpRevendaConnector(), object)
     assert isinstance(BcbPtaxConnector(), object)
+
+
+def test_producer_connector_targets_official_xls():
+    assert PRODUCER_URL.endswith("precos-medios-ponderados-semanais-2013.xls")
+    assert PRODUCER_URL.startswith("https://www.gov.br/anp/")
+    assert PRODUCER_SHEET == "Preços Produtor e Importador"
 
 
 def test_anp_validator_on_cached_fixture():
