@@ -1,0 +1,48 @@
+name: Atualização semanal (coleta oficial)
+
+# MVP dos "agentes de busca de dados": executa os conectores de fonte oficial.
+# Os testes de contrato rodam offline (contra o cache versionado); a busca ao
+# vivo (egress para ANP/BCB) só é possível aqui, pois a rede do ambiente Claude
+# bloqueia os sites do governo. Este job ainda NÃO comita resultados — é um
+# smoke test para confirmar que o runner alcança e valida as fontes.
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # Quarta, 12:00 America/Sao_Paulo (UTC-3) — após o lag de publicação da ANP.
+    - cron: "0 15 * * 3"
+  push:
+    branches:
+      - claude/tcc-repository-analysis-q75tkz
+    paths:
+      - ".github/workflows/atualizacao-semanal.yml"
+      - "atlas_s10/sources/**"
+      - "pipelines/fetch_sources.py"
+      - "pipelines/sync_data.py"
+
+permissions:
+  contents: read
+
+jobs:
+  coleta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar ferramentas de teste
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Testes de contrato dos conectores (offline)
+        run: python -m pytest tests/test_sources.py tests/test_sync_parsers.py -q
+
+      - name: Busca oficial ao vivo (ANP + BCB)
+        run: python -m pipelines.fetch_sources --network
+
+      - name: Inventário resultante do cache
+        if: always()
+        run: python -m pipelines.fetch_sources
