@@ -61,8 +61,12 @@ jobs:
           git switch -c "${BRANCH}"
           git commit -m "chore(dados): coleta semanal automática (ANP/BCB/EIA)"
           git push -u origin "${BRANCH}"
-          gh pr create \
-            --base main \
-            --head "${BRANCH}" \
-            --title "Coleta semanal de dados oficiais" \
-            --body "Atualização automática dos caches oficiais (ANP revenda, BCB PTAX e EIA Brent) pela rotina de coleta. Rodar \`prepare_data\`/\`train\`/\`build_product\` localmente para publicar novas previsões."
+          BODY="Atualização automática dos caches oficiais (ANP revenda, BCB PTAX e EIA Brent) pela rotina de coleta. Rodar \`prepare_data\`/\`train\`/\`build_product\` localmente para publicar novas previsões."
+          # PR é best-effort: se a org/repo não permitir Actions abrir PR, o branch já
+          # está empurrado e o job segue verde (abra o PR manualmente pelo link do push).
+          if gh pr create --base main --head "${BRANCH}" \
+               --title "Coleta semanal de dados oficiais" --body "${BODY}"; then
+            echo "PR aberto para ${BRANCH}."
+          else
+            echo "::warning::Não consegui abrir o PR automaticamente. Habilite 'Allow GitHub Actions to create and approve pull requests' em Settings → Actions → General. O branch ${BRANCH} já foi enviado; abra o PR manualmente."
+          fi
