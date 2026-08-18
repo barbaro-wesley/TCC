@@ -12,11 +12,13 @@ from atlas_s10.sources.anp_produtor_importador import AnpProdutorImportadorConne
 from atlas_s10.sources.anp_revenda import AnpRevendaConnector
 from atlas_s10.sources.base import Connector, FetchResult, atomic_download, relative, sha256
 from atlas_s10.sources.bcb_ptax import BcbPtaxConnector
+from atlas_s10.sources.ibge_ipca import IbgeIpcaConnector
 
 CONNECTORS: list[Connector] = [
     AnpRevendaConnector(),
     BcbPtaxConnector(),
     AnpProdutorImportadorConnector(),
+    IbgeIpcaConnector(),
 ]
 
 __all__ = [
@@ -26,6 +28,7 @@ __all__ = [
     "AnpRevendaConnector",
     "BcbPtaxConnector",
     "AnpProdutorImportadorConnector",
+    "IbgeIpcaConnector",
     "atomic_download",
     "relative",
     "sha256",

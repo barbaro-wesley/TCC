@@ -12,6 +12,7 @@ from atlas_s10.sources import CONNECTORS
 from atlas_s10.sources.anp_produtor_importador import PRODUCER_SHEET, PRODUCER_URL
 from atlas_s10.sources.anp_revenda import AnpRevendaConnector, validate_anp_csv
 from atlas_s10.sources.bcb_ptax import BcbPtaxConnector, ptax_url, validate_ptax_json
+from atlas_s10.sources.ibge_ipca import IPCA_URL
 
 ROOT = Path(__file__).resolve().parents[1]
 ANP_FIXTURE = ROOT / "data" / "cache" / "anp" / "ultimas-4-semanas-diesel-gnv-2026-08-07.csv"
@@ -20,9 +21,15 @@ BCB_FIXTURE = ROOT / "data" / "cache" / "bcb" / "ptax-usd-2026-07-01_2026-08-13.
 
 def test_registry_exposes_current_connectors():
     ids = {connector.id for connector in CONNECTORS}
-    assert {"anp_revenda", "bcb_ptax", "anp_produtor_importador"}.issubset(ids)
+    assert {"anp_revenda", "bcb_ptax", "anp_produtor_importador", "ibge_ipca"}.issubset(ids)
     assert isinstance(AnpRevendaConnector(), object)
     assert isinstance(BcbPtaxConnector(), object)
+
+
+def test_ipca_connector_targets_sidra_table_7060():
+    assert IPCA_URL.startswith("https://apisidra.ibge.gov.br/values/t/7060/")
+    assert "/v/63/" in IPCA_URL  # variação mensal
+    assert "/c315/all" in IPCA_URL
 
 
 def test_producer_connector_targets_official_xls():
