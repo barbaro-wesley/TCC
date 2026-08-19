@@ -8,9 +8,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# bash para os scripts de pipeline; sem recomendações extras para manter a imagem enxuta.
+# bash para os scripts de pipeline; libgomp1 para o LightGBM (OpenMP).
 RUN apt-get update \
- && apt-get install -y --no-install-recommends bash \
+ && apt-get install -y --no-install-recommends bash libgomp1 \
  && rm -rf /var/lib/apt/lists/*
 
 # Dependências primeiro (camada de cache). python-dotenv é usado pelo sync_eia.
