@@ -1,0 +1,6 @@
+{
+  "captured_at": "2026-09-09T18:08:24.622610Z",
+  "provenance_basis": "sync_completion_time_utc",
+  "source_url": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@moeda='USD'&@dataInicial='06-26-2026'&@dataFinalCotacao='09-09-2026'&$top=10000&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim",
+  "sha256": "ff48da2183f708506f4eb6d0c1748aad41e39c6fcc4e0eaaab82af8f77f0b4dd"
+}

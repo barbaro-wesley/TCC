@@ -9946,9 +9946,23 @@ period,series,value,units,series_description,duoarea,area_name,product,product_n
 2026-07-30,RBRTE,91.91,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
 2026-07-31,RBRTE,96.95,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
 2026-08-03,RBRTE,88.9,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-04,RBRTE,86.47,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-05,RBRTE,86.65,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-06,RBRTE,89.65,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-07,RBRTE,87.62,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-10,RBRTE,92.74,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
-2026-08-11,RBRTE,93.26,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),,,,,,,2026-08-14T22:59:07Z,xls-20260812-aab443b7546f
+2026-08-04,RBRTE,86.47,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-05,RBRTE,86.65,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-06,RBRTE,89.65,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-07,RBRTE,87.62,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-10,RBRTE,92.74,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-11,RBRTE,93.26,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-12,RBRTE,92.52,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-13,RBRTE,92.03,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-14,RBRTE,92.02,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-17,RBRTE,92.43,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-18,RBRTE,95.29,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-19,RBRTE,92.37,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-20,RBRTE,94,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-21,RBRTE,96.92,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-24,RBRTE,92.71,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-25,RBRTE,88.24,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-26,RBRTE,87.77,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-27,RBRTE,90.18,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-08-28,RBRTE,89.75,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
+2026-09-01,RBRTE,96.02,$/BBL,Europe Brent Spot Price FOB (Dollars per Barrel),ZEU,NA,EPCBRENT,UK Brent Crude Oil,PF4,Spot Price FOB,2026-09-09T18:08:24Z,20260909T180824Z-71c30d51529e
